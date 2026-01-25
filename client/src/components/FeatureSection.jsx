@@ -52,7 +52,11 @@ const FeatureSection = () => {
                         <h3 className="group-title mb-4">{group.title}</h3>
                         <div className="feature-grid">
                             {group.items.map((f, i) => (
-                                <Link to={f.path} className="feature-card" key={i}>
+                                <Link
+                                    to={f.path}
+                                    className={`feature-card ${f.title === 'Skill Decay' ? 'feature-card-highlight' : ''}`}
+                                    key={i}
+                                >
                                     <div className="feature-icon">{f.icon}</div>
                                     <div className="feature-content">
                                         <h4>{f.title}</h4>

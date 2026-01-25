@@ -15,9 +15,9 @@ const Footer = () => {
                             Pioneering the future of professional evolution through deep-learning trajectory modeling.
                         </p>
                         <div className="social-links mt-6">
-                            <a href="#" className="s-link">𝕏</a>
-                            <a href="#" className="s-link">in</a>
-                            <a href="#" className="s-link">gh</a>
+                            <button onClick={() => alert("Redirecting to X/Twitter...")} className="s-link" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>𝕏</button>
+                            <button onClick={() => alert("Redirecting to LinkedIn...")} className="s-link" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>in</button>
+                            <button onClick={() => alert("Redirecting to GitHub...")} className="s-link" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}>gh</button>
                         </div>
                     </div>
 
@@ -44,9 +44,9 @@ const Footer = () => {
                     <div className="footer-nav-col">
                         <h4>Legal</h4>
                         <ul>
-                            <li><a href="#">Privacy Protocol</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Security Audit</a></li>
+                            <li><button onClick={() => alert("Privacy Protocol details coming soon.")} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', padding: 0, font: 'inherit' }}>Privacy Protocol</button></li>
+                            <li><button onClick={() => alert("Terms of Service details coming soon.")} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', padding: 0, font: 'inherit' }}>Terms of Service</button></li>
+                            <li><button onClick={() => alert("Security Audit details coming soon.")} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', padding: 0, font: 'inherit' }}>Security Audit</button></li>
                         </ul>
                     </div>
                 </div>

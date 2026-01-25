@@ -23,14 +23,15 @@
 .duration-row-top {
     display: grid;
     grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-    gap: 1.75rem;
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
 }
 
 .glass-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(18px);
     border-radius: 18px;
-    padding: 1.75rem 2rem;
+    padding: var(--card-padding);
     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
@@ -347,7 +348,8 @@
 .breakdown-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 1.5rem;
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
 }
 
 .breakdown-card {
@@ -434,7 +436,8 @@
 .milestones-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
 }
 
 .milestone-ui-card {
@@ -553,16 +556,36 @@
 
     .roi-grid {
         grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .roi-stat-circle {
+        margin-top: 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .glass-card {
-        padding: 1.4rem 1.5rem;
+        padding: 1.25rem;
     }
 
     .row-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .ai-insight-body {
+        grid-template-columns: 1fr;
+    }
+
+    .mu-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .res-value {
+        font-size: 1.3rem;
     }
 }

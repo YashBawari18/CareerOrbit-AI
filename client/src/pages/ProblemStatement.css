@@ -121,12 +121,17 @@
 .breakdown-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+<<<<<<< HEAD
     gap: 40px;
+=======
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .problem-card {
     background: white;
-    padding: 32px;
+    padding: var(--card-padding);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
@@ -294,8 +299,13 @@
         grid-template-columns: 1fr;
     }
 
+<<<<<<< HEAD
     .chart-card.wide {
         grid-column: span 1;
+=======
+    .img-float-container {
+        display: none;
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     }
 
     .focus-box {
@@ -305,5 +315,21 @@
     .core-problem {
         padding-top: 100px;
         margin-top: 0;
+    }
+
+    .focus-box {
+        padding: 30px;
+    }
+
+    .transition-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .p-block {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 }

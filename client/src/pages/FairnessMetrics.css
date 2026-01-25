@@ -1,14 +1,30 @@
 .fairness-page {
     min-height: 100vh;
+<<<<<<< HEAD
     background: var(--bg-light);
     color: var(--text-main);
 }
 
 .fs-main-card {
-    display: flex;
-    align-items: center;
+=======
+    background: radial-gradient(circle at 10% 20%, rgba(0, 86, 210, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(255, 110, 20, 0.05) 0%, transparent 50%),
+        var(--bg-light);
 }
 
+.fairness-summary {
+    align-items: stretch;
+}
+
+/* Main Score Card */
+.fs-main-card .fsm-content {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+<<<<<<< HEAD
 .fsm-content {
     display: flex;
     justify-content: space-between;
@@ -39,6 +55,79 @@
     justify-content: center;
     background: white;
     box-shadow: 0 0 20px rgba(255, 110, 20, 0.1);
+=======
+.fsm-text {
+    flex: 1;
+}
+
+.fsm-badge-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scale(1.2);
+    }
+}
+
+/* Interactive Score Circle */
+.fsm-score-circle {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.fsm-circle-bg {
+    fill: none;
+    stroke: var(--border-color);
+    stroke-width: 8;
+}
+
+.fsm-circle-progress {
+    fill: none;
+    stroke: #1E8E3E;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    transition: stroke-dashoffset 1.5s ease-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.fsm-score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .fsm-value {
@@ -48,12 +137,20 @@
     line-height: 1;
 }
 
+<<<<<<< HEAD
 .fsm-unit {
     font-size: 0.9rem;
+=======
+.fsm-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     color: var(--text-light);
     font-weight: 700;
 }
 
+<<<<<<< HEAD
 .fsm-label-premium {
     font-size: 0.85rem;
     font-weight: 800;
@@ -118,14 +215,63 @@
     transform: translateY(-5px);
     border-color: var(--primary-color);
     box-shadow: var(--shadow-md);
-}
-
-.mu-header {
+=======
+/* Rank Badge */
+.fss-rank-badge {
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
+.rank-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
+
+.rank-value {
+    font-size: 2.5rem;
+    font-weight: 950;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 10px 0;
+}
+
+.rank-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Metrics Cards */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--grid-gap);
+}
+
+.metric-ui-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid var(--glass-border);
+}
+
+.metric-ui-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.mu-title-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+<<<<<<< HEAD
 .mu-score-pill {
     padding: 6px 14px;
     border-radius: var(--radius-full);
@@ -135,32 +281,77 @@
 
 .mu-score-pill.success {
     background: rgba(30, 142, 62, 0.1);
-    color: #1E8E3E;
+=======
+.mu-icon-bg {
+    width: 44px;
+    height: 44px;
+    background: var(--bg-light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
 }
 
+.mu-score {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    background: var(--bg-light);
+}
+
+.mu-score.success {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+    color: #1E8E3E;
+    background: rgba(30, 142, 62, 0.1);
+}
+
+<<<<<<< HEAD
 .mu-score-pill.blue {
     background: rgba(25, 103, 210, 0.1);
+=======
+.mu-score.blue {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     color: #1967D2;
+    background: rgba(25, 103, 210, 0.1);
 }
 
+<<<<<<< HEAD
 .mu-score-pill.warning {
     background: rgba(242, 153, 0, 0.1);
+=======
+.mu-score.warning {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     color: #F29900;
+    background: rgba(242, 153, 0, 0.1);
 }
 
+<<<<<<< HEAD
 .mu-score-pill.danger {
     background: rgba(217, 48, 37, 0.1);
+=======
+.mu-score.danger {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     color: #D93025;
+    background: rgba(217, 48, 37, 0.1);
 }
 
+<<<<<<< HEAD
 .mu-insights-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 12px;
+=======
+.mu-insights {
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .mui-item-premium {
     display: flex;
+<<<<<<< HEAD
     align-items: flex-start;
     gap: 10px;
     font-size: 0.9rem;
@@ -184,6 +375,49 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+=======
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.mui-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Roadmap Grid */
+.recommendations-header {
+    background: #111827;
+    position: relative;
+    overflow: hidden;
+    color: white !important;
+}
+
+.recommendations-header h2 {
+    color: white !important;
+}
+
+.shield-aura {
+    font-size: 3.5rem;
+    opacity: 0.4;
+    filter: drop-shadow(0 0 20px var(--primary-color));
+    transition: transform 0.5s ease;
+}
+
+.recommendations-header:hover .shield-aura {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.rec-ui-card {
+    border-left: 4px solid var(--primary-color);
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .ru-priority-tag {
@@ -192,18 +426,31 @@
     font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
+<<<<<<< HEAD
 }
 
 .ru-priority-tag.high {
+=======
+    padding: 4px 10px;
+    border-radius: 50px;
+}
+
+.ru-priority.high {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     background: #fee2e2;
     color: #991b1b;
 }
 
+<<<<<<< HEAD
 .ru-priority-tag.medium {
+=======
+.ru-priority.medium {
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     background: #fef3c7;
     color: #92400e;
 }
 
+<<<<<<< HEAD
 .ru-impact-premium {
     margin-top: auto;
     padding-top: 20px;
@@ -218,6 +465,33 @@
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 4px;
+=======
+.ru-impact-box {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+}
+
+.impact-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+}
+
+.impact-value {
+    color: #1E8E3E;
+    font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+    .fairness-summary {
+        grid-template-columns: 1fr;
+    }
+>>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .ru-impact-value {
@@ -241,7 +515,20 @@
         gap: 30px;
     }
 
-    .fsm-text {
-        max-width: 100%;
+    .fsm-score-circle {
+        margin: 0 auto;
+    }
+
+    .stats-grid,
+    .grid-4 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .stats-grid,
+    .grid-4 {
+        grid-template-columns: 1fr;
     }
 }

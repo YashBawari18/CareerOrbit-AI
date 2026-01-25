@@ -19,6 +19,23 @@
     height: 100%;
 }
 
+@media (min-width: 969px) {
+
+    .brand-logo,
+    .desktop-menu,
+    .desktop-actions {
+        flex: 1;
+    }
+
+    .desktop-menu {
+        justify-content: center;
+    }
+
+    .desktop-actions {
+        justify-content: flex-end;
+    }
+}
+
 /* Brand */
 .brand-logo {
     display: flex;
