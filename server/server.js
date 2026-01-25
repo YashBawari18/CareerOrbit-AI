@@ -36,6 +36,19 @@ app.use((req, res, next) => {
     next();
 });
 
+/* -------------------- ROOT ROUTE -------------------- */
+// This fixes "Cannot GET /"
+app.get("/", (req, res) => {
+    res.status(200).json({
+        message: "CareerOrbit API is running",
+        endpoints: [
+            "/health",
+            "/api/status",
+            "/api/auth/register"
+        ]
+    });
+});
+
 /* -------------------- HEALTH CHECK -------------------- */
 app.get("/health", (req, res) => {
     res.status(200).json({
@@ -46,6 +59,8 @@ app.get("/health", (req, res) => {
 
 /* -------------------- ROUTES -------------------- */
 const authRoutes = require("./routes/auth");
+
+// All auth routes will now be under /api/auth/*
 app.use("/api/auth", authRoutes);
 
 app.get("/api/status", (req, res) => {
