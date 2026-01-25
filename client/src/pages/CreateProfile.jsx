@@ -67,11 +67,17 @@ const CreateProfile = () => {
         navigate('/profile/edit-skills');
     };
 
-    const suggestedSkills = [
-        'JavaScript', 'Python', 'React', 'Node.js', 'SQL', 'Git',
-        'Communication', 'Problem Solving', 'Leadership', 'Project Management',
-        'Data Analysis', 'Machine Learning', 'UI/UX Design', 'Agile'
-    ];
+    const SKILLS_BY_ROLE = {
+        'Software Engineer': ['JavaScript', 'Python', 'React', 'Node.js', 'SQL', 'Git', 'Cloud Computing', 'System Design'],
+        'Data Scientist': ['Python', 'R', 'Machine Learning', 'Data Visualization', 'Statistics', 'SQL', 'Big Data'],
+        'Teacher': ['Lesson Planning', 'Classroom Management', 'Student Assessment', 'Curriculum Development', 'Communication', 'Online Teaching'],
+        'Doctor': ['Medical Diagnosis', 'Patient Care', 'Pharmacology', 'Medical Research', 'Emergency Medicine', 'Patient Education'],
+        'Marketing Specialist': ['SEO', 'Content Strategy', 'Social Media Marketing', 'Analytics', 'Brand Management', 'Public Relations'],
+        'Registered Nurse': ['Patient Monitoring', 'Wound Care', 'Medication Administration', 'Vital Signs', 'Nursing Ethics', 'Patient Advocacy'],
+        'Other': ['Communication', 'Problem Solving', 'Leadership', 'Project Management', 'Data Analysis', 'Time Management', 'Teamwork']
+    };
+
+    const suggestedSkills = SKILLS_BY_ROLE[formData.currentRole] || SKILLS_BY_ROLE['Other'];
 
     return (
         <div className="page-wrapper">
@@ -95,10 +101,10 @@ const CreateProfile = () => {
                                 >
                                     <div className="step-number">{step}</div>
                                     <div className="step-label">
-                                        {step === 1 && 'Basic Info'}
-                                        {step === 2 && 'Skills'}
-                                        {step === 3 && 'Experience'}
-                                        {step === 4 && 'Goals'}
+                                        {step === 1}
+                                        {step === 2}
+                                        {step === 3}
+                                        {step === 4}
                                     </div>
                                 </div>
                             ))}
@@ -144,15 +150,18 @@ const CreateProfile = () => {
 
                                             <div className="form-group">
                                                 <label htmlFor="currentRole">Current Role *</label>
-                                                <input
-                                                    type="text"
+                                                <select
                                                     id="currentRole"
                                                     name="currentRole"
                                                     value={formData.currentRole}
                                                     onChange={handleInputChange}
-                                                    placeholder="Software Engineer"
                                                     required
-                                                />
+                                                >
+                                                    <option value="">Select Role...</option>
+                                                    {Object.keys(SKILLS_BY_ROLE).map(role => (
+                                                        <option key={role} value={role}>{role}</option>
+                                                    ))}
+                                                </select>
                                             </div>
 
                                             <div className="form-group">

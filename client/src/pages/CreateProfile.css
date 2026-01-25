@@ -64,8 +64,8 @@
     align-items: center;
     position: relative;
     z-index: 1;
-    width: 100px;
-    /* Give it fixed width to prevent overlap */
+    width: 120px;
+    /* Increased slightly for better spacing */
 }
 
 .step-number {
@@ -104,6 +104,9 @@
     font-weight: 600;
     text-align: center;
     transition: color 0.3s ease;
+    white-space: nowrap;
+    /* Prevent label from wrapping and causing layout shift */
+    margin-top: 0.5rem;
 }
 
 .step-indicator.active .step-label {
@@ -116,7 +119,8 @@
 
 /* Form Card */
 .form-card {
-    max-width: 700px;
+    max-width: 800px;
+    /* Slightly wider to match step-progress better */
     margin: 0 auto;
     background: white;
     border-radius: var(--radius-lg);
