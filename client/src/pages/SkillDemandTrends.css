@@ -346,6 +346,7 @@
 
 /* Button */
 .skill-action-btn {
+    display: block;
     width: 100%;
     padding: 0.7rem 0.9rem;
     border: none;
@@ -358,6 +359,8 @@
     color: var(--primary-color);
     border: 1px solid rgba(59, 130, 246, 0.25);
     font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
 }
 
 .skill-action-btn:hover {
@@ -365,6 +368,7 @@
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    border-color: transparent;
 }
 
 /* Comparison section */

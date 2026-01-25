@@ -87,9 +87,12 @@ const SkillDemandTrends = () => {
                         </div>
                     </div>
 
-                    <button className="skill-action-btn">
+                    <Link
+                        to={item.trend === 'up' ? '/career/recommendations' : '/learning/gap-analysis'}
+                        className="skill-action-btn"
+                    >
                         {hoveredSkill === item.skill ? 'Explore matching roles →' : 'View insights'}
-                    </button>
+                    </Link>
                 </div>
             ))}
         </div>
