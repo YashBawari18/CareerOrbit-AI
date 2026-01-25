@@ -26,7 +26,8 @@ const NAV_ITEMS = [
     dropdown: [
       { label: 'Role Recommendations', path: '/career/recommendations' },
       { label: 'Career Timeline', path: '/career/timeline' },
-      { label: 'Sector Transitions', path: '/career/transitions' }
+      { label: 'Sector Transitions', path: '/career/transitions' },
+      { label: 'Career Simulator', path: '/career/simulator' }
     ]
   },
   {
