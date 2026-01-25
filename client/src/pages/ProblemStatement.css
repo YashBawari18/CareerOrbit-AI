@@ -121,7 +121,7 @@
 .breakdown-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 32px;
+    gap: 40px;
 }
 
 .problem-card {
@@ -180,46 +180,130 @@
     font-weight: 800;
 }
 
+/* Visual Evidence / Charts */
+.visual-evidence {
+    background: var(--bg-light);
+    position: relative;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+.visual-evidence::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 110, 20, 0.08) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.visual-evidence .section-subtitle {
+    color: var(--text-secondary);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.chart-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.chart-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.chart-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.chart-card.wide {
+    grid-column: span 2;
+}
+
+.chart-container {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Recharts Customization for Light Mode */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: var(--border-color);
+}
+
+.recharts-text {
+    font-size: 12px;
+    fill: var(--text-light) !important;
+}
+
 /* Solution Transition */
 .solution-transition {
     background: var(--secondary-color);
     color: white;
 }
 
-.transition-text {
-    font-size: 1.5rem;
-    font-weight: 300;
-    line-height: 1.6;
-    max-width: 800px;
-    margin: 0 auto;
+.solution-transition .highlight-box {
+    position: relative;
+    z-index: 1;
 }
 
-.btn-lg {
-    padding: 16px 32px;
-    font-size: 1.1rem;
+/* Extra Padding to hide PageHeader bottom curve glitch if needed */
+.core-problem {
+    padding-top: 140px;
+    margin-top: -80px;
 }
 
-.mt-4 {
-    margin-top: 2rem;
+/* Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
 }
 
-.bg-light {
-    background-color: var(--bg-light);
-}
-
+/* Responsive */
 @media (max-width: 968px) {
-    .core-grid {
+    .charts-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
     }
 
-    .img-float-container {
-        height: 400px;
-        display: none;
-        /* Hide complex animation on small screens */
+    .chart-card.wide {
+        grid-column: span 1;
     }
 
-    .section-subtitle {
-        font-size: 1.1rem;
+    .focus-box {
+        padding: 40px 24px;
+    }
+
+    .core-problem {
+        padding-top: 100px;
+        margin-top: 0;
     }
 }

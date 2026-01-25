@@ -3,14 +3,50 @@
     background: var(--bg-light);
 }
 
+.analytics-dashboard {
+    margin-bottom: 64px;
+}
+
+.chart-card-premium {
+    padding: 32px;
+    background: white;
+    border: 1px solid var(--border-color);
+}
+
+.chart-header {
+    margin-bottom: 24px;
+}
+
+.chart-header h3 {
+    font-size: 1.25rem;
+    margin-bottom: 4px;
+    color: var(--text-main);
+}
+
+.chart-header p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
 .decay-insight-card {
     border-left: 6px solid var(--primary-color);
+    background: white;
 }
 
 .decay-card-ui {
     height: 100%;
     display: flex;
     flex-direction: column;
+    padding: 32px;
+    background: white;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.decay-card-ui:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
 }
 
 .dc-header {
@@ -20,56 +56,59 @@
 }
 
 .dc-header h3 {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
+    color: var(--text-main);
 }
 
 .status-pill {
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: var(--radius-full);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .status-pill.healthy {
-    background: #E6F4EA;
+    background: rgba(30, 142, 62, 0.1);
     color: #1E8E3E;
 }
 
 .status-pill.warning {
-    background: #FEF7E0;
+    background: rgba(242, 153, 0, 0.1);
     color: #F29900;
 }
 
 .status-pill.at-risk {
-    background: #E8F0FE;
+    background: rgba(25, 103, 210, 0.1);
     color: #1967D2;
 }
 
 .status-pill.critical {
-    background: #FCE8E6;
+    background: rgba(217, 48, 37, 0.1);
     color: #D93025;
 }
 
 .dc-metrics {
-    padding: 16px;
+    padding: 20px;
     background: var(--bg-light);
-    border-radius: 12px;
-}
-
-.dc-metric {
-    display: flex;
-    flex-direction: column;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .dc-metric span {
     font-size: 0.8rem;
     color: var(--text-light);
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
 }
 
 .dc-metric strong {
-    font-size: 1rem;
-    color: var(--secondary-color);
+    font-size: 1.1rem;
+    color: var(--text-main);
+    font-weight: 800;
 }
 
 .meter-info {
@@ -80,13 +119,24 @@
 }
 
 .dc-recommendation {
+    background: rgba(255, 110, 20, 0.03);
+    border: 1px solid rgba(255, 110, 20, 0.1);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.maintenance-section {
     background: white;
-    border: 1px solid var(--border-color);
-    flex-grow: 1;
+}
+
+@media (max-width: 968px) {
+    .analytics-dashboard {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-    .skills-decay-grid {
+    .grid-3 {
         grid-template-columns: 1fr;
     }
 }

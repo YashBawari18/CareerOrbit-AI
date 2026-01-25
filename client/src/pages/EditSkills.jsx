@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import SkillTag from '../components/SkillTag';
 import PageHeader from '../components/PageHeader';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    ResponsiveContainer,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
+    Radar,
+    Tooltip
+} from 'recharts';
 import './EditSkills.css';
 
 const EditSkills = () => {
@@ -48,13 +58,27 @@ const EditSkills = () => {
     };
 
     const categoryConfig = {
-        technical: { label: 'Technical Skills', icon: '💻', color: 'technical' },
-        soft: { label: 'Soft Skills', icon: '🤝', color: 'soft' },
-        tools: { label: 'Tools & Platforms', icon: '🛠️', color: 'tools' },
+        technical: { label: 'Technical', icon: '💻', color: 'technical' },
+        soft: { label: 'Soft', icon: '🤝', color: 'soft' },
+        tools: { label: 'Tools', icon: '🛠️', color: 'tools' },
         languages: { label: 'Languages', icon: '🌍', color: 'languages' }
     };
 
+    const radarData = useMemo(() => {
+        return Object.entries(categoryConfig).map(([key, config]) => ({
+            subject: config.label,
+            A: skills[key].length,
+            fullMark: Math.max(...Object.values(skills).map(s => s.length), 5) + 2
+        }));
+    }, [skills]);
+
     const totalSkills = Object.values(skills).reduce((acc, arr) => acc + arr.length, 0);
+
+    const fadeIn = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.5 }
+    };
 
     return (
         <div className="page-wrapper">
@@ -63,30 +87,66 @@ const EditSkills = () => {
             <main className="edit-skills-page">
                 <PageHeader
                     title="Manage Your Skills"
-                    subtitle="Add, remove, and organize your professional skills with AI-assisted suggestions."
-                    badge="Profile Management"
+                    subtitle="Elevate your profile with precise skill mapping and AI-driven growth metrics."
+                    badge="Premium Profile"
                 />
 
                 <section className="skills-management section-padding">
                     <div className="container">
 
-                        <div className="skills-status-card glass-card mb-8">
-                            <div className="stat-content">
-                                <span className="sc-label">Current Velocity</span>
-                                <span className="sc-value">{totalSkills} Skills</span>
-                            </div>
-                            <div className="stat-icon">⚡</div>
+                        <div className="skills-dashboard-grid mb-12">
+                            <motion.div className="skills-status-card glass-card" {...fadeIn}>
+                                <div className="stat-content">
+                                    <span className="sc-label">Skill Velocity</span>
+                                    <span className="sc-value">{totalSkills}</span>
+                                    <p className="sc-subtext">Total verified competencies</p>
+                                </div>
+                                <div className="stat-icon-wrapper">
+                                    <div className="stat-icon">⚡</div>
+                                    <div className="icon-pulse"></div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div className="skill-analysis-card glass-card" {...fadeIn} transition={{ delay: 0.2 }}>
+                                <div className="analysis-header">
+                                    <h3>Competency Matrix</h3>
+                                    <p>Distribution across domains</p>
+                                </div>
+                                <div className="radar-container">
+                                    <ResponsiveContainer width="100%" height={250}>
+                                        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                                            <PolarGrid stroke="#e0e0e0" />
+                                            <PolarAngleAxis dataKey="subject" tick={{ fill: '#4F4F4F', fontSize: 12, fontWeight: 600 }} />
+                                            <Radar
+                                                name="Skills"
+                                                dataKey="A"
+                                                stroke="#FF6E14"
+                                                fill="#FF6E14"
+                                                fillOpacity={0.4}
+                                            />
+                                            <Tooltip
+                                                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                                itemStyle={{ color: '#1A1A1A' }}
+                                            />
+                                        </RadarChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </motion.div>
                         </div>
 
                         {/* Add Skills Section */}
-                        <div className="add-skills-card glass-card mb-8">
-                            <h2 className="mb-4">Add New Skills</h2>
-                            <div className="add-skills-controls">
-                                <div className="category-selector mb-4">
+                        <motion.div className="add-skills-card glass-card mb-12" {...fadeIn} transition={{ delay: 0.3 }}>
+                            <div className="section-header-premium">
+                                <h2>Enhance Your Portfolio</h2>
+                                <p>Select a category and add relevant skills to improve your marketability.</p>
+                            </div>
+
+                            <div className="add-skills-controls mt-8">
+                                <div className="category-selector-premium mb-6">
                                     {Object.entries(categoryConfig).map(([key, config]) => (
                                         <button
                                             key={key}
-                                            className={`category-btn ${selectedCategory === key ? 'active' : ''}`}
+                                            className={`category-btn-premium ${selectedCategory === key ? 'active' : ''}`}
                                             onClick={() => setSelectedCategory(key)}
                                         >
                                             <span className="category-icon">{config.icon}</span>
@@ -95,80 +155,109 @@ const EditSkills = () => {
                                     ))}
                                 </div>
 
-                                <div className="skill-search">
-                                    <input
-                                        type="text"
-                                        placeholder="Search or add custom skill..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        onKeyPress={(e) => e.key === 'Enter' && handleAddCustomSkill()}
-                                    />
-                                    <button className="btn btn-primary" onClick={handleAddCustomSkill}>
-                                        Add +
+                                <div className="skill-search-premium">
+                                    <div className="search-input-wrapper">
+                                        <span className="search-icon">🔍</span>
+                                        <input
+                                            type="text"
+                                            placeholder={`Add ${categoryConfig[selectedCategory].label} skill...`}
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            onKeyPress={(e) => e.key === 'Enter' && handleAddCustomSkill()}
+                                        />
+                                    </div>
+                                    <button className="btn-add-premium" onClick={handleAddCustomSkill}>
+                                        Quick Add
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="suggested-skills">
-                                <h3 className="mb-2">Recommended for you</h3>
+                            <div className="suggested-skills-premium">
+                                <h3 className="mb-4">Trending Suggestions</h3>
                                 <div className="skills-list">
-                                    {suggestedSkills[selectedCategory]
-                                        .filter(skill => !skills[selectedCategory].includes(skill))
-                                        .map(skill => (
-                                            <button
-                                                key={skill}
-                                                className="skill-suggestion"
-                                                onClick={() => handleAddSkill(selectedCategory, skill)}
-                                            >
-                                                {skill} <span className="add-icon">+</span>
-                                            </button>
-                                        ))}
+                                    <AnimatePresence>
+                                        {suggestedSkills[selectedCategory]
+                                            .filter(skill => !skills[selectedCategory].includes(skill))
+                                            .map((skill, idx) => (
+                                                <motion.button
+                                                    key={skill}
+                                                    className="skill-suggestion-premium"
+                                                    initial={{ opacity: 0, scale: 0.8 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0.8 }}
+                                                    transition={{ delay: idx * 0.05 }}
+                                                    onClick={() => handleAddSkill(selectedCategory, skill)}
+                                                >
+                                                    {skill} <span className="add-icon">+</span>
+                                                </motion.button>
+                                            ))}
+                                    </AnimatePresence>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Current Skills Section */}
                         <div className="current-skills-section">
-                            <h2 className="mb-6 text-center">Your Skill Portfolio</h2>
+                            <motion.h2 className="mb-8 text-center" {...fadeIn}>Knowledge Assets</motion.h2>
 
                             <div className="grid-3">
-                                {Object.entries(categoryConfig).map(([category, config]) => (
-                                    <div key={category} className="skill-category-card glass-card">
-                                        <div className="category-header mb-4">
-                                            <div className="category-title">
-                                                <span className="category-icon-large">{config.icon}</span>
+                                {Object.entries(categoryConfig).map(([category, config], idx) => (
+                                    <motion.div
+                                        key={category}
+                                        className="skill-category-card-premium glass-card"
+                                        {...fadeIn}
+                                        transition={{ delay: 0.4 + (idx * 0.1) }}
+                                    >
+                                        <div className="category-header-premium mb-6">
+                                            <div className="category-title-premium">
+                                                <div className="category-icon-wrapper">
+                                                    <span className="category-icon-large">{config.icon}</span>
+                                                </div>
                                                 <div>
                                                     <h3>{config.label}</h3>
-                                                    <p>{skills[category].length} verified skills</p>
+                                                    <div className="badge-count">{skills[category].length} Skills</div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className="skills-container">
-                                            {skills[category].length > 0 ? (
-                                                skills[category].map(skill => (
-                                                    <SkillTag
-                                                        key={skill}
-                                                        skill={skill}
-                                                        category={config.color}
-                                                        onRemove={() => handleRemoveSkill(category, skill)}
-                                                    />
-                                                ))
-                                            ) : (
-                                                <p className="empty-state">No skills added in this category</p>
-                                            )}
+                                        <div className="skills-container-premium">
+                                            <AnimatePresence>
+                                                {skills[category].length > 0 ? (
+                                                    skills[category].map(skill => (
+                                                        <motion.div
+                                                            key={skill}
+                                                            initial={{ opacity: 0, x: -10 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            exit={{ opacity: 0, x: 10 }}
+                                                        >
+                                                            <SkillTag
+                                                                skill={skill}
+                                                                category={config.color}
+                                                                onRemove={() => handleRemoveSkill(category, skill)}
+                                                            />
+                                                        </motion.div>
+                                                    ))
+                                                ) : (
+                                                    <p className="empty-state">Awaiting skill input...</p>
+                                                )}
+                                            </AnimatePresence>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="skills-actions mt-8 text-center pt-6">
-                            <Link to="/profile/skill-levels" className="btn btn-primary btn-lg">
-                                Next: Set Skill Levels →
+                        <motion.div
+                            className="skills-actions mt-12 text-center pt-8 border-t border-white/5"
+                            {...fadeIn}
+                            transition={{ delay: 0.8 }}
+                        >
+                            <Link to="/profile/skill-levels" className="btn-next-premium">
+                                Set Mastery Levels
+                                <span className="arrow-icon">→</span>
                             </Link>
-                        </div>
+                        </motion.div>
 
                     </div>
                 </section>
