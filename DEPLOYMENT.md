@@ -30,6 +30,7 @@ If you already have a free database, follow these steps:
    - `DATABASE_URL`: (Paste your existing PostgreSQL URL here)
    - `JWT_SECRET`: (Random string)
    - `PORT`: `10000`
+   - `FRONTEND_URL`: (The URL of your Vercel frontend, e.g., `https://your-app.vercel.app`)
 
 ### B. Deployment to Vercel (For Frontend)
 Your frontend is likely optimized for Vercel:

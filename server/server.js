@@ -20,8 +20,9 @@ app.use(
         origin: [
             "http://localhost:5173",
             "http://localhost:3000",
-            "https://career-orbit-ai.vercel.app"
-        ],
+            "https://career-orbit-ai.vercel.app",
+            process.env.FRONTEND_URL // Allow dynamic frontend URL from env
+        ].filter(Boolean), // Remove undefined/null values
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true
     })
