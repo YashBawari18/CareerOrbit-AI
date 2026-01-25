@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/orbit-ai-logo.png';
+import AnimatedLogo from './AnimatedLogo';
 import './Navbar.css';
 
 const NAV_ITEMS = [
@@ -90,7 +90,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container navbar-content">
         <Link to="/" className="brand-logo">
-          <img src={logo} alt="CareerOrbit AI" className="logo-img" />
+          <AnimatedLogo />
           <span className="logo-text">CareerOrbit AI</span>
         </Link>
 

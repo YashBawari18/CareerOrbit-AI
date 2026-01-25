@@ -4,7 +4,9 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import StatCard from '../components/StatCard';
 import PageHeader from '../components/PageHeader';
-import SkillIntelligenceSystem from '../components/SkillIntelligenceSystem';
+
+import SkillTrendChart from '../components/SkillTrendChart';
+import SkillGrowthChart from '../components/SkillGrowthChart';
 import './SkillDemandTrends.css';
 
 const SkillDemandTrends = () => {
@@ -103,7 +105,7 @@ const SkillDemandTrends = () => {
                     badge="Live Market Data"
                 />
 
-                <SkillIntelligenceSystem />
+
 
                 <section className="trends-content section-padding">
                     <div className="container">
@@ -146,20 +148,17 @@ const SkillDemandTrends = () => {
                                 <div className="macro-header">
                                     <h3 className="macro-title">Macro Skill Demand Curve</h3>
                                     <p className="macro-subtitle">
-                                        Simplified view of overall demand across high‑growth tech skills.
+                                        Real-time demand velocity across key technology sectors (2020-2025).
                                     </p>
                                 </div>
-                                <div className="macro-chart">
-                                    {/* simple decorative chart, fixed & non-overlapping */}
-                                    <div className="macro-line macro-line-1" />
-                                    <div className="macro-line macro-line-2" />
-                                    <div className="macro-line macro-line-3" />
+                                <div className="macro-chart-container" style={{ width: '100%', height: '100%', minHeight: '300px' }}>
+                                    <SkillTrendChart />
                                 </div>
-                                <div className="macro-legend">
-                                    <span className="legend-dot legend-strong" /> Rising skills
-                                    <span className="legend-dot legend-mid" /> Stable core
-                                    <span className="legend-dot legend-low" /> Declining set
-                                </div>
+                            </div>
+
+                            <div className="growth-chart-card glass-card" style={{ padding: '1.5rem', marginTop: '1rem' }}>
+                                <h3>Top 5 High-Growth Skills</h3>
+                                <SkillGrowthChart />
                             </div>
                         </div>
 
