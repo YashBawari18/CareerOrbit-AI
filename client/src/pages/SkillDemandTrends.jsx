@@ -34,35 +34,43 @@ const SkillDemandTrends = () => {
     ];
 
     useEffect(() => {
-        const timer = setTimeout(() => setStatsLoaded(true), 500);
+        const timer = setTimeout(() => setStatsLoaded(true), 400);
         return () => clearTimeout(timer);
     }, []);
 
     const renderSkillsGrid = (skills, type) => (
         <div className={`skills-trend-grid ${type}`}>
-            {skills.map((item, index) => (
+            {skills.map(item => (
                 <div
                     key={item.skill}
-                    className={`trend-card-enhanced glass-card p-6 ${item.trend} ${hoveredSkill === item.skill ? 'hovered' : ''}`}
+                    className={`trend-card glass-card ${item.trend} ${hoveredSkill === item.skill ? 'hovered' : ''
+                        }`}
                     onMouseEnter={() => setHoveredSkill(item.skill)}
                     onMouseLeave={() => setHoveredSkill(null)}
                 >
-                    <div className="tc-header mb-4">
-                        <div>
+                    <div className="tc-header">
+                        <div className="tc-title-block">
                             <h3 className="skill-title">{item.skill}</h3>
-                            <div className={`skill-trend-icon ${item.trend}`}>{item.trend === 'up' ? '📈' : '📉'}</div>
+                            <span className={`skill-chip ${item.trend}`}>
+                                {item.trend === 'up' ? 'High Velocity' : 'In Decline'}
+                            </span>
                         </div>
-                        <div className={`growth-pill ${item.trend === 'up' ? 'positive' : 'negative'}`}>
-                            {item.growth}
+                        <div className="tc-right">
+                            <div className={`growth-pill ${item.trend === 'up' ? 'positive' : 'negative'}`}>
+                                {item.growth}
+                            </div>
+                            <div className="skill-trend-icon">
+                                {item.trend === 'up' ? '📈' : '📉'}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="demand-bar-container mb-4">
-                        <div className="demand-fill" style={{ width: `${item.demand}%` }}></div>
+                    <div className="demand-bar-container">
+                        <div className="demand-fill" style={{ width: `${item.demand}%` }} />
                     </div>
 
-                    <div className="demand-meta mb-3">
-                        <span>Market Demand</span>
+                    <div className="demand-meta">
+                        <span>Current Market Demand</span>
                         <strong>{item.demand}%</strong>
                     </div>
 
@@ -72,13 +80,13 @@ const SkillDemandTrends = () => {
                             <strong>{item.jobs}</strong>
                         </div>
                         <div className="metric-item">
-                            <span className="metric-label">Companies</span>
+                            <span className="metric-label">Hiring Companies</span>
                             <strong>{item.companies.toLocaleString()}</strong>
                         </div>
                     </div>
 
-                    <button className="skill-action-btn mt-4">
-                        {hoveredSkill === item.skill ? 'Explore Jobs' : 'View Details'}
+                    <button className="skill-action-btn">
+                        {hoveredSkill === item.skill ? 'Explore matching roles →' : 'View insights'}
                     </button>
                 </div>
             ))}
@@ -91,47 +99,72 @@ const SkillDemandTrends = () => {
             <main className="trends-page">
                 <PageHeader
                     title="Market Demand Trends"
-                    subtitle="Real-time intelligence on the evolving professional landscape."
+                    subtitle="See which skills are accelerating, stabilizing, or fading in the market."
                     badge="Live Market Data"
                 />
+
                 <SkillIntelligenceSystem />
 
                 <section className="trends-content section-padding">
                     <div className="container">
-                        <div className={`stats-grid mb-8 ${statsLoaded ? 'animate-in' : ''}`}>
-                            <StatCard
-                                icon="📈"
-                                title="Market Growth"
-                                value="+78%"
-                                subtitle="Aggregate demand"
-                                trend={{ direction: 'up', value: '12%' }}
-                                color="success"
-                            />
-                            <StatCard
-                                icon="🔥"
-                                title="Emergent Skills"
-                                value="15"
-                                subtitle="High velocity"
-                                color="primary"
-                            />
-                            <StatCard
-                                icon="⚠️"
-                                title="Legacy Risk"
-                                value="8"
-                                subtitle="Skills in decay"
-                                color="warning"
-                            />
-                            <StatCard
-                                icon="💼"
-                                title="Live Openings"
-                                value="2.4M"
-                                subtitle="Global tech"
-                                trend={{ direction: 'up', value: '18%' }}
-                                color="blue"
-                            />
+                        {/* Row: Stats + simple macro chart */}
+                        <div className={`top-row ${statsLoaded ? 'animate-in' : ''}`}>
+                            <div className="stats-grid">
+                                <StatCard
+                                    icon="📈"
+                                    title="Market Growth"
+                                    value="+78%"
+                                    subtitle="Aggregate demand"
+                                    trend={{ direction: 'up', value: '12%' }}
+                                    color="success"
+                                />
+                                <StatCard
+                                    icon="🔥"
+                                    title="Emergent Skills"
+                                    value="15"
+                                    subtitle="High velocity"
+                                    color="primary"
+                                />
+                                <StatCard
+                                    icon="⚠️"
+                                    title="Legacy Risk"
+                                    value="8"
+                                    subtitle="Skills in decay"
+                                    color="warning"
+                                />
+                                <StatCard
+                                    icon="💼"
+                                    title="Live Openings"
+                                    value="2.4M"
+                                    subtitle="Global tech"
+                                    trend={{ direction: 'up', value: '18%' }}
+                                    color="blue"
+                                />
+                            </div>
+
+                            <div className="macro-chart-card glass-card">
+                                <div className="macro-header">
+                                    <h3 className="macro-title">Macro Skill Demand Curve</h3>
+                                    <p className="macro-subtitle">
+                                        Simplified view of overall demand across high‑growth tech skills.
+                                    </p>
+                                </div>
+                                <div className="macro-chart">
+                                    {/* simple decorative chart, fixed & non-overlapping */}
+                                    <div className="macro-line macro-line-1" />
+                                    <div className="macro-line macro-line-2" />
+                                    <div className="macro-line macro-line-3" />
+                                </div>
+                                <div className="macro-legend">
+                                    <span className="legend-dot legend-strong" /> Rising skills
+                                    <span className="legend-dot legend-mid" /> Stable core
+                                    <span className="legend-dot legend-low" /> Declining set
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="trends-tabs mb-8">
+                        {/* Tabs */}
+                        <div className="trends-tabs">
                             <button
                                 className={`tab-btn ${activeTab === 'trending' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('trending')}
@@ -149,15 +182,25 @@ const SkillDemandTrends = () => {
                         {activeTab === 'trending' && renderSkillsGrid(trendingSkills, 'trending')}
                         {activeTab === 'declining' && renderSkillsGrid(decliningSkills, 'declining')}
 
-                        <div className="comparison-section glass-card p-8 mb-8">
-                            <div className="section-header mb-6">
-                                <h2>Your Market Positioning</h2>
+                        {/* Your skills vs market */}
+                        <div className="comparison-section glass-card">
+                            <div className="section-header">
+                                <div>
+                                    <h2>Your Market Positioning</h2>
+                                    <p className="section-subtitle">
+                                        Compare your current proficiency against live market expectations for each focus area.
+                                    </p>
+                                </div>
                                 <div className="section-badge">Personal Analytics</div>
                             </div>
+
                             <div className="market-comparison-grid">
                                 {yourSkills.map(item => (
-                                    <div key={item.skill} className={`comparison-item-enhanced ${item.status} glass-card p-6`}>
-                                        <div className="ci-header mb-4">
+                                    <div
+                                        key={item.skill}
+                                        className={`comparison-item ${item.status} glass-card`}
+                                    >
+                                        <div className="ci-header">
                                             <h3>{item.skill}</h3>
                                             <div className={`ci-badge ${item.status}`}>
                                                 {item.status === 'strong' && 'Optimal'}
@@ -165,27 +208,38 @@ const SkillDemandTrends = () => {
                                                 {item.status === 'opportunity' && 'High Reward'}
                                             </div>
                                         </div>
+
                                         <div className="ci-bars">
-                                            <div className="ci-bar-row mb-3">
+                                            <div className="ci-bar-row">
                                                 <div className="ci-bar-info">
                                                     <span>Market Demand</span>
                                                     <strong>{item.marketDemand}%</strong>
                                                 </div>
                                                 <div className="ci-bar">
-                                                    <div className="ci-fill market" style={{ width: `${item.marketDemand}%` }}></div>
+                                                    <div
+                                                        className="ci-fill market"
+                                                        style={{ width: `${item.marketDemand}%` }}
+                                                    />
                                                 </div>
                                             </div>
-                                            <div className="ci-bar-row mb-3">
+
+                                            <div className="ci-bar-row">
                                                 <div className="ci-bar-info">
                                                     <span>Your Proficiency</span>
                                                     <strong>{item.yourLevel}%</strong>
                                                 </div>
                                                 <div className="ci-bar">
-                                                    <div className="ci-fill personal" style={{ width: `${item.yourLevel}%` }}></div>
+                                                    <div
+                                                        className="ci-fill personal"
+                                                        style={{ width: `${item.yourLevel}%` }}
+                                                    />
                                                 </div>
                                             </div>
+
                                             <div className="skill-gap">
-                                                <span>Gap to Close: <strong>{item.gap}%</strong></span>
+                                                <span>
+                                                    Gap to close: <strong>{item.gap}%</strong>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -193,8 +247,9 @@ const SkillDemandTrends = () => {
                             </div>
                         </div>
 
-                        <div className="dashboard-actions text-center mt-12">
-                            <Link to="/dashboard/decay" className="btn btn-primary btn-lg mr-4">
+                        {/* CTA */}
+                        <div className="dashboard-actions">
+                            <Link to="/dashboard/decay" className="btn btn-primary btn-lg">
                                 Analyze Skill Decay →
                             </Link>
                             <Link to="/skills/recommendations" className="btn btn-outline btn-lg">
