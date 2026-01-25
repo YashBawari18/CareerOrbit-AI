@@ -1,0 +1,217 @@
+.edit-skills-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.skills-status-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+}
+
+.sc-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.sc-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    background: rgba(255, 110, 20, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Add Skills Card */
+.add-skills-card {
+    padding: 40px;
+}
+
+.add-skills-controls {
+    margin-bottom: 2rem;
+}
+
+.category-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.category-btn {
+    padding: 12px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 110, 20, 0.05);
+}
+
+.category-btn.active {
+    background: var(--grad-primary);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 110, 20, 0.3);
+}
+
+.category-icon {
+    font-size: 1.2rem;
+}
+
+.skill-search {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.skill-search input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.skill-search input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 110, 20, 0.1);
+}
+
+/* Suggested Skills */
+.suggested-skills h3 {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-suggestion {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: white;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skill-suggestion:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.add-icon {
+    color: var(--primary-color);
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+/* Current Skills Section */
+.skill-category-card {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.category-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.category-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.category-icon-large {
+    font-size: 1.75rem;
+    background: var(--bg-light);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-title h3 {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.category-title p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.empty-state {
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .add-skills-card {
+        padding: 24px;
+    }
+
+    .skill-search {
+        flex-direction: column;
+    }
+
+    .skills-status-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}

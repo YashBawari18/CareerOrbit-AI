@@ -1,0 +1,92 @@
+.decay-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.decay-insight-card {
+    border-left: 6px solid var(--primary-color);
+}
+
+.decay-card-ui {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dc-header h3 {
+    font-size: 1.25rem;
+}
+
+.status-pill {
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.status-pill.healthy {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.status-pill.warning {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.status-pill.at-risk {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.status-pill.critical {
+    background: #FCE8E6;
+    color: #D93025;
+}
+
+.dc-metrics {
+    padding: 16px;
+    background: var(--bg-light);
+    border-radius: 12px;
+}
+
+.dc-metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.dc-metric span {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.dc-metric strong {
+    font-size: 1rem;
+    color: var(--secondary-color);
+}
+
+.meter-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.dc-recommendation {
+    background: white;
+    border: 1px solid var(--border-color);
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    .skills-decay-grid {
+        grid-template-columns: 1fr;
+    }
+}

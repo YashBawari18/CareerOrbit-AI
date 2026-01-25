@@ -15,8 +15,8 @@ const Hero = () => {
                         Don't let skills gap hold you back. Track skill decay, predict your next career move, and bridge learning gaps with AI-driven intelligence.
                     </p>
                     <div className="hero-actions">
-                        <Link to="/profile" className="btn btn-primary">Start Your Journey</Link>
-                        <button className="btn btn-outline">Watch Demo</button>
+                        <Link to="/profile/create" className="btn btn-primary">Start Your Journey</Link>
+                        <Link to="/how-it-works" className="btn btn-outline">How it Works</Link>
                     </div>
                     <div className="hero-stats">
                         <div className="stat-item">

@@ -1,7 +1,10 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
+import PlatformSteps from '../components/PlatformSteps';
 import FeatureSection from '../components/FeatureSection';
+import PlatformIntelligence from '../components/PlatformIntelligence';
+import CTASection from '../components/CTASection';
 import Footer from '../components/Footer';
 
 const Home = () => {
@@ -10,7 +13,10 @@ const Home = () => {
             <Navbar />
             <main>
                 <Hero />
+                <PlatformSteps />
                 <FeatureSection />
+                <PlatformIntelligence />
+                <CTASection />
             </main>
             <Footer />
         </div>

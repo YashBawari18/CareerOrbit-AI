@@ -1,0 +1,145 @@
+.trends-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.skills-trend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.trend-card-ui {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tc-header h3 {
+    font-size: 1.25rem;
+}
+
+.growth-pill {
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.growth-pill.positive {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.growth-pill.negative {
+    background: #FCE8E6;
+    color: #D93025;
+}
+
+.demand-bar-container {
+    height: 8px;
+    background: var(--bg-light);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.demand-fill {
+    height: 100%;
+    background: var(--grad-primary);
+    border-radius: 100px;
+}
+
+.demand-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.demand-meta span {
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.market-comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.comparison-item-ui {
+    background: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.ci-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ci-header h3 {
+    font-size: 1.1rem;
+}
+
+.ci-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.ci-badge.strong {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.ci-badge.moderate {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.ci-badge.opportunity {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.ci-bar {
+    height: 6px;
+    background: var(--bg-light);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.ci-fill {
+    height: 100%;
+    border-radius: 100px;
+}
+
+.ci-fill.market {
+    background: #0056D2;
+}
+
+.ci-fill.personal {
+    background: var(--primary-color);
+}
+
+.ci-bar-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+    .market-comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import PageHeader from '../components/PageHeader';
 import './ProblemStatement.css';
 
 // Import images
@@ -15,16 +16,11 @@ const ProblemStatement = () => {
             <Navbar />
 
             <main className="problem-page">
-                {/* SECTION 1: Page Header */}
-                <section className="problem-header section-padding text-center">
-                    <div className="container">
-                        <span className="badge-pill">The Challenge</span>
-                        <h1 className="section-title">Problem Statement</h1>
-                        <p className="section-subtitle">
-                            Why CareerOrbit AI matters in an age of rapid technological change
-                        </p>
-                    </div>
-                </section>
+                <PageHeader
+                    title="Problem Statement"
+                    subtitle="Why CareerOrbit AI matters in an age of rapid technological change."
+                    badge="The Challenge"
+                />
 
                 {/* SECTION 2: Core Problem */}
                 <section className="core-problem section-padding">
@@ -118,7 +114,7 @@ const ProblemStatement = () => {
                             <p className="transition-text">
                                 "CareerOrbit AI exists to turn this uncertainty into clarity — by mapping skills, careers, and learning paths over an entire lifetime."
                             </p>
-                            <Link to="/career-path" className="btn btn-primary btn-lg mt-4">
+                            <Link to="/how-it-works" className="btn btn-primary btn-lg mt-4">
                                 View Our Solution
                             </Link>
                         </div>
