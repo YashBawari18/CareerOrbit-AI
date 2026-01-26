@@ -121,12 +121,8 @@
 .breakdown-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-<<<<<<< HEAD
-    gap: 40px;
-=======
     gap: var(--grid-gap);
     margin-top: var(--section-margin);
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .problem-card {
@@ -299,13 +295,12 @@
         grid-template-columns: 1fr;
     }
 
-<<<<<<< HEAD
     .chart-card.wide {
         grid-column: span 1;
-=======
+    }
+
     .img-float-container {
         display: none;
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     }
 
     .focus-box {
