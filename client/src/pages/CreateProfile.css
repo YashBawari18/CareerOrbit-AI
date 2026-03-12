@@ -199,6 +199,34 @@
     color: var(--text-light);
 }
 
+.form-group.has-error input,
+.form-group.has-error select {
+    border-color: #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.02);
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Skills Selection */
 .skills-selection {
     margin-bottom: 2rem;

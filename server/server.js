@@ -69,8 +69,7 @@ app.get("/", (req, res) => {
             "/health",
             "/api/status",
             "/api/auth/register",
-            "/api/auth/login",
-            "/api/jobs/recommendations"
+            "/api/auth/login"
         ]
     });
 });
@@ -85,9 +84,7 @@ app.get("/health", (req, res) => {
 
 // API Routes
 const authRoutes = require("./routes/auth");
-const jobRoutes = require("./routes/jobs");
 app.use("/api/auth", authRoutes);
-app.use("/api/jobs", jobRoutes);
 
 app.get("/api/status", (req, res) => {
     res.json({

@@ -38,6 +38,10 @@ import FairnessMetrics from './pages/FairnessMetrics';
 // Placement Pages
 import JobRecommendations from './pages/JobRecommendations';
 
+// Resume Pages
+import ResumeBuilder from './pages/ResumeBuilder';
+import ResumePreview from './pages/ResumePreview';
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { token, loading } = useAuth();
@@ -94,6 +98,10 @@ function App() {
 
             {/* Placement Routes */}
             <Route path="/placement/jobs" element={<ProtectedRoute><JobRecommendations /></ProtectedRoute>} />
+
+            {/* Resume Routes */}
+            <Route path="/resume/builder" element={<ProtectedRoute><ResumeBuilder /></ProtectedRoute>} />
+            <Route path="/resume/preview" element={<ProtectedRoute><ResumePreview /></ProtectedRoute>} />
 
             {/* Dashboard Routes */}
             <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />

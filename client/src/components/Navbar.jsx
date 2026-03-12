@@ -43,7 +43,8 @@ const NAV_ITEMS = [
   {
     label: 'Placement',
     dropdown: [
-      { label: 'Job Recommendations', path: '/placement/jobs' }
+      { label: 'Job Recommendations', path: '/placement/jobs' },
+      { label: 'Resume Creator', path: '/resume/builder' }
     ]
   },
   {

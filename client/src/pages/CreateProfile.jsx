@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -9,8 +9,6 @@ import './CreateProfile.css';
 const CreateProfile = () => {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
-    // ... rest of formData
-    // (I'll keep the rest of the component as is but replace the jsx)
     const [formData, setFormData] = useState({
         // Step 1: Basic Info
         fullName: '',
@@ -35,11 +33,38 @@ const CreateProfile = () => {
     });
 
     const [newCert, setNewCert] = useState({ name: '', issuer: '', date: '' });
+    const [errors, setErrors] = useState({});
+
+    // Load previously saved profile data on mount
+    useEffect(() => {
+        const saved = localStorage.getItem('careerOrbitProfile');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                setFormData(prev => ({ ...prev, ...parsed }));
+            } catch (e) {
+                console.error('Failed to load saved profile:', e);
+            }
+        }
+    }, []);
+
+    // Save profile data to localStorage
+    const saveProfileToStorage = (data) => {
+        localStorage.setItem('careerOrbitProfile', JSON.stringify(data));
+    };
     const totalSteps = 4;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
     };
 
     const handleCertChange = (e) => {
@@ -71,11 +96,55 @@ const CreateProfile = () => {
                 ? prev.selectedSkills.filter(s => s !== skill)
                 : [...prev.selectedSkills, skill]
         }));
+        if (errors.selectedSkills) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.selectedSkills;
+                return newErrors;
+            });
+        }
+    };
+
+    const validateStep = (step) => {
+        const newErrors = {};
+
+        if (step === 1) {
+            if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+            if (!formData.email.trim()) {
+                newErrors.email = 'Email is required';
+            } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+                newErrors.email = 'Please enter a valid email address';
+            }
+            if (!formData.currentRole) newErrors.currentRole = 'Please select your current role';
+            if (!formData.yearsExperience) newErrors.yearsExperience = 'Please select your years of experience';
+        }
+
+        if (step === 2) {
+            if (formData.selectedSkills.length === 0) {
+                newErrors.selectedSkills = 'Please select at least one skill or upload a resume';
+            }
+        }
+
+        if (step === 3) {
+            if (!formData.education) newErrors.education = 'Please select your highest education level';
+        }
+
+        if (step === 4) {
+            if (!formData.targetRole.trim()) newErrors.targetRole = 'Target role is required';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const nextStep = () => {
-        if (currentStep < totalSteps) {
-            setCurrentStep(currentStep + 1);
+        if (validateStep(currentStep)) {
+            if (currentStep < totalSteps) {
+                // Save progress to localStorage on each step
+                saveProfileToStorage(formData);
+                setCurrentStep(currentStep + 1);
+                window.scrollTo(0, 0);
+            }
         }
     };
 
@@ -96,9 +165,13 @@ const CreateProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Profile created:', formData);
-        // Navigate to edit skills page
-        navigate('/profile/edit-skills');
+        if (validateStep(4)) {
+            // Save complete profile to localStorage
+            saveProfileToStorage(formData);
+            console.log('Profile created & saved:', formData);
+            // Navigate to edit skills page
+            navigate('/profile/edit-skills');
+        }
     };
 
     const SKILLS_BY_ROLE = {
@@ -150,47 +223,47 @@ const CreateProfile = () => {
                                         <p className="step-description">We'll use this to personalize your experience</p>
 
                                         <div className="form-grid">
-                                            <div className="form-group">
-                                                <label htmlFor="fullName">Full Name *</label>
-                                                <input
-                                                    type="text"
-                                                    id="fullName"
-                                                    name="fullName"
-                                                    value={formData.fullName}
-                                                    onChange={handleInputChange}
-                                                    placeholder="John Doe"
-                                                    required
-                                                />
-                                            </div>
+                                            <div className={`form-group ${errors.fullName ? 'has-error' : ''}`}>
+                                                 <label htmlFor="fullName">Full Name *</label>
+                                                 <input
+                                                     type="text"
+                                                     id="fullName"
+                                                     name="fullName"
+                                                     value={formData.fullName}
+                                                     onChange={handleInputChange}
+                                                     placeholder="John Doe"
+                                                 />
+                                                 {errors.fullName && <span className="error-message">⚠️ {errors.fullName}</span>}
+                                             </div>
 
-                                            <div className="form-group">
-                                                <label htmlFor="email">Email Address *</label>
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    value={formData.email}
-                                                    onChange={handleInputChange}
-                                                    placeholder="john@example.com"
-                                                    required
-                                                />
-                                            </div>
+                                            <div className={`form-group ${errors.email ? 'has-error' : ''}`}>
+                                                 <label htmlFor="email">Email Address *</label>
+                                                 <input
+                                                     type="email"
+                                                     id="email"
+                                                     name="email"
+                                                     value={formData.email}
+                                                     onChange={handleInputChange}
+                                                     placeholder="john@example.com"
+                                                 />
+                                                 {errors.email && <span className="error-message">⚠️ {errors.email}</span>}
+                                             </div>
 
-                                            <div className="form-group">
-                                                <label htmlFor="currentRole">Current Role *</label>
-                                                <select
-                                                    id="currentRole"
-                                                    name="currentRole"
-                                                    value={formData.currentRole}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                >
-                                                    <option value="">Select Role...</option>
-                                                    {Object.keys(SKILLS_BY_ROLE).map(role => (
-                                                        <option key={role} value={role}>{role}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
+                                            <div className={`form-group ${errors.currentRole ? 'has-error' : ''}`}>
+                                                 <label htmlFor="currentRole">Current Role *</label>
+                                                 <select
+                                                     id="currentRole"
+                                                     name="currentRole"
+                                                     value={formData.currentRole}
+                                                     onChange={handleInputChange}
+                                                 >
+                                                     <option value="">Select Role...</option>
+                                                     {Object.keys(SKILLS_BY_ROLE).map(role => (
+                                                         <option key={role} value={role}>{role}</option>
+                                                     ))}
+                                                 </select>
+                                                 {errors.currentRole && <span className="error-message">⚠️ {errors.currentRole}</span>}
+                                             </div>
 
                                             <div className="form-group">
                                                 <label htmlFor="location">Location</label>
@@ -204,23 +277,23 @@ const CreateProfile = () => {
                                                 />
                                             </div>
 
-                                            <div className="form-group full-width">
-                                                <label htmlFor="yearsExperience">Years of Experience *</label>
-                                                <select
-                                                    id="yearsExperience"
-                                                    name="yearsExperience"
-                                                    value={formData.yearsExperience}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                >
-                                                    <option value="">Select...</option>
-                                                    <option value="0-1">0-1 years</option>
-                                                    <option value="1-3">1-3 years</option>
-                                                    <option value="3-5">3-5 years</option>
-                                                    <option value="5-10">5-10 years</option>
-                                                    <option value="10+">10+ years</option>
-                                                </select>
-                                            </div>
+                                            <div className={`form-group full-width ${errors.yearsExperience ? 'has-error' : ''}`}>
+                                                 <label htmlFor="yearsExperience">Years of Experience *</label>
+                                                 <select
+                                                     id="yearsExperience"
+                                                     name="yearsExperience"
+                                                     value={formData.yearsExperience}
+                                                     onChange={handleInputChange}
+                                                 >
+                                                     <option value="">Select...</option>
+                                                     <option value="0-1">0-1 years</option>
+                                                     <option value="1-3">1-3 years</option>
+                                                     <option value="3-5">3-5 years</option>
+                                                     <option value="5-10">5-10 years</option>
+                                                     <option value="10+">10+ years</option>
+                                                 </select>
+                                                 {errors.yearsExperience && <span className="error-message">⚠️ {errors.yearsExperience}</span>}
+                                             </div>
                                         </div>
                                     </div>
                                 )}
@@ -252,9 +325,14 @@ const CreateProfile = () => {
                                                 ))}
                                             </div>
 
-                                            <div className="selected-count">
-                                                {formData.selectedSkills.length} skills selected
-                                            </div>
+                                             <div className="selected-count">
+                                                 {formData.selectedSkills.length} skills selected
+                                             </div>
+                                             {errors.selectedSkills && (
+                                                 <div className="error-message" style={{ justifyContent: 'center', marginTop: '1rem' }}>
+                                                     ⚠️ {errors.selectedSkills}
+                                                 </div>
+                                             )}
                                         </div>
                                     </div>
                                 )}
@@ -266,25 +344,25 @@ const CreateProfile = () => {
                                         <p className="step-description">Help us understand your educational journey</p>
 
                                         <div className="form-grid">
-                                            <div className="form-group full-width">
-                                                <label htmlFor="education">Highest Education Level *</label>
-                                                <select
-                                                    id="education"
-                                                    name="education"
-                                                    value={formData.education}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                >
-                                                    <option value="">Select...</option>
-                                                    <option value="high-school">High School</option>
-                                                    <option value="associate">Associate Degree</option>
-                                                    <option value="bachelor">Bachelor's Degree</option>
-                                                    <option value="master">Master's Degree</option>
-                                                    <option value="phd">PhD</option>
-                                                    <option value="bootcamp">Bootcamp</option>
-                                                    <option value="self-taught">Self-Taught</option>
-                                                </select>
-                                            </div>
+                                            <div className={`form-group full-width ${errors.education ? 'has-error' : ''}`}>
+                                                 <label htmlFor="education">Highest Education Level *</label>
+                                                 <select
+                                                     id="education"
+                                                     name="education"
+                                                     value={formData.education}
+                                                     onChange={handleInputChange}
+                                                 >
+                                                     <option value="">Select...</option>
+                                                     <option value="high-school">High School</option>
+                                                     <option value="associate">Associate Degree</option>
+                                                     <option value="bachelor">Bachelor's Degree</option>
+                                                     <option value="master">Master's Degree</option>
+                                                     <option value="phd">PhD</option>
+                                                     <option value="bootcamp">Bootcamp</option>
+                                                     <option value="self-taught">Self-Taught</option>
+                                                 </select>
+                                                 {errors.education && <span className="error-message">⚠️ {errors.education}</span>}
+                                             </div>
 
                                             <div className="form-group">
                                                 <label htmlFor="degree">Degree/Field of Study</label>
@@ -373,18 +451,18 @@ const CreateProfile = () => {
                                         <p className="step-description">Define your career aspirations</p>
 
                                         <div className="form-grid">
-                                            <div className="form-group full-width">
-                                                <label htmlFor="targetRole">Target Role *</label>
-                                                <input
-                                                    type="text"
-                                                    id="targetRole"
-                                                    name="targetRole"
-                                                    value={formData.targetRole}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Senior Software Engineer, Tech Lead, etc."
-                                                    required
-                                                />
-                                            </div>
+                                            <div className={`form-group full-width ${errors.targetRole ? 'has-error' : ''}`}>
+                                                 <label htmlFor="targetRole">Target Role *</label>
+                                                 <input
+                                                     type="text"
+                                                     id="targetRole"
+                                                     name="targetRole"
+                                                     value={formData.targetRole}
+                                                     onChange={handleInputChange}
+                                                     placeholder="Senior Software Engineer, Tech Lead, etc."
+                                                 />
+                                                 {errors.targetRole && <span className="error-message">⚠️ {errors.targetRole}</span>}
+                                             </div>
 
                                             <div className="form-group">
                                                 <label htmlFor="targetIndustry">Target Industry</label>
