@@ -1,25 +1,13 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PageHeader from '../components/PageHeader';
 import './JobRecommendations.css';
 
-const API_URL = (
-    import.meta.env.VITE_API_URL || "https://careerorbit-ai-2.onrender.com"
-).replace(/\/$/, "") + "/api";
-
 const JobRecommendations = () => {
-    const { token } = useAuth();
-
-    // ─── State ──────────────────────────────────────────────────────────
-    const [userSkills, setUserSkills] = useState([]);
-    const [jobList, setJobList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [source, setSource] = useState('');
+    // Simulated user skills (would come from profile in production)
+    const [userSkills] = useState(['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'Git', 'MongoDB', 'Express.js', 'REST APIs', 'Python']);
 
     const [filters, setFilters] = useState({
         location: 'all',
@@ -28,51 +16,155 @@ const JobRecommendations = () => {
         minMatch: 'all'
     });
 
-    // ─── Fetch job recommendations from backend ─────────────────────────
-    useEffect(() => {
-        const fetchJobs = async () => {
-            setLoading(true);
-            setError(null);
+    const jobList = useMemo(() => [
+        {
+            id: 1,
+            title: 'Frontend Developer',
+            company: 'Google',
+            location: 'Bangalore, India',
+            salary: '\u20B912L \u2013 \u20B925L',
+            jobType: 'Hybrid',
+            experience: 'Mid-Level',
+            requiredSkills: ['JavaScript', 'React', 'HTML', 'CSS', 'TypeScript', 'Git'],
+            description: 'Build next-generation user interfaces for Google products, working with a world-class design team.',
+            applyUrl: 'https://careers.google.com'
+        },
+        {
+            id: 2,
+            title: 'Full Stack Engineer',
+            company: 'Microsoft',
+            location: 'Hyderabad, India',
+            salary: '\u20B915L \u2013 \u20B930L',
+            jobType: 'Hybrid',
+            experience: 'Mid-Level',
+            requiredSkills: ['JavaScript', 'React', 'Node.js', 'REST APIs', 'SQL', 'Azure'],
+            description: 'Design and implement scalable web applications on the Azure cloud platform.',
+            applyUrl: 'https://careers.microsoft.com'
+        },
+        {
+            id: 3,
+            title: 'React Developer',
+            company: 'Flipkart',
+            location: 'Bangalore, India',
+            salary: '\u20B910L \u2013 \u20B920L',
+            jobType: 'On-site',
+            experience: 'Junior',
+            requiredSkills: ['JavaScript', 'React', 'HTML', 'CSS', 'Redux', 'Git'],
+            description: 'Build high-performance e-commerce experiences serving millions of users daily.',
+            applyUrl: 'https://www.flipkartcareers.com'
+        },
+        {
+            id: 4,
+            title: 'Backend Engineer',
+            company: 'Amazon',
+            location: 'Pune, India',
+            salary: '\u20B914L \u2013 \u20B928L',
+            jobType: 'On-site',
+            experience: 'Mid-Level',
+            requiredSkills: ['Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'AWS', 'Docker'],
+            description: "Build reliable, scalable backend services powering Amazon's marketplace infrastructure.",
+            applyUrl: 'https://www.amazon.jobs'
+        },
+        {
+            id: 5,
+            title: 'Software Development Engineer',
+            company: 'Razorpay',
+            location: 'Bangalore, India',
+            salary: '\u20B912L \u2013 \u20B922L',
+            jobType: 'Remote',
+            experience: 'Mid-Level',
+            requiredSkills: ['JavaScript', 'React', 'Node.js', 'MongoDB', 'Git', 'REST APIs'],
+            description: 'Build payment infrastructure that powers millions of businesses across India.',
+            applyUrl: 'https://razorpay.com/careers'
+        },
+        {
+            id: 6,
+            title: 'MERN Stack Developer',
+            company: 'Infosys',
+            location: 'Mysore, India',
+            salary: '\u20B96L \u2013 \u20B914L',
+            jobType: 'Hybrid',
+            experience: 'Junior',
+            requiredSkills: ['MongoDB', 'Express.js', 'React', 'Node.js', 'JavaScript', 'HTML'],
+            description: 'Join a global consulting giant and work on digital transformation projects for Fortune 500 clients.',
+            applyUrl: 'https://www.infosys.com/careers'
+        },
+        {
+            id: 7,
+            title: 'Frontend Engineer',
+            company: 'Swiggy',
+            location: 'Bangalore, India',
+            salary: '\u20B911L \u2013 \u20B923L',
+            jobType: 'Remote',
+            experience: 'Mid-Level',
+            requiredSkills: ['JavaScript', 'React', 'Redux', 'TypeScript', 'CSS', 'Performance Optimization'],
+            description: "Craft delightful food ordering experiences for India's largest food delivery platform.",
+            applyUrl: 'https://careers.swiggy.com'
+        },
+        {
+            id: 8,
+            title: 'Junior Web Developer',
+            company: 'TCS',
+            location: 'Mumbai, India',
+            salary: '\u20B94L \u2013 \u20B98L',
+            jobType: 'On-site',
+            experience: 'Entry-Level',
+            requiredSkills: ['HTML', 'CSS', 'JavaScript', 'React', 'Git'],
+            description: 'Start your career building enterprise web applications for global clients.',
+            applyUrl: 'https://www.tcs.com/careers'
+        },
+        {
+            id: 9,
+            title: 'Python Full Stack Developer',
+            company: 'Wipro',
+            location: 'Hyderabad, India',
+            salary: '\u20B96L \u2013 \u20B915L',
+            jobType: 'Hybrid',
+            experience: 'Junior',
+            requiredSkills: ['Python', 'Django', 'React', 'JavaScript', 'PostgreSQL', 'REST APIs'],
+            description: 'Build modern web applications using Python and React for enterprise clients worldwide.',
+            applyUrl: 'https://careers.wipro.com'
+        },
+        {
+            id: 10,
+            title: 'DevOps Engineer',
+            company: 'Zomato',
+            location: 'Gurugram, India',
+            salary: '\u20B913L \u2013 \u20B927L',
+            jobType: 'Remote',
+            experience: 'Senior',
+            requiredSkills: ['Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Linux', 'Python'],
+            description: "Scale infrastructure for one of India's largest food-tech platforms.",
+            applyUrl: 'https://www.zomato.com/careers'
+        },
+        {
+            id: 11,
+            title: 'Software Engineer',
+            company: 'Atlassian',
+            location: 'Bangalore, India',
+            salary: '\u20B918L \u2013 \u20B935L',
+            jobType: 'Remote',
+            experience: 'Mid-Level',
+            requiredSkills: ['JavaScript', 'React', 'Node.js', 'TypeScript', 'GraphQL', 'Git'],
+            description: 'Build collaboration tools used by millions of teams worldwide, including Jira and Confluence.',
+            applyUrl: 'https://www.atlassian.com/company/careers'
+        },
+        {
+            id: 12,
+            title: 'Associate Software Engineer',
+            company: 'Accenture',
+            location: 'Chennai, India',
+            salary: '\u20B94L \u2013 \u20B99L',
+            jobType: 'Hybrid',
+            experience: 'Entry-Level',
+            requiredSkills: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'SQL'],
+            description: 'Launch your tech career with hands-on experience in digital transformation projects.',
+            applyUrl: 'https://www.accenture.com/careers'
+        }
+    ], []);
 
-            try {
-                const headers = {};
-                if (token) {
-                    headers['x-auth-token'] = token;
-                }
-
-                const res = await axios.get(`${API_URL}/jobs/recommendations`, {
-                    headers,
-                    timeout: 15000,
-                });
-
-                const data = res.data;
-
-                if (data.userSkills && data.userSkills.length > 0) {
-                    setUserSkills(data.userSkills);
-                }
-
-                if (data.jobs && data.jobs.length > 0) {
-                    setJobList(data.jobs);
-                } else {
-                    setJobList([]);
-                }
-
-                setSource(data.source || '');
-            } catch (err) {
-                console.error('Failed to fetch job recommendations:', err);
-                setError('Failed to load job recommendations. Please try again later.');
-                setJobList([]);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchJobs();
-    }, [token]);
-
-    // ─── Match helpers (same logic as before) ───────────────────────────
+    // Calculate match score for each job
     const getMatchScore = useCallback((requiredSkills) => {
-        if (!requiredSkills || requiredSkills.length === 0) return 0;
         const matched = requiredSkills.filter(s => userSkills.includes(s));
         return Math.round((matched.length / requiredSkills.length) * 100);
     }, [userSkills]);
@@ -90,20 +182,17 @@ const JobRecommendations = () => {
         return 'onsite';
     };
 
-    // ─── Readiness calculation ──────────────────────────────────────────
-    const allRequiredSkills = useMemo(() => [...new Set(jobList.flatMap(j => j.requiredSkills || []))], [jobList]);
+    // Calculate overall readiness
+    const allRequiredSkills = useMemo(() => [...new Set(jobList.flatMap(j => j.requiredSkills))], [jobList]);
     const matchedOverallSkills = useMemo(() => allRequiredSkills.filter(s => userSkills.includes(s)), [allRequiredSkills, userSkills]);
-    const readinessScore = allRequiredSkills.length > 0
-        ? Math.round((matchedOverallSkills.length / allRequiredSkills.length) * 100)
-        : 0;
+    const readinessScore = Math.round((matchedOverallSkills.length / allRequiredSkills.length) * 100);
 
-    // ─── Filter + sort ──────────────────────────────────────────────────
+    // Filter and sort jobs
     const filteredJobs = useMemo(() => {
         return jobList
             .map(job => ({
                 ...job,
-                // Use pre-computed matchScore from API, fallback to local computation
-                matchScore: job.matchScore || getMatchScore(job.requiredSkills)
+                matchScore: getMatchScore(job.requiredSkills)
             }))
             .filter(job => {
                 if (filters.location !== 'all' && !job.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
@@ -115,56 +204,12 @@ const JobRecommendations = () => {
             .sort((a, b) => b.matchScore - a.matchScore);
     }, [filters, getMatchScore, jobList]);
 
-    // ─── Unique locations for the filter dropdown ───────────────────────
-    const uniqueLocations = useMemo(() => {
-        const locs = new Set();
-        jobList.forEach(job => {
-            if (job.location) {
-                // Extract city name (before comma)
-                const city = job.location.split(',')[0].trim();
-                if (city) locs.add(city);
-            }
-        });
-        return [...locs].sort();
-    }, [jobList]);
-
     const circumference = 2 * Math.PI * 65;
     const dashOffset = circumference - (readinessScore / 100) * circumference;
 
     const resetFilters = () => {
         setFilters({ location: 'all', jobType: 'all', experience: 'all', minMatch: 'all' });
     };
-
-    // ─── Loading state ──────────────────────────────────────────────────
-    if (loading) {
-        return (
-            <div className="page-wrapper">
-                <Navbar />
-                <main className="jobs-page">
-                    <PageHeader
-                        title="AI Placement Hub"
-                        subtitle="Smart job recommendations matched to your skills, experience, and career goals."
-                        badge="Placement Intelligence"
-                    />
-                    <section className="jobs-content section-padding">
-                        <div className="container">
-                            <div className="loading-state glass-card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
-                                <div className="loading-spinner" style={{
-                                    width: '48px', height: '48px', border: '4px solid rgba(255,110,20,0.2)',
-                                    borderTopColor: '#FF6E14', borderRadius: '50%', margin: '0 auto 1.5rem',
-                                    animation: 'spin 0.8s linear infinite'
-                                }} />
-                                <h3 style={{ marginBottom: '0.5rem' }}>Finding your best matches…</h3>
-                                <p style={{ color: 'var(--text-muted, #888)' }}>Analyzing skills and scanning job opportunities</p>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-                <Footer />
-                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            </div>
-        );
-    }
 
     return (
         <div className="page-wrapper">
@@ -179,16 +224,6 @@ const JobRecommendations = () => {
 
                 <section className="jobs-content section-padding">
                     <div className="container">
-
-                        {/* Error state */}
-                        {error && (
-                            <div className="error-state glass-card" style={{ textAlign: 'center', padding: '2rem', marginBottom: '2rem', borderLeft: '4px solid #ff4444' }}>
-                                <p style={{ color: '#ff4444', fontWeight: 600 }}>{error}</p>
-                                <button className="btn btn-outline mt-4" onClick={() => window.location.reload()}>
-                                    Retry
-                                </button>
-                            </div>
-                        )}
 
                         {/* Placement Readiness Card */}
                         <div className="readiness-hero glass-card">
@@ -251,9 +286,13 @@ const JobRecommendations = () => {
                                     <label>Location</label>
                                     <select value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })}>
                                         <option value="all">All Locations</option>
-                                        {uniqueLocations.map(loc => (
-                                            <option key={loc} value={loc.toLowerCase()}>{loc}</option>
-                                        ))}
+                                        <option value="bangalore">Bangalore</option>
+                                        <option value="hyderabad">Hyderabad</option>
+                                        <option value="pune">Pune</option>
+                                        <option value="mumbai">Mumbai</option>
+                                        <option value="chennai">Chennai</option>
+                                        <option value="gurugram">Gurugram</option>
+                                        <option value="mysore">Mysore</option>
                                     </select>
                                 </div>
 
@@ -300,15 +339,12 @@ const JobRecommendations = () => {
 
                             {/* Jobs Grid */}
                             <div className="jobs-grid">
-                                {filteredJobs.length === 0 && !error ? (
+                                {filteredJobs.length === 0 ? (
                                     <div className="no-results glass-card">
                                         <div className="no-results-icon">No results</div>
-                                        <h3>No matching opportunities found</h3>
-                                        <p className="mt-2">Try adjusting your filters or adding more skills to your profile.</p>
+                                        <h3>No jobs match your filters</h3>
+                                        <p className="mt-2">Try adjusting your filters to see more opportunities.</p>
                                         <button className="btn btn-outline mt-4" onClick={resetFilters}>Reset Filters</button>
-                                        <Link to="/profile/edit-skills" className="btn btn-primary mt-4" style={{ marginLeft: '0.5rem' }}>
-                                            Add More Skills
-                                        </Link>
                                     </div>
                                 ) : (
                                     filteredJobs.map(job => (
@@ -336,12 +372,12 @@ const JobRecommendations = () => {
                                             <div className="job-skills-section">
                                                 <h4>Required Skills</h4>
                                                 <div className="job-skills-tags">
-                                                    {(job.requiredSkills || []).map(skill => (
+                                                    {job.requiredSkills.map(skill => (
                                                         <span
                                                             key={skill}
                                                             className={`job-skill-tag ${userSkills.includes(skill) ? 'matched' : 'missing'}`}
                                                         >
-                                                            {userSkills.includes(skill) ? '✓' : '⚠'} {skill}
+                                                            {userSkills.includes(skill) ? '\u2713' : '\u26A0'} {skill}
                                                         </span>
                                                     ))}
                                                 </div>
