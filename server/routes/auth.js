@@ -53,12 +53,11 @@ router.post("/register", async (req, res) => {
             return res.status(400).json({ msg: "User already exists" });
         }
 
-        // Hash password before storing (if your model does not already hash)
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Password will be hashed by the Sequelize beforeCreate hook in UserPG.js
         user = await User.create({
             username,
             email,
-            password: hashedPassword
+            password
         });
 
         const token = signToken(user.id);
