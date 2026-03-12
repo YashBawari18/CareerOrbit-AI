@@ -25,12 +25,15 @@ app.use(
                 "http://localhost:5173",
                 "http://localhost:3000",
                 "https://career-orbit-ai.vercel.app",
+                "https://careerorbit-ai-3.onrender.com",  // Added your Render frontend URL
                 process.env.FRONTEND_URL
-            ];
+            ].filter(Boolean);  // Remove any falsy values
             
             // Check if the origin matches any of the allowed origins
-            // Also allow any subdomain of vercel.app for preview deployments
-            if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+            // Also allow any subdomain of vercel.app or onrender.com for preview deployments
+            if (allowedOrigins.some(allowed => origin === allowed) || 
+                origin.endsWith(".vercel.app") || 
+                origin.endsWith(".onrender.com")) {
                 callback(null, true);
             } else {
                 console.log("Blocked by CORS:", origin); // Debug log
@@ -43,90 +46,4 @@ app.use(
     })
 );
 
-/* -------------------- GLOBAL DB STATUS -------------------- */
-let pgConnected = false;
-
-// Inject DB status into request
-app.use((req, res, next) => {
-    req.dbConnected = pgConnected;
-    next();
-});
-
-/* -------------------- ROOT ROUTE -------------------- */
-app.get("/", (req, res) => {
-    res.status(200).json({
-        message: "CareerOrbit API is running",
-        endpoints: [
-            "/health",
-            "/api/status",
-            "/api/auth/register",
-            "/api/auth/login"
-        ]
-    });
-});
-
-/* -------------------- HEALTH CHECK -------------------- */
-app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "ok",
-        postgres: pgConnected
-    });
-});
-
-/* -------------------- ROUTES -------------------- */
-const authRoutes = require("./routes/auth");
-
-// All auth routes are /api/auth/*
-app.use("/api/auth", authRoutes);
-
-app.get("/api/status", (req, res) => {
-    res.json({
-        status: "online",
-        database: pgConnected ? "postgresql" : "mock_mode"
-    });
-});
-
-/* -------------------- ERROR SAFETY -------------------- */
-process.on("unhandledRejection", (reason, promise) => {
-    console.error("❌ Unhandled Rejection:", reason);
-});
-
-process.on("uncaughtException", (err) => {
-    console.error("❌ Uncaught Exception:", err);
-    process.exit(1);
-});
-
-/* -------------------- START SYSTEM -------------------- */
-const startSystem = async () => {
-    try {
-        console.log("📡 Attempting PostgreSQL connection...");
-        await sequelize.authenticate();
-        pgConnected = true;
-
-        await sequelize.sync({ alter: true });
-        console.log("✅ PostgreSQL Connected & Synced");
-    } catch (err) {
-        console.warn("⚠️ PostgreSQL connection failed. Running in MOCK MODE.");
-        pgConnected = false;
-    }
-
-    const PORT = process.env.PORT || 5000;
-    console.log(`🔍 Environment PORT: ${process.env.PORT || "not provided"}`);
-
-    const server = app.listen(PORT, () => {
-        console.log(`🚀 CareerOrbit API running on port ${PORT}`);
-        if (!pgConnected) {
-            console.log("🛡️ MOCK MODE ACTIVE: No persistent DB session");
-        }
-    });
-
-    server.on("error", (err) => {
-        if (err.code === "EADDRINUSE") {
-            console.error(`❌ Port ${PORT} already in use`);
-        } else {
-            console.error("❌ Server error:", err);
-        }
-    });
-};
-
-startSystem();
+// Rest of your server.js code remains the same...
