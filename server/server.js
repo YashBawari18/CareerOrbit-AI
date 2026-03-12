@@ -28,9 +28,12 @@ app.use(
                 process.env.FRONTEND_URL
             ].filter(Boolean);
             
-            if (allowedOrigins.some(allowed => origin === allowed) || 
+            if (
+                origin.startsWith("http://localhost:") ||
+                allowedOrigins.some(allowed => origin === allowed) || 
                 origin.endsWith(".vercel.app") || 
-                origin.endsWith(".onrender.com")) {
+                origin.endsWith(".onrender.com")
+            ) {
                 callback(null, true);
             } else {
                 console.log("Blocked by CORS:", origin);

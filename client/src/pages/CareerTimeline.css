@@ -37,7 +37,7 @@
     position: absolute;
     bottom: -20px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(135deg);
     font-size: 24px;
     filter: drop-shadow(0 0 10px rgba(255, 110, 20, 0.5));
     animation: float-rocket 2s ease-in-out infinite;
@@ -47,11 +47,11 @@
 
     0%,
     100% {
-        transform: translateX(-50%) translateY(0);
+        transform: translateX(-50%) translateY(0) rotate(135deg);
     }
 
     50% {
-        transform: translateX(-50%) translateY(-5px);
+        transform: translateX(-50%) translateY(5px) rotate(135deg);
     }
 }
 
