@@ -192,8 +192,14 @@ const SkillDecay = () => {
                                                 fill="#FF6E14"
                                                 fillOpacity={0.4}
                                             />
-                                            <Tooltip
-                                                contentStyle={{ backgroundColor: 'var(--bg-white)', border: '1px solid #e0e0e0', borderRadius: '12px' }}
+                                             <Tooltip
+                                                contentStyle={{
+                                                    backgroundColor: 'var(--bg-white)',
+                                                    border: '1px solid var(--border-color)',
+                                                    borderRadius: '12px',
+                                                    color: 'var(--text-main)'
+                                                }}
+                                                itemStyle={{ color: 'var(--text-main)' }}
                                             />
                                         </RadarChart>
                                     </ResponsiveContainer>
@@ -283,12 +289,15 @@ const SkillDecay = () => {
                                                 />
                                                 <XAxis dataKey="day" hide />
                                                 <YAxis hide domain={[0, 100]} />
-                                                <Tooltip
+                                                 <Tooltip
                                                     contentStyle={{
+                                                        backgroundColor: 'var(--bg-white)',
                                                         borderRadius: '12px',
-                                                        border: 'none',
-                                                        boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
+                                                        border: '1px solid var(--border-color)',
+                                                        boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                                                        color: 'var(--text-main)'
                                                     }}
+                                                    itemStyle={{ color: 'var(--text-main)' }}
                                                 />
                                             </AreaChart>
                                         </ResponsiveContainer>

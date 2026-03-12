@@ -78,6 +78,13 @@
     border-color: var(--primary-color);
 }
 
+/* Ensure button text remains visible on hover in light theme */
+.decay-card-ui .btn-outline:hover {
+    color: var(--primary-color) !important;
+    background: rgba(255, 110, 20, 0.08) !important;
+}
+
+
 .dc-header {
     display: flex;
     justify-content: space-between;
@@ -242,8 +249,9 @@
 
 .context-chip:hover {
     border-color: var(--primary-color);
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
     transform: translateY(-2px);
+    background: var(--bg-white);
 }
 
 .context-chip.active {
