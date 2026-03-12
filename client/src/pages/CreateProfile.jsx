@@ -25,6 +25,7 @@ const CreateProfile = () => {
         education: '',
         degree: '',
         institution: '',
+        certifications: [],
 
         // Step 4: Career Goals
         targetRole: '',
@@ -32,11 +33,34 @@ const CreateProfile = () => {
         timeframe: ''
     });
 
+    const [newCert, setNewCert] = useState({ name: '', issuer: '', date: '' });
     const totalSteps = 4;
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCertChange = (e) => {
+        const { name, value } = e.target;
+        setNewCert(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleAddCertification = () => {
+        if (newCert.name && newCert.issuer) {
+            setFormData(prev => ({
+                ...prev,
+                certifications: [...prev.certifications, newCert]
+            }));
+            setNewCert({ name: '', issuer: '', date: '' });
+        }
+    };
+
+    const handleRemoveCertification = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            certifications: prev.certifications.filter((_, i) => i !== index)
+        }));
     };
 
     const handleSkillToggle = (skill) => {
@@ -275,6 +299,59 @@ const CreateProfile = () => {
                                                     placeholder="University Name"
                                                 />
                                             </div>
+                                        </div>
+
+                                        <div className="certifications-section">
+                                            <h3 className="section-subtitle">Certifications & Online Courses</h3>
+                                            <div className="cert-form-row">
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    placeholder="Certification Name"
+                                                    value={newCert.name}
+                                                    onChange={handleCertChange}
+                                                    className="cert-input-main"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    name="issuer"
+                                                    placeholder="Issuer"
+                                                    value={newCert.issuer}
+                                                    onChange={handleCertChange}
+                                                    className="cert-input-sub"
+                                                />
+                                                <input
+                                                    type="text"
+                                                    name="date"
+                                                    placeholder="Year"
+                                                    value={newCert.date}
+                                                    onChange={handleCertChange}
+                                                    className="cert-input-date"
+                                                />
+                                                <button type="button" className="btn btn-primary btn-sm" onClick={handleAddCertification}>
+                                                    Add
+                                                </button>
+                                            </div>
+
+                                            {formData.certifications.length > 0 && (
+                                                <div className="cert-list">
+                                                    {formData.certifications.map((cert, index) => (
+                                                        <div key={index} className="cert-item">
+                                                            <div className="cert-details">
+                                                                <strong>{cert.name}</strong>
+                                                                <span>{cert.issuer} • {cert.date}</span>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                className="remove-cert-btn"
+                                                                onClick={() => handleRemoveCertification(index)}
+                                                            >
+                                                                ×
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}

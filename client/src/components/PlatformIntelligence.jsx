@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import HomeAnalytics from './HomeAnalytics';
 import './PlatformIntelligence.css';
 
 const PlatformIntelligence = () => {
@@ -42,14 +43,8 @@ const PlatformIntelligence = () => {
                         <Link to="/dashboard/trends" className="btn btn-primary">Explore Market Trends</Link>
                     </div>
 
-                    <div className="intel-stats-grid">
-                        {stats.map((s, i) => (
-                            <div className="intel-stat-card glass-card" key={i}>
-                                <div className="is-icon">{s.icon}</div>
-                                <div className="is-value">{s.value}</div>
-                                <div className="is-label">{s.label}</div>
-                            </div>
-                        ))}
+                    <div className="intel-analytics-wrapper" style={{ flex: 1 }}>
+                        <HomeAnalytics />
                     </div>
                 </div>
             </div>
