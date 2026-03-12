@@ -12,7 +12,7 @@ const RecommendedCourses = () => {
         duration: 'all',
         price: 'all'
     });
-
+ 
     const courses = [
         {
             id: 1,
@@ -51,7 +51,7 @@ const RecommendedCourses = () => {
             price: 'Subscription',
             level: 'Intermediate',
             description: 'Comprehensive testing strategies for React apps',
-            courseUrl: 'https://frontendmasters.com/courses/react-testing/'
+            courseUrl: 'https://frontendmasters.com/courses/complete-react-v9/'
         },
         {
             id: 4,
@@ -64,7 +64,7 @@ const RecommendedCourses = () => {
             price: 'Subscription',
             level: 'Intermediate',
             description: 'Automate your deployment pipeline with GitHub Actions',
-            courseUrl: 'https://www.linkedin.com/learning/github-actions-concepts-and-practices'
+            courseUrl: 'https://www.linkedin.com/learning/learning-github-actions-2/'
         },
         {
             id: 5,
@@ -77,7 +77,7 @@ const RecommendedCourses = () => {
             price: '$94.99',
             level: 'Advanced',
             description: 'Deep dive into Node.js performance and scalability',
-            courseUrl: 'https://www.udemy.com/course/advanced-node-js-development/'
+            courseUrl: 'https://www.udemy.com/course/node-js-advanced-concepts/'
         },
         {
             id: 6,
@@ -90,7 +90,7 @@ const RecommendedCourses = () => {
             price: 'Subscription',
             level: 'All Levels',
             description: 'Develop leadership skills for technical roles',
-            courseUrl: 'https://www.pluralsight.com/courses/leadership-engineers'
+            courseUrl: 'https://www.pluralsight.com/courses/introduction-leadership-management-developers'
         }
     ];
 
@@ -178,12 +178,14 @@ const RecommendedCourses = () => {
 
                                         <div className="course-footer">
                                             <div className="course-price">{course.price}</div>
-                                            <button
+                                            <a
+                                                href={course.courseUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 className="btn btn-primary"
-                                                onClick={() => window.open(course.courseUrl, '_blank', 'noopener,noreferrer')}
                                             >
                                                 Enroll Path →
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 ))}
