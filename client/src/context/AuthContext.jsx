@@ -32,7 +32,8 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post(`${API_URL}/auth/login`, {
         email,
         password,
-      });
+      }, { timeout: 10000 }); // 10 second timeout for backend
+      
       setToken(res.data.token);
       setUser(res.data.user);
       localStorage.setItem("token", res.data.token);
@@ -40,6 +41,26 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["x-auth-token"] = res.data.token;
       return { success: true };
     } catch (err) {
+      // If backend fails (timeout, 5xx, or network error), fallback to LocalStorage mock DB
+      if (!err.response || err.response.status >= 500 || err.code === 'ECONNABORTED') {
+          console.warn("Backend unavailable. Falling back to LocalStorage Auth.");
+          const usersDB = JSON.parse(localStorage.getItem('mockUsers_DB') || '[]');
+          const userMatch = usersDB.find(u => u.email === email && u.password === password);
+          
+          if (userMatch) {
+              const fakeToken = "mock_token_" + Date.now();
+              const userData = { id: userMatch.id, username: userMatch.username, email: userMatch.email, profileCompleted: userMatch.profileCompleted };
+              
+              setToken(fakeToken);
+              setUser(userData);
+              localStorage.setItem("token", fakeToken);
+              localStorage.setItem("user", JSON.stringify(userData));
+              return { success: true };
+          } else {
+              return { success: false, error: "Invalid credentials. If you haven't registered, create an account first." };
+          }
+      }
+
       return {
         success: false,
         error: err.response?.data?.msg || "Login failed",
@@ -53,7 +74,8 @@ export const AuthProvider = ({ children }) => {
         username,
         email,
         password,
-      });
+      }, { timeout: 10000 }); // 10 second timeout for backend
+
       setToken(res.data.token);
       setUser(res.data.user);
       localStorage.setItem("token", res.data.token);
@@ -61,6 +83,30 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["x-auth-token"] = res.data.token;
       return { success: true };
     } catch (err) {
+      // If backend fails, fallback to LocalStorage mock DB
+      if (!err.response || err.response.status >= 500 || err.code === 'ECONNABORTED') {
+          console.warn("Backend unavailable. Falling back to LocalStorage Auth.");
+          const usersDB = JSON.parse(localStorage.getItem('mockUsers_DB') || '[]');
+          
+          if (usersDB.find(u => u.email === email)) {
+              return { success: false, error: "Email already registered in LocalStorage." };
+          }
+
+          const newUser = { id: Date.now().toString(), username, email, password, profileCompleted: false };
+          usersDB.push(newUser);
+          localStorage.setItem('mockUsers_DB', JSON.stringify(usersDB));
+
+          const fakeToken = "mock_token_" + Date.now();
+          const userData = { id: newUser.id, username: newUser.username, email: newUser.email, profileCompleted: newUser.profileCompleted };
+          
+          setToken(fakeToken);
+          setUser(userData);
+          localStorage.setItem("token", fakeToken);
+          localStorage.setItem("user", JSON.stringify(userData));
+          
+          return { success: true };
+      }
+
       return {
         success: false,
         error: err.response?.data?.msg || "Registration failed",
