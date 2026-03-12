@@ -167,7 +167,7 @@
 }
 
 .bubble-btn:hover {
-    background: white;
+    background: var(--bg-white);
     color: var(--secondary-color);
 }
 

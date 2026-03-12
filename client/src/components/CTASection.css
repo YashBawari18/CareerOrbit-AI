@@ -3,7 +3,7 @@
 }
 
 .cta-card {
-    background: var(--secondary-color);
+    background: var(--dark-section-bg);
     padding: 80px 60px;
     border-radius: var(--radius-lg);
     display: flex;

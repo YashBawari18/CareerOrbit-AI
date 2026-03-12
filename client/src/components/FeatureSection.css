@@ -22,7 +22,7 @@
 }
 
 .feature-card {
-    background: white;
+    background: var(--bg-white);
     padding: var(--card-padding);
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
@@ -74,7 +74,7 @@
 
 .feature-card:hover .feature-icon {
     transform: scale(1.1) rotate(5deg);
-    background: white;
+    background: var(--bg-white);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -114,7 +114,7 @@
 
 .feature-card-highlight {
     border: 2px solid var(--primary-color);
-    background: linear-gradient(to bottom right, #fff, rgba(255, 110, 20, 0.05));
+    background: linear-gradient(to bottom right, var(--bg-white), rgba(255, 110, 20, 0.05));
     box-shadow: var(--shadow-md);
 }
 

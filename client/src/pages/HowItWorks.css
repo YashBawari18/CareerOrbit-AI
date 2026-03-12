@@ -58,7 +58,7 @@
 }
 
 .step-content {
-    background: white;
+    background: var(--bg-white);
     padding: 40px;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);

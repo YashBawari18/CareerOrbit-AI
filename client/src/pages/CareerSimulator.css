@@ -13,7 +13,7 @@
 /* Controls */
 .sim-controls {
     padding: 30px;
-    background: white;
+    background: var(--bg-white);
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-lg);
 }
@@ -59,7 +59,7 @@
 }
 
 .toggle-btn.active {
-    background: white;
+    background: var(--bg-white);
     color: var(--primary-color);
     box-shadow: var(--shadow-sm);
 }
@@ -107,7 +107,7 @@
 
 .visual-card {
     padding: 24px;
-    background: white;
+    background: var(--bg-white);
     border-radius: var(--radius-lg);
 }
 
@@ -140,7 +140,7 @@
 .risk-card,
 .volatility-card {
     padding: 24px;
-    background: white;
+    background: var(--bg-white);
     border-radius: var(--radius-lg);
 }
 

@@ -1,5 +1,6 @@
 .platform-steps {
-    background: var(--bg-white);
+    background: var(--bg-light);
+    color: var(--text-main);
 }
 
 .steps-grid {
@@ -10,11 +11,22 @@
 }
 
 .step-card {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--card-padding);
     display: flex;
     flex-direction: column;
     gap: 20px;
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
 }
 
 .step-card:nth-child(1) {
@@ -56,6 +68,14 @@
 
 .step-card:last-child .step-line {
     display: none;
+}
+
+.platform-steps .section-header h2 {
+    color: var(--secondary-color);
+}
+
+.platform-steps .section-header p {
+    color: var(--text-secondary);
 }
 
 .step-content h3 {

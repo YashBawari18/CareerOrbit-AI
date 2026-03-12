@@ -17,7 +17,7 @@
 
 .chart-card-premium {
     padding: 32px;
-    background: white;
+    background: var(--bg-white);
     border: 1px solid var(--border-color);
 }
 
@@ -68,7 +68,7 @@
     border: 1px solid var(--glass-border);
     display: flex;
     flex-direction: column;
-    background: white;
+    background: var(--bg-white);
     padding: var(--card-padding);
 }
 
@@ -232,7 +232,7 @@
     padding: 10px 20px;
     border: 2px solid var(--border-color);
     border-radius: 50px;
-    background: white;
+    background: var(--bg-white);
     font-weight: 700;
     font-size: 0.9rem;
     color: var(--text-secondary);

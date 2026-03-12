@@ -40,7 +40,13 @@
     border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 0.95rem;
-    background: white;
+    background: var(--bg-white);
+    color: var(--text-main);
+}
+
+.filter-group select option {
+    background: var(--bg-white);
+    color: var(--text-main);
 }
 
 .courses-grid {

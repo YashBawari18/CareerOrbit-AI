@@ -28,7 +28,7 @@
 }
 
 .glass-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--glass-bg);
     backdrop-filter: blur(18px);
     border-radius: 18px;
     padding: var(--card-padding);
@@ -122,7 +122,7 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--bg-white);
     border: 3px solid var(--primary-color);
     box-shadow: 0 10px 20px rgba(15, 23, 42, 0.12);
     cursor: pointer;
@@ -242,7 +242,7 @@
 }
 
 .bg-grad-dark {
-    background: var(--grad-dark);
+    background: var(--grad-dark) !important;
 }
 
 .summary-chip {
@@ -263,7 +263,7 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 0.5rem;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .summary-item .res-value {

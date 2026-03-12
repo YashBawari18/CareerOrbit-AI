@@ -184,7 +184,7 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: white;
+    background: var(--bg-white);
     border: 2px solid var(--primary-color);
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

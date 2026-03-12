@@ -125,8 +125,8 @@ const EditSkills = () => {
                                                 fillOpacity={0.4}
                                             />
                                             <Tooltip
-                                                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                                                itemStyle={{ color: '#1A1A1A' }}
+                                                contentStyle={{ backgroundColor: 'var(--bg-white)', border: '1px solid #e0e0e0', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                                                itemStyle={{ color: 'var(--text-main)' }}
                                             />
                                         </RadarChart>
                                     </ResponsiveContainer>

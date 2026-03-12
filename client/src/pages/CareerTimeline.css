@@ -71,7 +71,7 @@
     width: 52px;
     height: 52px;
     border-radius: 16px;
-    background: white;
+    background: var(--bg-white);
     border: 3px solid var(--border-color);
     display: flex;
     align-items: center;

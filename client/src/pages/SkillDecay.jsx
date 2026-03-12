@@ -159,7 +159,7 @@ const SkillDecay = () => {
                                             <XAxis dataKey="month" stroke="#4F4F4F" axisLine={false} tickLine={false} dy={10} />
                                             <YAxis hide domain={[0, 100]} />
                                             <Tooltip
-                                                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px' }}
+                                                contentStyle={{ backgroundColor: 'var(--bg-white)', border: '1px solid #e0e0e0', borderRadius: '12px' }}
                                                 itemStyle={{ color: '#FF6E14' }}
                                             />
                                             <Line
@@ -193,7 +193,7 @@ const SkillDecay = () => {
                                                 fillOpacity={0.4}
                                             />
                                             <Tooltip
-                                                contentStyle={{ backgroundColor: '#fff', border: '1px solid #e0e0e0', borderRadius: '12px' }}
+                                                contentStyle={{ backgroundColor: 'var(--bg-white)', border: '1px solid #e0e0e0', borderRadius: '12px' }}
                                             />
                                         </RadarChart>
                                     </ResponsiveContainer>

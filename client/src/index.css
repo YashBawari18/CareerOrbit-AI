@@ -17,6 +17,7 @@
   /* Neutrals */
   --bg-white: #FFFFFF;
   --bg-light: #F7F8FA;
+  --dark-section-bg: #1A1A1A;
   --text-main: #1A1A1A;
   --text-secondary: #4F4F4F;
   --text-light: #828282;
@@ -43,6 +44,24 @@
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-blur: blur(12px);
+}
+
+[data-theme="dark"] {
+  --bg-white: #121212;
+  --bg-light: #1A1A1A;
+  --dark-section-bg: #0A0A0A;
+  --text-main: #F7F8FA;
+  --text-secondary: #E0E0E0;
+  --text-light: #A0A0A0;
+  --border-color: #333333;
+  --secondary-color: #FFFFFF;
+  
+  --glass-bg: rgba(18, 18, 18, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0px 8px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0px 16px 32px rgba(0, 0, 0, 0.6);
+  --shadow-premium: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
 /* Tablet / Mobile Token Overrides */
@@ -80,6 +99,18 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   width: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+select {
+  background-color: var(--bg-white);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+option {
+  background-color: var(--bg-white);
+  color: var(--text-main);
 }
 
 a {

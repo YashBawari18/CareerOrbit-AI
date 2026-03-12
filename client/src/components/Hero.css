@@ -145,7 +145,7 @@
 
 .fc-icon {
     font-size: 1.5rem;
-    background: white;
+    background: var(--bg-white);
     width: 40px;
     height: 40px;
     border-radius: 10px;
