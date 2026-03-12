@@ -11,13 +11,27 @@ Render will automatically read your `render.yaml` file and set up everything:
 2. Click **New +** and select **Blueprint**.
 3. Connect your GitHub/GitLab repository.
 4. Render will detect `render.yaml`. Click **Apply**.
-5. Render will automatically:
-   - Create a PostgreSQL database.
-   - Deploy your Node.js backend.
-   - Auto-restart the backend if it ever crashes.
-   - Use the `/health` endpoint to monitor uptime.
+5. Render will automatically setup the DB and Backend.
 
-## 3. Deployment to Vercel (For Frontend)
+> [!WARNING]
+> **Free Tier Limit Error?**
+> If you see `cannot have more than one active free tier database`, you must delete your old database on Render or follow the **Manual Setup** below.
+
+## 3. Manual Setup (If Blueprint Fails)
+If you already have a free database, follow these steps:
+
+### A. Create a New Web Service
+1. Click **New +** > **Web Service**.
+2. Connect your repo.
+3. Set **Root Directory** to `server`.
+4. Set **Build Command** to `npm install`.
+5. Set **Start Command** to `node server.js`.
+6. Go to **Environment** tab and add:
+   - `DATABASE_URL`: (Paste your existing PostgreSQL URL here)
+   - `JWT_SECRET`: (Random string)
+   - `PORT`: `10000`
+
+### B. Deployment to Vercel (For Frontend)
 Your frontend is likely optimized for Vercel:
 1. Log in to [Vercel](https://vercel.com).
 2. Import your repository.
