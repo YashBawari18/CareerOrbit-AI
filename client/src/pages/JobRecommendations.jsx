@@ -169,6 +169,54 @@ const JobRecommendations = () => {
             requiredSkills: ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js', 'SQL'],
             description: 'Launch your tech career with hands-on experience in digital transformation projects.',
             applyUrl: 'https://www.accenture.com/careers'
+        },
+        {
+            id: 13,
+            title: 'Senior Software Engineer',
+            company: 'Meta',
+            location: 'New York, USA',
+            salary: '$160,000 – $220,000',
+            jobType: 'Remote',
+            experience: 'Senior',
+            requiredSkills: ['React', 'JavaScript', 'System Design', 'GraphQL', 'Git'],
+            description: 'Lead the development of immersive social experiences for billions of users.',
+            applyUrl: 'https://metacareers.com'
+        },
+        {
+            id: 14,
+            title: 'Full Stack Developer',
+            company: 'Atlassian',
+            location: 'Sydney, Australia',
+            salary: '$120,000 – $180,000',
+            jobType: 'Hybrid',
+            experience: 'Mid-Level',
+            requiredSkills: ['React', 'Node.js', 'TypeScript', 'AWS', 'Git'],
+            description: 'Help build the future of team collaboration from our global headquarters.',
+            applyUrl: 'https://atlassian.com/careers'
+        },
+        {
+            id: 15,
+            title: 'Frontend Lead',
+            company: 'Spotify',
+            location: 'London, UK',
+            salary: '£80,000 – £120,000',
+            jobType: 'Remote',
+            experience: 'Senior',
+            requiredSkills: ['JavaScript', 'React', 'Performance', 'Web Audio', 'Git'],
+            description: 'Shape the future of music streaming for over 500 million listeners.',
+            applyUrl: 'https://spotify.com/jobs'
+        },
+        {
+            id: 16,
+            title: 'Staff Engineer',
+            company: 'Stripe',
+            location: 'San Francisco, USA',
+            salary: '$200,000 – $300,000',
+            jobType: 'Remote',
+            experience: 'Senior',
+            requiredSkills: ['Ruby', 'Java', 'REST APIs', 'System Design', 'Security'],
+            description: 'Build the economic infrastructure for the internet.',
+            applyUrl: 'https://stripe.com/jobs'
         }
     ], []);
 
@@ -361,14 +409,23 @@ const JobRecommendations = () => {
                                     <div className="location-divider"><span>OR</span></div>
 
                                     <select value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })}>
-                                        <option value="all">Select City</option>
-                                        <option value="bangalore">Bangalore</option>
-                                        <option value="hyderabad">Hyderabad</option>
-                                        <option value="pune">Pune</option>
-                                        <option value="mumbai">Mumbai</option>
-                                        <option value="chennai">Chennai</option>
-                                        <option value="gurugram">Gurugram</option>
-                                        <option value="mysore">Mysore</option>
+                                        <option value="all">Any City</option>
+                                        <optgroup label="India">
+                                            <option value="bangalore">Bangalore</option>
+                                            <option value="hyderabad">Hyderabad</option>
+                                            <option value="pune">Pune</option>
+                                            <option value="mumbai">Mumbai</option>
+                                            <option value="chennai">Chennai</option>
+                                            <option value="gurugram">Gurugram</option>
+                                        </optgroup>
+                                        <optgroup label="International">
+                                            <option value="new york">New York, USA</option>
+                                            <option value="san francisco">San Francisco, USA</option>
+                                            <option value="london">London, UK</option>
+                                            <option value="sydney">Sydney, Australia</option>
+                                            <option value="berlin">Berlin, Germany</option>
+                                            <option value="singapore">Singapore</option>
+                                        </optgroup>
                                     </select>
                                 </div>
 
