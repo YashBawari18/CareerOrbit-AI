@@ -6,12 +6,13 @@
 .recommendations-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
     margin-bottom: 3rem;
 }
 
 .role-card {
-    padding: 30px;
+    padding: var(--card-padding);
 }
 
 .role-header {

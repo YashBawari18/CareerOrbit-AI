@@ -5,8 +5,8 @@
 .steps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    margin-top: 60px;
+    gap: var(--grid-gap);
+    margin-top: var(--section-margin);
 }
 
 .step-card {

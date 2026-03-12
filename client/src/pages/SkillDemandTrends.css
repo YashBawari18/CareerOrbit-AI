@@ -32,7 +32,7 @@
 .top-row {
     display: grid;
     grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.5fr);
-    gap: 1.75rem;
+    gap: var(--grid-gap);
     margin-bottom: 2.5rem;
     opacity: 0;
     transform: translateY(24px);
@@ -54,7 +54,7 @@
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(18px);
     border-radius: 18px;
-    padding: 1.5rem 1.7rem;
+    padding: var(--card-padding);
     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
@@ -184,7 +184,7 @@
 .skills-trend-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
+    gap: var(--grid-gap);
     margin-bottom: 3rem;
 }
 
@@ -408,7 +408,7 @@
 .market-comparison-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 1.25rem;
+    gap: var(--grid-gap);
 }
 
 .comparison-item {
@@ -551,21 +551,29 @@
         align-items: stretch;
     }
 
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+
     .skills-trend-grid {
         grid-template-columns: 1fr;
     }
 
     .skill-metrics {
         flex-direction: column;
+        gap: 1rem;
     }
 
     .section-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 1rem;
     }
 
     .dashboard-actions {
         flex-direction: column;
+        width: 100%;
     }
 
     .dashboard-actions .btn {
@@ -573,6 +581,22 @@
     }
 
     .glass-card {
-        padding: 1.3rem 1.4rem;
+        padding: 1.25rem;
+    }
+
+    .macro-title {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ci-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
     }
 }

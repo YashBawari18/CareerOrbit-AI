@@ -172,7 +172,12 @@ const RecommendedCourses = () => {
 
                                         <div className="course-footer">
                                             <div className="course-price">{course.price}</div>
-                                            <button className="btn btn-primary">Enroll Path →</button>
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => alert(`Enrolling in ${course.title}...`)}
+                                            >
+                                                Enroll Path →
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
