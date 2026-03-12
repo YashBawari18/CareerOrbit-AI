@@ -11,7 +11,7 @@
 - **Skill Decay Tracking**: Automated tracking of technical skill half-life to identify when it's time to upskill.
 - **Non-Linear Career Roadmaps**: Tailored paths that account for jumps across sectors, roles, and geographies.
 - **Algorithmic Fairness**: Built-in fairness metrics to ensure career opportunities are equitable across all demographics.
-- **Premium User Experience**: Immersive design featuring glassmorphism, cinematic animations with Framer Motion, and a refined light-mode aesthetic.
+- **Premium User Experience**: Immersive design featuring glassmorphism, cinematic animations with Framer Motion and a refined light-mode aesthetic.
 
 ---
 
