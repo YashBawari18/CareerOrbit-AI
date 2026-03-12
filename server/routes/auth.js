@@ -1,117 +1,146 @@
 const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+const router = express.Router();
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const User = require("../models/UserPG"); // Sequelize model
 
-// Load environment variables FIRST
-const result = dotenv.config();
-if (result.error) {
-    console.error("❌ Failed to load .env file:", result.error);
-}
+// In-memory Mock Store for when DB is down
+const mockUsers = [];
 
-const sequelize = require("./config/database");
-
-const app = express();
-
-/* -------------------- MIDDLEWARE -------------------- */
-app.use(express.json());
-
-app.use(
-    cors({
-        origin: [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://career-orbit-ai.vercel.app"
-        ],
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true
-    })
-);
-
-/* -------------------- GLOBAL DB STATUS -------------------- */
-let pgConnected = false;
-
-// Inject DB status into request
-app.use((req, res, next) => {
-    req.dbConnected = pgConnected;
-    next();
-});
-
-/* -------------------- ROOT ROUTE -------------------- */
-// Fixes "Cannot GET /"
-app.get("/", (req, res) => {
-    res.status(200).json({
-        message: "CareerOrbit API is running",
-        endpoints: [
-            "/health",
-            "/api/status",
-            "/api/auth/register",
-            "/api/auth/login"
-        ]
-    });
-});
-
-/* -------------------- HEALTH CHECK -------------------- */
-app.get("/health", (req, res) => {
-    res.status(200).json({
-        status: "ok",
-        postgres: pgConnected
-    });
-});
-
-/* -------------------- ROUTES -------------------- */
-const authRoutes = require("./routes/auth");
-
-// All auth routes are /api/auth/*
-app.use("/api/auth", authRoutes);
-
-app.get("/api/status", (req, res) => {
-    res.json({
-        status: "online",
-        database: pgConnected ? "postgresql" : "mock_mode"
-    });
-});
-
-/* -------------------- ERROR SAFETY -------------------- */
-process.on("unhandledRejection", (reason, promise) => {
-    console.error("❌ Unhandled Rejection:", reason);
-});
-
-process.on("uncaughtException", (err) => {
-    console.error("❌ Uncaught Exception:", err);
-    process.exit(1);
-});
-
-/* -------------------- START SYSTEM -------------------- */
-const startSystem = async () => {
-    try {
-        console.log("📡 Attempting PostgreSQL connection...");
-        await sequelize.authenticate();
-        pgConnected = true;
-
-        await sequelize.sync({ alter: true });
-        console.log("✅ PostgreSQL Connected & Synced");
-    } catch (err) {
-        console.warn("⚠️ PostgreSQL connection failed. Running in MOCK MODE.");
-        pgConnected = false;
-    }
-
-    const PORT = process.env.PORT || 5000;
-    console.log(`🔍 Environment PORT: ${process.env.PORT || "not provided"}`);
-
-    const server = app.listen(PORT, () => {
-        console.log(`🚀 CareerOrbit API running on port ${PORT}`);
-        if (!pgConnected) {
-            console.log("🛡️ MOCK MODE ACTIVE: No persistent DB session");
-        }
-    });
-
-    server.on("error", (err) => {
-        if (err.code === "EADDRINUSE") {
-            console.error(`❌ Port ${PORT} already in use`);
-        } else {
-            console.error("❌ Server error:", err);
-        }
-    });
+// Helper to sign JWT
+const signToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
 };
 
-startSystem();
+// @route   POST /api/auth/register
+router.post("/register", async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+
+        if (!username || !email || !password) {
+            return res.status(400).json({ msg: "Please provide username, email, and password" });
+        }
+
+        // MOCK MODE: when PostgreSQL is not connected
+        if (!req.dbConnected) {
+            const existing = mockUsers.find((u) => u.email === email);
+            if (existing) {
+                return res.status(400).json({ msg: "User already exists (Mock Store)" });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password: hashedPassword,
+                profileCompleted: false
+            };
+            mockUsers.push(newUser);
+
+            const token = signToken(newUser.id);
+
+            return res.json({
+                token,
+                user: { id: newUser.id, username, email, profileCompleted: newUser.profileCompleted },
+                mock: true
+            });
+        }
+
+        // REAL PostgreSQL logic
+        let user = await User.findOne({ where: { email } });
+        if (user) {
+            return res.status(400).json({ msg: "User already exists" });
+        }
+
+        // Hash password before storing (if your model does not already hash)
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user = await User.create({
+            username,
+            email,
+            password: hashedPassword
+        });
+
+        const token = signToken(user.id);
+
+        return res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profileCompleted: user.profileCompleted
+            }
+        });
+    } catch (err) {
+        console.error("Registration Error:", err);
+        res.status(500).send("Server Error during registration");
+    }
+});
+
+// @route   POST /api/auth/login
+router.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ msg: "Please provide email and password" });
+        }
+
+        // MOCK MODE
+        if (!req.dbConnected) {
+            const user = mockUsers.find((u) => u.email === email);
+            if (!user) {
+                return res.status(400).json({ msg: "Invalid credentials (Mock Store)" });
+            }
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ msg: "Invalid credentials" });
+            }
+
+            const token = signToken(user.id);
+
+            return res.json({
+                token,
+                user: {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    profileCompleted: user.profileCompleted
+                },
+                mock: true
+            });
+        }
+
+        // REAL PostgreSQL logic
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return res.status(400).json({ msg: "Invalid credentials" });
+        }
+
+        // If your Sequelize model has a comparePassword method:
+        // const isMatch = await user.comparePassword(password);
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Invalid credentials" });
+        }
+
+        const token = signToken(user.id);
+
+        return res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                profileCompleted: user.profileCompleted
+            }
+        });
+    } catch (err) {
+        console.error("Login Error:", err);
+        res.status(500).send("Server Error during login");
+    }
+});
+
+module.exports = router;
