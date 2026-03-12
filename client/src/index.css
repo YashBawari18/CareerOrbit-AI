@@ -1,9 +1,11 @@
 :root {
   /* Brand Colors */
   --primary-color: #FF6E14;
+  --primary-rgb: 255, 110, 20;
   /* Vibrant Orange */
   --primary-hover: #e55e0c;
   --secondary-color: #1A1A1A;
+  --secondary-rgb: 26, 26, 26;
   /* Dark Charcoal */
   --accent-color: #0056D2;
   /* Trust Blue */
