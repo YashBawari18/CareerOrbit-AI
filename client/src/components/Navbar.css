@@ -19,11 +19,10 @@
     height: 100%;
 }
 
-@media (min-width: 1025px) {
-
+@media (min-width: 1241px) {
     .brand-logo {
         flex: 0 0 auto;
-        min-width: 200px;
+        min-width: 180px;
     }
 
     .desktop-menu {
@@ -33,7 +32,7 @@
 
     .desktop-actions {
         flex: 0 0 auto;
-        min-width: 280px;
+        min-width: 260px;
         justify-content: flex-end;
     }
 
@@ -69,9 +68,10 @@
 /* Desktop Menu */
 .desktop-menu {
     display: flex;
-    gap: 20px;
+    gap: clamp(10px, 1.5vw, 20px);
     align-items: center;
     height: 100%;
+    flex-wrap: nowrap;
 }
 
 .nav-item {
@@ -82,11 +82,11 @@
 }
 
 .nav-link {
-    font-size: 0.95rem;
+    font-size: clamp(0.85rem, 0.8vw + 0.1rem, 0.95rem);
     font-weight: 500;
     color: var(--text-main);
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 8px clamp(6px, 0.8vw, 12px);
     border-radius: 6px;
     transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
@@ -148,7 +148,7 @@
 .desktop-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: clamp(6px, 1vw, 12px);
 }
 
 .user-welcome {
@@ -311,7 +311,7 @@
     width: 100%;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1240px) {
 
     .desktop-menu,
     .desktop-actions {

@@ -86,13 +86,13 @@ const Navbar = () => {
   };
 
   const handleMouseEnter = (label) => {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 1240) {
       setActiveDropdown(label);
     }
   };
 
   const handleMouseLeave = () => {
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 1240) {
       setActiveDropdown(null);
     }
   };

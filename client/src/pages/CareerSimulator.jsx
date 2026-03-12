@@ -141,11 +141,12 @@ const CareerSimulator = () => {
                                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
                                                 <Tooltip
                                                     contentStyle={{
-                                                        backgroundColor: 'rgba(20, 20, 25, 0.95)',
-                                                        borderColor: 'rgba(255,255,255,0.1)',
+                                                        backgroundColor: 'var(--bg-white)',
+                                                        borderColor: 'var(--border-color)',
                                                         borderRadius: '8px',
-                                                        color: '#fff'
+                                                        color: 'var(--text-main)'
                                                     }}
+                                                    itemStyle={{ color: 'var(--text-main)' }}
                                                     formatter={(val) => `$${val.toLocaleString()}`}
                                                 />
                                                 <Area type="monotone" dataKey="simulated" stroke="#ff6b00" fillOpacity={1} fill="url(#colorSim)" name="Optimized Path" />
@@ -170,10 +171,12 @@ const CareerSimulator = () => {
                                                     />
                                                     <Tooltip
                                                         contentStyle={{
-                                                            backgroundColor: 'rgba(0,0,0,0.8)',
+                                                            backgroundColor: 'var(--bg-white)',
+                                                            borderColor: 'var(--border-color)',
                                                             borderRadius: '8px',
-                                                            color: '#fff'
+                                                            color: 'var(--text-main)'
                                                         }}
+                                                        itemStyle={{ color: 'var(--text-main)' }}
                                                     />
                                                 </RadialBarChart>
                                             </ResponsiveContainer>
