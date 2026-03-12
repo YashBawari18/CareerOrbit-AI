@@ -6,6 +6,41 @@ import PageHeader from '../components/PageHeader';
 import './CareerTimeline.css';
 
 const CareerTimeline = () => {
+    const timelineRef = React.useRef(null);
+    const [lineHeight, setLineHeight] = React.useState(0);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            if (timelineRef.current) {
+                const rect = timelineRef.current.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const elementTop = rect.top;
+                const elementHeight = rect.height;
+
+                // Calculate how much of the element is visible/scrolled past
+                // We start animating when the top enters the middle of the screen
+                const startOffset = windowHeight / 2;
+
+                let progress = 0;
+
+                if (elementTop < startOffset) {
+                    const scrolled = startOffset - elementTop;
+                    progress = (scrolled / elementHeight) * 100;
+                }
+
+                // Clamp between 0 and 100
+                progress = Math.min(Math.max(progress, 0), 100);
+                setLineHeight(progress);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Initial calculation
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const milestones = [
         {
             id: 1,
@@ -68,10 +103,16 @@ const CareerTimeline = () => {
                 <section className="timeline-content section-padding">
                     <div className="container">
 
-                        <div className="timeline-wrapper">
+                        <div className="timeline-wrapper" ref={timelineRef}>
                             <div className="timeline-line"></div>
+                            <div
+                                className="timeline-progress"
+                                style={{ height: `${lineHeight}%` }}
+                            >
+                                <div className="timeline-traveler">🚀</div>
+                            </div>
 
-                            {milestones.map((milestone, index) => (
+                            {milestones.map((milestone) => (
                                 <div key={milestone.id} className={`timeline-item ${milestone.status}`}>
                                     <div className="timeline-marker">
                                         <div className="marker-dot"></div>

@@ -21,6 +21,40 @@
     opacity: 0.2;
 }
 
+.timeline-progress {
+    position: absolute;
+    left: 40px;
+    top: 0;
+    width: 4px;
+    background: var(--primary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+    border-radius: 10px;
+    z-index: 1;
+    transition: height 0.1s linear;
+}
+
+.timeline-traveler {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    filter: drop-shadow(0 0 10px rgba(255, 110, 20, 0.5));
+    animation: float-rocket 2s ease-in-out infinite;
+}
+
+@keyframes float-rocket {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
 .timeline-item {
     position: relative;
     padding-left: 100px;
@@ -152,7 +186,9 @@
 }
 
 @media (max-width: 768px) {
-    .timeline-line {
+
+    .timeline-line,
+    .timeline-progress {
         left: 20px;
     }
 
