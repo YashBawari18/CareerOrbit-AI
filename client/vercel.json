@@ -1,9 +1,8 @@
 {
-    "trailingSlash": false,
-    "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+  "rewrites": [
+    {
+      "source": "/((?!api/|static/|favicon-3d.png|orbit-ai-logo.png|vite.svg).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
