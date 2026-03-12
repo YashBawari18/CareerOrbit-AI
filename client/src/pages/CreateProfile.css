@@ -240,6 +240,31 @@
     border-radius: var(--radius-sm);
 }
 
+/* Resume parser divider */
+.skills-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.skills-divider::before,
+.skills-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.skills-divider span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
 /* Completion Message */
 .completion-message {
     text-align: center;

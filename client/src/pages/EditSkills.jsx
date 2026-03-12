@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import SkillTag from '../components/SkillTag';
 import PageHeader from '../components/PageHeader';
+import ResumeParser from '../components/ResumeParser';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     ResponsiveContainer,
@@ -55,6 +56,18 @@ const EditSkills = () => {
             handleAddSkill(selectedCategory, searchTerm.trim());
             setSearchTerm('');
         }
+    };
+
+    const handleResumeSkills = (groupedSkills) => {
+        setSkills(prev => {
+            const updated = { ...prev };
+            Object.entries(groupedSkills).forEach(([category, newSkills]) => {
+                if (updated[category]) {
+                    updated[category] = [...new Set([...updated[category], ...newSkills])];
+                }
+            });
+            return updated;
+        });
     };
 
     const categoryConfig = {
@@ -133,6 +146,17 @@ const EditSkills = () => {
                                 </div>
                             </motion.div>
                         </div>
+
+                        {/* Resume Parser */}
+                        <motion.div className="resume-upload-card glass-card mb-8" {...fadeIn} transition={{ delay: 0.25 }}>
+                            <div className="section-header-premium">
+                                <h2>⚡ Auto-Import from Resume</h2>
+                                <p>Upload your CV and we'll instantly detect and add all your skills.</p>
+                            </div>
+                            <div style={{ marginTop: '16px' }}>
+                                <ResumeParser onSkillsDetected={handleResumeSkills} />
+                            </div>
+                        </motion.div>
 
                         {/* Add Skills Section */}
                         <motion.div className="add-skills-card glass-card mb-12" {...fadeIn} transition={{ delay: 0.3 }}>

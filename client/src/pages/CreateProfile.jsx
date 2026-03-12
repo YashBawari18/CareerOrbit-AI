@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PageHeader from '../components/PageHeader';
+import ResumeParser from '../components/ResumeParser';
 import './CreateProfile.css';
 
 const CreateProfile = () => {
@@ -82,6 +83,15 @@ const CreateProfile = () => {
         if (currentStep > 1) {
             setCurrentStep(currentStep - 1);
         }
+    };
+
+    const handleResumeSkills = (groupedSkills) => {
+        // groupedSkills: { technical: [...], tools: [...], soft: [...], languages: [...] }
+        const allSkills = Object.values(groupedSkills).flat();
+        setFormData(prev => ({
+            ...prev,
+            selectedSkills: [...new Set([...prev.selectedSkills, ...allSkills])]
+        }));
     };
 
     const handleSubmit = (e) => {
@@ -219,7 +229,13 @@ const CreateProfile = () => {
                                 {currentStep === 2 && (
                                     <div className="form-step">
                                         <h2 className="step-title">What are your skills?</h2>
-                                        <p className="step-description">Select all that apply. You can add more later.</p>
+                                        <p className="step-description">Upload your resume to auto-detect skills, or select manually below.</p>
+
+                                        <ResumeParser onSkillsDetected={handleResumeSkills} />
+
+                                        <div className="skills-divider">
+                                            <span>or select manually</span>
+                                        </div>
 
                                         <div className="skills-selection">
                                             <div className="skills-grid">
