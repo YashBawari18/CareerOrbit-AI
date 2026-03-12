@@ -49,14 +49,19 @@ const HomeAnalytics = () => {
                                     <stop offset="95%" stopColor="#ff6b00" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-color)" opacity={0.5} />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: 'rgba(20, 20, 25, 0.95)',
-                                    borderColor: 'rgba(255,255,255,0.1)',
-                                    borderRadius: '8px',
-                                    color: '#fff'
+                                    backgroundColor: 'var(--bg-white)',
+                                    borderColor: 'var(--border-color)',
+                                    borderRadius: '12px',
+                                    color: 'var(--text-main)',
+                                    boxShadow: 'var(--shadow-md)',
+                                    border: '1px solid var(--border-color)',
+                                    padding: '12px'
                                 }}
+                                itemStyle={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
+                                labelStyle={{ color: 'var(--text-light)', marginBottom: '4px' }}
                             />
                             <Area
                                 type="monotone"
@@ -71,7 +76,7 @@ const HomeAnalytics = () => {
                             <Area
                                 type="monotone"
                                 dataKey="baseline"
-                                stroke="#ffffff"
+                                stroke="var(--text-light)"
                                 strokeOpacity={0.3}
                                 fill="transparent"
                                 strokeDasharray="5 5"
@@ -91,15 +96,15 @@ const HomeAnalytics = () => {
                 <div className="ha-chart-container">
                     <ResponsiveContainer width="100%" height={220}>
                         <RadarChart cx="50%" cy="50%" outerRadius="70%" data={skillData}>
-                            <PolarGrid stroke="rgba(255,255,255,0.1)" />
-                            <PolarAngleAxis dataKey="subject" tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 10 }} />
+                            <PolarGrid stroke="var(--border-color)" opacity={0.5} />
+                            <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--text-main)', fontSize: 10, fontWeight: 500 }} />
                             <PolarRadiusAxis angle={30} domain={[0, 150]} tick={false} axisLine={false} />
                             <Radar
                                 name="Current Profile"
                                 dataKey="A"
-                                stroke="#1a237e"
+                                stroke="var(--primary-color)"
                                 strokeWidth={2}
-                                fill="#1a237e"
+                                fill="var(--primary-color)"
                                 fillOpacity={0.4}
                                 animationDuration={1500}
                             />
@@ -116,29 +121,45 @@ const HomeAnalytics = () => {
                     width: 100%;
                 }
                 .ha-card {
-                    padding: 20px;
-                    border-radius: 16px;
+                    padding: 2.5rem; /* Increased padding for premium feel */
+                    border-radius: 24px;
+                    background: var(--bg-white);
+                    border: 1px solid var(--border-color);
+                    box-shadow: var(--shadow-sm);
+                    transition: all 0.3s ease;
+                }
+                [data-theme="dark"] .ha-card {
                     background: rgba(255, 255, 255, 0.03);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(10px);
+                }
+                .ha-card:hover {
+                    box-shadow: var(--shadow-md);
+                    transform: translateY(-2px);
                 }
                 .ha-header {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    margin-bottom: 20px;
+                    margin-bottom: 24px;
                 }
                 .ha-header h4 {
                     margin: 0;
-                    font-size: 1rem;
+                    font-size: 1.1rem;
+                    font-weight: 800;
                     color: var(--text-main);
                 }
                 .ha-badge {
                     font-size: 0.75rem;
-                    background: rgba(255, 107, 0, 0.1);
+                    background: rgba(255, 110, 20, 0.1);
                     color: var(--primary-color);
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    font-weight: 600;
+                    padding: 6px 12px;
+                    border-radius: 100px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.02em;
+                }
+                .ha-chart-container {
+                   margin: 0 -10px; /* Slight overflow correction for Recharts */
                 }
             `}</style>
         </div>

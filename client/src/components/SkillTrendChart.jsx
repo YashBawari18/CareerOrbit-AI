@@ -39,28 +39,31 @@ const SkillTrendChart = () => {
                             <stop offset="95%" stopColor="var(--primary-color, #ff6b00)" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-color)" opacity={0.5} />
                     <XAxis
                         dataKey="year"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 12 }}
+                        tick={{ fill: 'var(--text-light)', fontSize: 12 }}
                     />
                     <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(255,255,255,0.6)', fontSize: 12 }}
+                        tick={{ fill: 'var(--text-light)', fontSize: 12 }}
                     />
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: 'rgba(20, 20, 25, 0.95)',
-                            borderColor: 'var(--border-color, rgba(255,255,255,0.1))',
-                            borderRadius: '8px',
-                            color: '#fff',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                            backgroundColor: 'var(--bg-white)',
+                            borderColor: 'var(--border-color)',
+                            borderRadius: '12px',
+                            color: 'var(--text-main)',
+                            boxShadow: 'var(--shadow-md)',
+                            border: '1px solid var(--border-color)',
+                            padding: '12px'
                         }}
-                        itemStyle={{ color: '#fff' }}
-                        cursor={{ stroke: 'rgba(255,255,255,0.2)' }}
+                        itemStyle={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
+                        labelStyle={{ color: 'var(--text-light)', marginBottom: '4px' }}
+                        cursor={{ stroke: 'var(--primary-color)', strokeWidth: 1, strokeDasharray: '4 4' }}
                     />
                     <Area
                         type="monotone"

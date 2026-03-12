@@ -34,24 +34,29 @@ const SkillGrowthChart = () => {
                         bottom: 5,
                     }}
                 >
-                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="rgba(255,255,255,0.1)" />
+                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--border-color)" opacity={0.5} />
                     <XAxis type="number" hide />
                     <YAxis
                         dataKey="name"
                         type="category"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 500 }}
+                        tick={{ fill: 'var(--text-main)', fontSize: 12, fontWeight: 500 }}
                         width={80}
                     />
                     <Tooltip
-                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                        cursor={{ fill: 'var(--primary-color)', fillOpacity: 0.1 }}
                         contentStyle={{
-                            backgroundColor: 'rgba(20, 20, 25, 0.95)',
-                            borderColor: 'var(--border-color, rgba(255,255,255,0.1))',
-                            borderRadius: '8px',
-                            color: '#fff',
+                            backgroundColor: 'var(--bg-white)',
+                            borderColor: 'var(--border-color)',
+                            borderRadius: '12px',
+                            color: 'var(--text-main)',
+                            boxShadow: 'var(--shadow-md)',
+                            border: '1px solid var(--border-color)',
+                            padding: '12px'
                         }}
+                        itemStyle={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
+                        labelStyle={{ color: 'var(--text-light)', marginBottom: '4px' }}
                         formatter={(value) => [`+${value}%`, 'Growth Rate']}
                     />
                     <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={20} animationDuration={1500}>

@@ -11,7 +11,7 @@
   /* Gradients */
   --grad-primary: linear-gradient(135deg, #FF6E14 0%, #FF8C42 100%);
   --grad-dark: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
-  --grad-blue: linear-gradient(135deg, #0056D2 0%, #3B82F6 100%);
+  --grad-blue: linear-gradient(135deg, rgb(26, 26, 26), rgb(45, 45, 45));
   --grad-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
 
   /* Neutrals */
@@ -55,7 +55,7 @@
   --text-light: #A0A0A0;
   --border-color: #333333;
   --secondary-color: #FFFFFF;
-  
+
   --glass-bg: rgba(18, 18, 18, 0.7);
   --glass-border: rgba(255, 255, 255, 0.1);
   --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.3);

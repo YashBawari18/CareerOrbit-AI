@@ -20,11 +20,15 @@
 }
 
 .grad-primary {
-    background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+    background: var(--grad-primary);
 }
 
 .grad-blue {
-    background: linear-gradient(135deg, #001F4D 0%, #003380 100%);
+    background: var(--grad-blue);
+}
+
+.grad-black {
+    background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
 }
 
 .grad-green {

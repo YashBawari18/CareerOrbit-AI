@@ -36,7 +36,7 @@
 
 .progress-line {
     position: absolute;
-    top: 50%;
+    top: 24px; /* Exactly half of 48px step-number height */
     left: 24px;
     right: 24px;
     height: 4px;
@@ -64,38 +64,52 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 48px;
+    height: 48px;
     flex-shrink: 0;
 }
 
 .step-number {
     width: 48px;
     height: 48px;
-    border-radius: 12px;
-    background: var(--bg-white);
+    border-radius: 14px; /* Restored previous rounded square shape */
+    background: #ffffff !important;
     border: 3px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
+    font-size: 1.1rem;
     color: var(--text-light);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-sm);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 0;
+    position: relative;
+    z-index: 3;
 }
 
-.step-indicator.active .step-number {
+/* Completed Steps */
+.step-indicator.active:not(.current) .step-number {
+    background: var(--primary-color) !important;
     border-color: var(--primary-color);
-    color: var(--primary-color);
-    background: rgba(255, 110, 20, 0.05);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(255, 110, 20, 0.2);
 }
 
+/* Current Step */
 .step-indicator.current .step-number {
-    background: var(--primary-color);
+    background: var(--primary-color) !important;
     border-color: var(--primary-color);
-    color: white;
-    box-shadow: 0 10px 20px rgba(255, 110, 20, 0.3);
+    color: white !important;
+    box-shadow: 0 10px 25px rgba(255, 110, 20, 0.4);
+    transform: scale(1.1); /* Highlight current step */
+}
+
+/* Hover effect for interactivity */
+.step-indicator .step-number:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 /* Removed step-label styles as they are no longer used */
@@ -400,36 +414,109 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .profile-form-section {
+        padding-top: 20px;
+        padding-bottom: 120px; /* Extra padding for chatbot breathing room */
+    }
+
     .form-card {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.25rem;
+        border-radius: var(--radius-md);
     }
 
     .form-grid {
         grid-template-columns: 1fr;
+        gap: 1.25rem;
     }
 
     .step-progress {
-        padding: 0 10px;
-    }
-
-    .step-label {
-        font-size: 0.75rem;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 2.5rem;
+        padding: 0 40px;
+        justify-content: space-between;
     }
 
     .step-number {
-        width: 35px;
-        height: 35px;
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+        border-width: 2px;
+    }
+
+    .progress-line {
+        top: 19px;
+        left: 40px;
+        right: 40px;
+    }
+
+    .step-title {
+        font-size: 1.5rem;
     }
 
     .skills-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .skill-pill {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .cert-form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .cert-input-date {
+        flex: 1;
     }
 
     .form-actions {
-        flex-direction: column;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .btn-primary, .btn-outline {
+        width: 100%;
     }
 
     .spacer {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-card {
+        padding: 1.5rem 1rem;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+    }
+
+    .step-progress {
+        padding: 0 30px;
+    }
+
+    .step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+    }
+
+    .progress-line {
+        top: 16px;
+        left: 30px;
+        right: 30px;
+    }
+
+    .step-title {
+        font-size: 1.3rem;
+    }
+
+    .step-description {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
     }
 }

@@ -66,9 +66,10 @@
     background: var(--border-color);
 }
 
-.step-card:last-child .step-line {
+/* Removed hiding of last step line to maintain visual consistency across all cards */
+/* .step-card:last-child .step-line {
     display: none;
-}
+} */
 
 .platform-steps .section-header h2 {
     color: var(--secondary-color);

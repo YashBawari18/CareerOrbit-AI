@@ -115,7 +115,7 @@ const SkillGapAnalysis = () => {
 
                         <div className="action-section glass-card mt-8 p-8 text-center">
                             <h2 className="mb-4">Ready to close the distance?</h2>
-                            <div className="action-buttons">
+                            <div className="action-buttons" style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
                                 <Link to="/learning/courses" className="btn btn-primary btn-lg">
                                     Browse Curated Courses
                                 </Link>

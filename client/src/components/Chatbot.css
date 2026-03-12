@@ -276,8 +276,21 @@
 }
 
 @media (max-width: 480px) {
+    .chatbot-wrapper {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .chat-toggle {
+        width: 52px;
+        height: 52px;
+        font-size: 1.2rem;
+    }
+
     .chat-window {
         width: calc(100vw - 40px);
         right: -10px;
+        height: 500px;
+        bottom: 70px;
     }
 }

@@ -115,7 +115,7 @@ const FairnessMetrics = () => {
                     title="Platform Equity Audit"
                     subtitle="Quantifying our commitment to radical transparency and equal opportunity access."
                     badge="Integrity 2.0"
-                    gradient="blue"
+                    gradient="black"
                 />
 
                 <section className="fairness-content section-padding pb-12">
