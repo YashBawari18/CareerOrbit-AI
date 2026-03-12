@@ -24,7 +24,8 @@ const RecommendedCourses = () => {
             students: '45,000',
             price: '$89.99',
             level: 'Intermediate',
-            description: 'Master the fundamentals of system design and architecture'
+            description: 'Master the fundamentals of system design and architecture',
+            courseUrl: 'https://www.udemy.com/course/system-design-fundamentals/'
         },
         {
             id: 2,
@@ -36,7 +37,8 @@ const RecommendedCourses = () => {
             students: '32,000',
             price: '$49.99',
             level: 'Beginner',
-            description: 'Learn TypeScript from scratch to advanced concepts'
+            description: 'Learn TypeScript from scratch to advanced concepts',
+            courseUrl: 'https://www.coursera.org/learn/learn-typescript'
         },
         {
             id: 3,
@@ -48,7 +50,8 @@ const RecommendedCourses = () => {
             students: '18,000',
             price: 'Subscription',
             level: 'Intermediate',
-            description: 'Comprehensive testing strategies for React apps'
+            description: 'Comprehensive testing strategies for React apps',
+            courseUrl: 'https://frontendmasters.com/courses/react-testing/'
         },
         {
             id: 4,
@@ -60,7 +63,8 @@ const RecommendedCourses = () => {
             students: '25,000',
             price: 'Subscription',
             level: 'Intermediate',
-            description: 'Automate your deployment pipeline with GitHub Actions'
+            description: 'Automate your deployment pipeline with GitHub Actions',
+            courseUrl: 'https://www.linkedin.com/learning/github-actions-concepts-and-practices'
         },
         {
             id: 5,
@@ -72,7 +76,8 @@ const RecommendedCourses = () => {
             students: '55,000',
             price: '$94.99',
             level: 'Advanced',
-            description: 'Deep dive into Node.js performance and scalability'
+            description: 'Deep dive into Node.js performance and scalability',
+            courseUrl: 'https://www.udemy.com/course/advanced-node-js-development/'
         },
         {
             id: 6,
@@ -84,7 +89,8 @@ const RecommendedCourses = () => {
             students: '12,000',
             price: 'Subscription',
             level: 'All Levels',
-            description: 'Develop leadership skills for technical roles'
+            description: 'Develop leadership skills for technical roles',
+            courseUrl: 'https://www.pluralsight.com/courses/leadership-engineers'
         }
     ];
 
@@ -174,7 +180,7 @@ const RecommendedCourses = () => {
                                             <div className="course-price">{course.price}</div>
                                             <button
                                                 className="btn btn-primary"
-                                                onClick={() => alert(`Enrolling in ${course.title}...`)}
+                                                onClick={() => window.open(course.courseUrl, '_blank', 'noopener,noreferrer')}
                                             >
                                                 Enroll Path →
                                             </button>
