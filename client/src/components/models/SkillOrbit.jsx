@@ -49,8 +49,12 @@ function Planet({ data }) {
         return { curve, points };
     }, [distance]);
 
-    const initialAngle = useMemo(() => Math.random() * Math.PI * 2, []);
-    const tilt = useMemo(() => (Math.random() - 0.5) * 0.3, []); // Subtle random tilt
+    const [randomValues] = React.useState(() => ({
+        initialAngle: Math.random() * Math.PI * 2,
+        tilt: (Math.random() - 0.5) * 0.3
+    }));
+
+    const { initialAngle, tilt } = randomValues;
 
     useFrame(({ clock }) => {
         // Higher resolution time for smoother motion

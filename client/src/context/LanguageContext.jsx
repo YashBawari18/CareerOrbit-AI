@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 
 const LanguageContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const LANGUAGES = [
   { code: 'en',    name: 'English',    nativeName: 'English',    flag: '🇬🇧' },
   { code: 'hi',    name: 'Hindi',      nativeName: 'हिन्दी',      flag: '🇮🇳' },
@@ -50,6 +51,7 @@ export function LanguageProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLanguage() {
   const ctx = useContext(LanguageContext);
   if (!ctx) throw new Error('useLanguage must be used within LanguageProvider');

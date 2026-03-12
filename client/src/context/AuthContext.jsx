@@ -3,12 +3,16 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [token, setToken] = useState(localStorage.getItem("token"));
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
 
   // In client/src/context/AuthContext.jsx
   const API_URL =
@@ -20,12 +24,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       // Set axios defaults
       axios.defaults.headers.common["x-auth-token"] = token;
-      // Fetch current user or validate token if needed
-      // For now, we trust the token stored in localStorage for basic UI
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) setUser(JSON.parse(storedUser));
     }
-    setLoading(false);
   }, [token]);
 
   const login = async (email, password) => {

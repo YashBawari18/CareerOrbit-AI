@@ -17,6 +17,13 @@ import {
 } from 'recharts';
 import './EditSkills.css';
 
+const categoryConfig = {
+    technical: { label: 'Technical', icon: '💻', color: 'technical' },
+    soft: { label: 'Soft', icon: '🤝', color: 'soft' },
+    tools: { label: 'Tools', icon: '🛠️', color: 'tools' },
+    languages: { label: 'Languages', icon: '🌍', color: 'languages' }
+};
+
 const EditSkills = () => {
     const [skills, setSkills] = useState({
         technical: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
@@ -70,17 +77,11 @@ const EditSkills = () => {
         });
     };
 
-    const categoryConfig = {
-        technical: { label: 'Technical', icon: '💻', color: 'technical' },
-        soft: { label: 'Soft', icon: '🤝', color: 'soft' },
-        tools: { label: 'Tools', icon: '🛠️', color: 'tools' },
-        languages: { label: 'Languages', icon: '🌍', color: 'languages' }
-    };
 
     const radarData = useMemo(() => {
         return Object.entries(categoryConfig).map(([key, config]) => ({
             subject: config.label,
-            A: skills[key].length,
+            A: (skills[key] || []).length,
             fullMark: Math.max(...Object.values(skills).map(s => s.length), 5) + 2
         }));
     }, [skills]);

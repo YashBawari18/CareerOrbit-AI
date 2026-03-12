@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -7,7 +7,7 @@ import './JobRecommendations.css';
 
 const JobRecommendations = () => {
     // Simulated user skills (would come from profile in production)
-    const userSkills = ['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'Git', 'MongoDB', 'Express.js', 'REST APIs', 'Python'];
+    const [userSkills] = useState(['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'Git', 'MongoDB', 'Express.js', 'REST APIs', 'Python']);
 
     const [filters, setFilters] = useState({
         location: 'all',
@@ -16,7 +16,7 @@ const JobRecommendations = () => {
         minMatch: 'all'
     });
 
-    const jobs = [
+    const jobList = useMemo(() => [
         {
             id: 1,
             title: 'Frontend Developer',
@@ -161,13 +161,13 @@ const JobRecommendations = () => {
             description: 'Launch your tech career with hands-on experience in digital transformation projects.',
             applyUrl: 'https://www.accenture.com/careers'
         }
-    ];
+    ], []);
 
     // Calculate match score for each job
-    const getMatchScore = (requiredSkills) => {
+    const getMatchScore = useCallback((requiredSkills) => {
         const matched = requiredSkills.filter(s => userSkills.includes(s));
         return Math.round((matched.length / requiredSkills.length) * 100);
-    };
+    }, [userSkills]);
 
     const getMatchColor = (score) => {
         if (score >= 90) return 'excellent';
@@ -183,13 +183,13 @@ const JobRecommendations = () => {
     };
 
     // Calculate overall readiness
-    const allRequiredSkills = [...new Set(jobs.flatMap(j => j.requiredSkills))];
-    const matchedOverallSkills = allRequiredSkills.filter(s => userSkills.includes(s));
+    const allRequiredSkills = useMemo(() => [...new Set(jobList.flatMap(j => j.requiredSkills))], [jobList]);
+    const matchedOverallSkills = useMemo(() => allRequiredSkills.filter(s => userSkills.includes(s)), [allRequiredSkills, userSkills]);
     const readinessScore = Math.round((matchedOverallSkills.length / allRequiredSkills.length) * 100);
 
     // Filter and sort jobs
     const filteredJobs = useMemo(() => {
-        return jobs
+        return jobList
             .map(job => ({
                 ...job,
                 matchScore: getMatchScore(job.requiredSkills)
@@ -202,7 +202,7 @@ const JobRecommendations = () => {
                 return true;
             })
             .sort((a, b) => b.matchScore - a.matchScore);
-    }, [filters]);
+    }, [filters, getMatchScore, jobList]);
 
     const circumference = 2 * Math.PI * 65;
     const dashOffset = circumference - (readinessScore / 100) * circumference;

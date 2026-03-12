@@ -4,12 +4,6 @@ import HomeAnalytics from './HomeAnalytics';
 import './PlatformIntelligence.css';
 
 const PlatformIntelligence = () => {
-    const stats = [
-        { label: 'Skills Tracked', value: '450k+', icon: '📊' },
-        { label: 'Growth Accuracy', value: '94%', icon: '🎯' },
-        { label: 'Active Paths', value: '1.2M', icon: '🚀' },
-        { label: 'Success Rate', value: '88%', icon: '🏆' }
-    ];
 
     return (
         <section className="platform-intel section-padding">
