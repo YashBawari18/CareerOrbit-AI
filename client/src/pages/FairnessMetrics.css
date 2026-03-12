@@ -1,0 +1,158 @@
+.fairness-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.fs-main-card .fsm-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fsm-text {
+    max-width: 70%;
+}
+
+.fsm-score {
+    text-align: center;
+}
+
+.fsm-value {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #1E8E3E;
+    line-height: 1;
+}
+
+.fsm-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-light);
+}
+
+.fs-stat-card .fss-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.fss-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.metric-ui-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mu-header h3 {
+    font-size: 1.15rem;
+}
+
+.mu-score {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+.mu-score.success {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.mu-score.blue {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.mu-score.warning {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.mu-score.danger {
+    background: #FCE8E6;
+    color: #D93025;
+}
+
+.mu-insights {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.mui-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-light);
+}
+
+.mui-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary-color);
+    border-radius: 50%;
+}
+
+.rec-ui-card {
+    border-top: 4px solid var(--primary-color);
+}
+
+.ru-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ru-priority {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.ru-priority.high {
+    background: #FCE8E6;
+    color: #D93025;
+}
+
+.ru-priority.medium {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.ru-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ru-impact {
+    font-size: 0.9rem;
+    color: #1E8E3E;
+}
+
+@media (max-width: 768px) {
+    .fsm-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .fsm-text {
+        max-width: 100%;
+    }
+}

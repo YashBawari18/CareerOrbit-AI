@@ -1,0 +1,171 @@
+.timeline-page {
+    min-height: 100vh;
+    background: var(--bg-light);
+}
+
+.timeline-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 40px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--grad-primary);
+    border-radius: 10px;
+    opacity: 0.2;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 100px;
+    margin-bottom: 60px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 16px;
+    top: 0;
+}
+
+.marker-dot {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: white;
+    border: 3px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s ease;
+}
+
+.timeline-item.current .marker-dot {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 8px rgba(255, 110, 20, 0.1);
+}
+
+.timeline-item.target .marker-dot {
+    border-color: var(--accent-color);
+    background: var(--accent-color);
+    color: white;
+}
+
+.marker-pulse {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: 60px;
+    height: 60px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    animation: pulse 2.5s infinite;
+    display: none;
+}
+
+.timeline-item.current .marker-pulse {
+    display: block;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+.timeline-card {
+    padding: 30px;
+}
+
+.timeline-timeframe {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 110, 20, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.timeline-title {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.timeline-role {
+    font-weight: 700;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.status-badge.current {
+    background: #E6F4EA;
+    color: #1E8E3E;
+}
+
+.status-badge.upcoming {
+    background: #E8F0FE;
+    color: #1967D2;
+}
+
+.status-badge.target {
+    background: #FEF7E0;
+    color: #F29900;
+}
+
+.timeline-skills h4 {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.skill-badge {
+    padding: 6px 14px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .timeline-line {
+        left: 20px;
+    }
+
+    .timeline-item {
+        padding-left: 60px;
+    }
+
+    .timeline-marker {
+        left: 0;
+    }
+
+    .marker-dot {
+        width: 40px;
+        height: 40px;
+    }
+}
