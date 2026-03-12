@@ -1,9 +1,22 @@
 import React, { useState, useRef } from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
 import './ResumeParser.css';
 
-// Use the bundled worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+// Load PDF.js from CDN at runtime — avoids all Vite/worker bundling issues
+const getPDFJS = () =>
+    new Promise((resolve) => {
+        if (window.pdfjsLib) {
+            resolve(window.pdfjsLib);
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.onload = () => {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            resolve(window.pdfjsLib);
+        };
+        document.head.appendChild(script);
+    });
 
 // Comprehensive skills keyword dictionary
 const SKILL_KEYWORDS = {
@@ -52,6 +65,7 @@ const ResumeParser = ({ onSkillsDetected }) => {
     const fileInputRef = useRef(null);
 
     const extractTextFromPDF = async (file) => {
+        const pdfjsLib = await getPDFJS();
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
         let fullText = '';
