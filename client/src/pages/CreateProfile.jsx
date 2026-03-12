@@ -124,12 +124,6 @@ const CreateProfile = () => {
                                     className={`step-indicator ${currentStep >= step ? 'active' : ''} ${currentStep === step ? 'current' : ''}`}
                                 >
                                     <div className="step-number">{step}</div>
-                                    <div className="step-label">
-                                        {step === 1}
-                                        {step === 2}
-                                        {step === 3}
-                                        {step === 4}
-                                    </div>
                                 </div>
                             ))}
                             <div className="progress-line" style={{ '--progress-width': `${((currentStep - 1) / (totalSteps - 1)) * 100}%` }}></div>
