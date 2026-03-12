@@ -80,8 +80,12 @@ body {
   justify-content: center;
   padding: 20px;
 
-  /* Above everything including GTW frames */
-  z-index: 99999;
+  /* Above everything including GTW frames and mobile menu */
+  z-index: 100000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 
   animation: langOverlayIn 0.15s ease;
 }
@@ -95,10 +99,10 @@ body {
    MODAL PANEL  – solid white, no glassmorphism
    ═══════════════════════════════════════════════════════════════════ */
 .lang-modal {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.22);
+  box-shadow: var(--shadow-lg);
 
   width: 100%;
   max-width: 560px;
@@ -130,7 +134,7 @@ body {
 .lang-modal-title {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--secondary-color);
+  color: var(--text-main);
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
@@ -181,26 +185,25 @@ body {
   gap: 4px;
   padding: 11px 6px;
   border-radius: 10px;
-  border: 1.5px solid #ebebeb;
-  background: #fafafa;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-light);
   cursor: pointer;
   text-align: center;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+  transition: all 0.2s ease;
 }
 
 .lang-card:hover {
   border-color: var(--primary-color);
-  background: rgba(255, 110, 20, 0.04);
+  background: rgba(var(--primary-rgb), 0.04);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 110, 20, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .lang-card.active {
   border-color: var(--primary-color);
-  background: rgba(255, 110, 20, 0.07);
-  box-shadow: 0 0 0 2px rgba(255, 110, 20, 0.15);
+  background: rgba(var(--primary-rgb), 0.08);
 }
 
 .lang-flag {
@@ -210,9 +213,9 @@ body {
 }
 
 .lang-name {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-main);
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
@@ -221,8 +224,8 @@ body {
 }
 
 .lang-native {
-  font-size: 0.62rem;
-  color: #828282;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
   line-height: 1.1;
 }
 
@@ -230,22 +233,34 @@ body {
    RESPONSIVE
    ═══════════════════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
+  .lang-modal-overlay {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+  }
+
   .lang-modal {
-    padding: 18px 14px;
+    padding: 16px 12px;
+    width: 100%;
+    max-width: 270px; /* Fit comfortably within mobile sidebar */
+    margin: 0 auto;
   }
 
   .lang-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .lang-flag {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 }
 
-@media (max-width: 380px) {
-  .lang-grid {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 400px) {
+  .lang-card {
+    padding: 10px 4px;
+  }
+  
+  .lang-name {
+    font-size: 0.75rem;
   }
 }

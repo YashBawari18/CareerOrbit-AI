@@ -206,13 +206,26 @@ const Navbar = () => {
               </div>
             ))}
             <div className="mobile-actions">
-              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'flex-start' }}>
-                <LanguageSelector />
+              <div className="mobile-action-group">
+                <span className="mobile-action-label">Language</span>
+                <div className="mobile-language-container">
+                  <LanguageSelector />
+                  <span className="mobile-lang-name">Select Language</span>
+                </div>
               </div>
-              <button onClick={toggleTheme} className="theme-toggle-btn-mobile btn full-width mb-2" aria-label="Toggle Theme">
-                {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
-              </button>
-              <Link to="/profile/create" className="btn btn-primary full-width">Get Started</Link>
+              
+              <div className="mobile-action-group">
+                <span className="mobile-action-label">Appearance</span>
+                <button onClick={toggleTheme} className="theme-toggle-btn-mobile btn full-width mb-2" aria-label="Toggle Theme">
+                  <span className="mobile-theme-text">
+                    {theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode'}
+                  </span>
+                </button>
+              </div>
+
+              <div className="mobile-primary-action">
+                <Link to="/profile/create" className="btn btn-primary full-width">Get Started</Link>
+              </div>
             </div>
           </div>
         </div>

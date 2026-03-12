@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useLanguage } from '../context/LanguageContext';
 import './LanguageSelector.css';
 
@@ -66,8 +67,8 @@ const LanguageSelector = () => {
         <span className="lang-flag-current notranslate">{currentLang.flag}</span>
       </button>
 
-      {/* Modal */}
-      {isOpen && (
+      {/* Modal - rendered via Portal to avoid parent transform Issues */}
+      {isOpen && createPortal(
         <div
           className="lang-modal-overlay"
           onClick={handleOverlayClick}
@@ -108,7 +109,8 @@ const LanguageSelector = () => {
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
