@@ -177,6 +177,18 @@ p {
   margin-bottom: 4rem;
 }
 
+.mb-10 {
+  margin-bottom: 5rem;
+}
+
+.mb-12 {
+  margin-bottom: 6rem;
+}
+
+.mb-16 {
+  margin-bottom: 8rem;
+}
+
 .badge-pill {
   display: inline-block;
   padding: 6px 16px;
@@ -201,7 +213,7 @@ p {
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 3rem;
 }
 
 @media (max-width: 768px) {

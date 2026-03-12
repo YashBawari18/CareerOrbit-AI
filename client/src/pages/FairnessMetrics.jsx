@@ -4,6 +4,20 @@ import Footer from '../components/Footer';
 import StatCard from '../components/StatCard';
 import ProgressBar from '../components/ProgressBar';
 import PageHeader from '../components/PageHeader';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    ResponsiveContainer,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    Radar,
+    AreaChart,
+    Area,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+} from 'recharts';
 import './FairnessMetrics.css';
 
 const FairnessMetrics = () => {
@@ -36,6 +50,19 @@ const FairnessMetrics = () => {
         }
     ];
 
+    const radarData = metrics.map(m => ({
+        subject: m.category,
+        A: m.score,
+        fullMark: 100
+    }));
+
+    const historyData = [
+        { name: 'Q1', score: 65 },
+        { name: 'Q2', score: 68 },
+        { name: 'Q3', score: 72 },
+        { name: 'Q4', score: 78 },
+    ];
+
     const recommendations = [
         {
             title: 'Increase Accessibility',
@@ -64,6 +91,17 @@ const FairnessMetrics = () => {
         return 'danger';
     };
 
+    const fadeIn = {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 }
+    };
+
+    const handleAuditRequest = () => {
+        alert('Audit Request Submitted! Our compliance team will generate a detailed report for your trajectory within 48 hours.');
+    };
+
     return (
         <div className="page-wrapper">
             <Navbar />
@@ -78,72 +116,137 @@ const FairnessMetrics = () => {
                 <section className="fairness-content section-padding">
                     <div className="container">
 
-                        <div className="fairness-summary grid-3 mb-8">
-                            <div className="fs-main-card glass-card col-span-2 p-8">
+                        <div className="fairness-summary grid-3 mb-12">
+                            <motion.div className="fs-main-card glass-card col-span-2 p-10" {...fadeIn}>
                                 <div className="fsm-content">
                                     <div className="fsm-text">
                                         <h2 className="mb-4">Systemic Fairness Score</h2>
-                                        <p className="mb-0">Our algorithms are continuously audited for demographic bias. We maintain a composite score that measures equitable distribution of career recommendations.</p>
+                                        <p className="mb-6">Our algorithms are continuously audited for demographic bias. We maintain a composite score that measures equitable distribution of career recommendations.</p>
+                                        <button className="btn btn-primary" onClick={handleAuditRequest}>Request Personal Audit →</button>
                                     </div>
-                                    <div className="fsm-score">
-                                        <div className="fsm-value">{overallScore}</div>
-                                        <div className="fsm-label">Points</div>
+                                    <div className="fsm-score-ui">
+                                        <div className="fsm-value-ring">
+                                            <span className="fsm-value">{overallScore}</span>
+                                            <span className="fsm-unit">/100</span>
+                                        </div>
+                                        <div className="fsm-label-premium">Equity Rating</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="fs-stat-card glass-card p-8 text-center">
-                                <div className="fss-icon">⚖️</div>
-                                <h3>Industry Rank</h3>
-                                <div className="fss-value">Top 5%</div>
-                            </div>
+                            </motion.div>
+                            <motion.div className="fs-stat-card glass-card p-10 text-center flex-center" {...fadeIn} transition={{ delay: 0.2 }}>
+                                <div className="fss-icon-large">⚖️</div>
+                                <h3 className="mb-2">Industry Rank</h3>
+                                <div className="fss-value-premium">Top 5%</div>
+                                <p className="small text-light">Global Benchmark</p>
+                            </motion.div>
                         </div>
 
-                        <div className="stats-overview grid-4 mb-8">
+                        {/* Analytics Dashboard */}
+                        <div className="fairness-analytics grid-2 mb-12">
+                            <motion.div className="chart-card-premium glass-card" {...fadeIn}>
+                                <div className="chart-header">
+                                    <h3>Equity Distribution Matrix</h3>
+                                    <p>Fairness performance across key demographic pillars</p>
+                                </div>
+                                <div className="chart-container-ui" style={{ height: '300px' }}>
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+                                            <PolarGrid stroke="#e0e0e0" />
+                                            <PolarAngleAxis dataKey="subject" tick={{ fill: '#4F4F4F', fontSize: 12, fontWeight: 600 }} />
+                                            <Radar
+                                                name="Equity Score"
+                                                dataKey="A"
+                                                stroke="#FF6E14"
+                                                fill="#FF6E14"
+                                                fillOpacity={0.4}
+                                            />
+                                            <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e0e0e0' }} />
+                                        </RadarChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </motion.div>
+
+                            <motion.div className="chart-card-premium glass-card" {...fadeIn} transition={{ delay: 0.2 }}>
+                                <div className="chart-header">
+                                    <h3>Progressive Improvement</h3>
+                                    <p>Historical fairness index over time</p>
+                                </div>
+                                <div className="chart-container-ui" style={{ height: '300px' }}>
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <AreaChart data={historyData}>
+                                            <defs>
+                                                <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#FF6E14" stopOpacity={0.3} />
+                                                    <stop offset="95%" stopColor="#FF6E14" stopOpacity={0} />
+                                                </linearGradient>
+                                            </defs>
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" vertical={false} />
+                                            <XAxis dataKey="name" stroke="#4F4F4F" axisLine={false} tickLine={false} dy={10} />
+                                            <Tooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e0e0e0' }} />
+                                            <Area type="monotone" dataKey="score" stroke="#FF6E14" strokeWidth={3} fillOpacity={1} fill="url(#colorScore)" />
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        <div className="stats-overview grid-4 mb-12">
                             <StatCard icon="👥" title="Audited Paths" value="125K" subtitle="Global trajectories" color="blue" />
                             <StatCard icon="🌍" title="Served Nations" value="45" subtitle="Diverse clusters" color="success" />
                             <StatCard icon="📊" title="Equity Delta" value="+12" subtitle="vs last quarter" trend={{ direction: 'up', value: '5 pts' }} color="primary" />
                             <StatCard icon="🛡️" title="Bias Control" value="Active" subtitle="Continuous monitoring" color="success" />
                         </div>
 
-                        <div className="metrics-grid mb-8">
-                            {metrics.map(metric => (
-                                <div key={metric.category} className="metric-ui-card glass-card p-6">
-                                    <div className="mu-header mb-4">
+                        <div className="grid-2 gap-10 mb-12">
+                            {metrics.map((metric, idx) => (
+                                <motion.div
+                                    key={metric.category}
+                                    className="metric-ui-card glass-card p-8"
+                                    {...fadeIn}
+                                    transition={{ delay: idx * 0.1 }}
+                                >
+                                    <div className="mu-header mb-6">
                                         <h3>{metric.category}</h3>
-                                        <div className={`mu-score ${getScoreColor(metric.score)}`}>
+                                        <div className={`mu-score-pill ${getScoreColor(metric.score)}`}>
                                             {metric.score}/100
                                         </div>
                                     </div>
-                                    <p className="mu-desc mb-4 small">{metric.description}</p>
-                                    <div className="mb-4">
+                                    <p className="mu-desc mb-6">{metric.description}</p>
+                                    <div className="mb-6">
                                         <ProgressBar percentage={metric.score} color={getScoreColor(metric.score)} showLabel={false} height="medium" />
                                     </div>
-                                    <div className="mu-insights">
+                                    <div className="mu-insights-grid">
                                         {metric.insights.map((insight, index) => (
-                                            <div key={index} className="mui-item">
-                                                <span className="mui-dot"></span>
+                                            <div key={index} className="mui-item-premium">
+                                                <span className="mui-check">✓</span>
                                                 <span>{insight}</span>
                                             </div>
                                         ))}
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
 
-                        <div className="recommendations-ui">
-                            <h2 className="mb-6">Integrity Roadmap</h2>
+                        <div className="recommendations-ui section-padding-top">
+                            <motion.h2 className="mb-8 text-center" {...fadeIn}>Integrity Roadmap</motion.h2>
                             <div className="grid-3">
                                 {recommendations.map((rec, index) => (
-                                    <div key={index} className="rec-ui-card glass-card p-6">
+                                    <motion.div
+                                        key={index}
+                                        className="rec-ui-card glass-card p-8 hover-lift"
+                                        {...fadeIn}
+                                        transition={{ delay: index * 0.1 }}
+                                    >
                                         <div className="ru-header mb-4">
                                             <h3>{rec.title}</h3>
-                                            <div className={`ru-priority ${rec.priority.toLowerCase()}`}>{rec.priority}</div>
+                                            <div className={`ru-priority-tag ${rec.priority.toLowerCase()}`}>{rec.priority}</div>
                                         </div>
-                                        <p className="ru-desc mb-6">{rec.description}</p>
-                                        <div className="ru-impact">
-                                            <strong>Target: {rec.impact}</strong>
+                                        <p className="ru-desc mb-8">{rec.description}</p>
+                                        <div className="ru-impact-premium">
+                                            <span className="ru-impact-label">Expected Impact</span>
+                                            <strong className="ru-impact-value">{rec.impact}</strong>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </div>
