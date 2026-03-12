@@ -57,6 +57,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  return (
     <LanguageProvider>
       <ThemeProvider>
         <AuthProvider>
