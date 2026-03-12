@@ -10,7 +10,7 @@ const NAV_ITEMS = [
     label: 'Overview',
     dropdown: [
       { label: 'Problem Statement', path: '/problem' },
-      { label: 'How It Works', path: '/how-it-works' }
+      { label: 'Our Solution', path: '/solution' }
     ]
   },
   {

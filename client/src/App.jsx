@@ -67,6 +67,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/problem" element={<ProblemStatement />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/solution" element={<HowItWorks />} />
 
             {/* Profile Routes */}
             <Route path="/profile/create" element={<ProtectedRoute><CreateProfile /></ProtectedRoute>} />

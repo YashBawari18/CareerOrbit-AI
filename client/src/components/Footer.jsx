@@ -24,7 +24,7 @@ const Footer = () => {
                     <div className="footer-nav-col">
                         <h4>Platform</h4>
                         <ul>
-                            <li><Link to="/how-it-works">Methodology</Link></li>
+                            <li><Link to="/solution">Methodology</Link></li>
                             <li><Link to="/career/recommendations">Pathfinder</Link></li>
                             <li><Link to="/learning/gap-analysis">Intelligence</Link></li>
                             <li><Link to="/dashboard/trends">Market Trends</Link></li>
