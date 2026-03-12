@@ -16,6 +16,15 @@ const JobRecommendations = () => {
         minMatch: 'all'
     });
 
+    const [locationState, setLocationState] = useState({
+        isDetecting: false,
+        error: null,
+        coords: null,
+        detectedCity: null
+    });
+
+    const [showMap, setShowMap] = useState(false);
+
     const jobList = useMemo(() => [
         {
             id: 1,
@@ -209,6 +218,36 @@ const JobRecommendations = () => {
 
     const resetFilters = () => {
         setFilters({ location: 'all', jobType: 'all', experience: 'all', minMatch: 'all' });
+        setLocationState({ isDetecting: false, error: null, coords: null, detectedCity: null });
+    };
+
+    const handleFindNearMe = () => {
+        if (!navigator.geolocation) {
+            setLocationState(prev => ({ ...prev, error: 'Geolocation is not supported by your browser' }));
+            return;
+        }
+
+        setLocationState(prev => ({ ...prev, isDetecting: true, error: null }));
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setLocationState({
+                    isDetecting: false,
+                    error: null,
+                    coords: { lat: latitude, lng: longitude },
+                    detectedCity: 'Your Current Area'
+                });
+                setFilters(prev => ({ ...prev, location: 'Your Current Area' }));
+                setShowMap(true);
+            },
+            (error) => {
+                let msg = 'Unable to retrieve your location';
+                if (error.code === 1) msg = 'Location permission denied';
+                setLocationState(prev => ({ ...prev, isDetecting: false, error: msg }));
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
     };
 
     return (
@@ -275,17 +314,54 @@ const JobRecommendations = () => {
                             </div>
                         </div>
 
+                        {/* Interactive Map Section */}
+                        {showMap && locationState.coords && (
+                            <div className="map-view-container glass-card animate-in">
+                                <div className="map-header">
+                                    <h3>📍 Jobs in your vicinity</h3>
+                                    <button className="close-map-btn" onClick={() => setShowMap(false)}>✕</button>
+                                </div>
+                                <div className="map-wrapper">
+                                    <iframe
+                                        title="Job Locations Map"
+                                        width="100%"
+                                        height="350"
+                                        frameBorder="0"
+                                        scrolling="no"
+                                        marginHeight="0"
+                                        marginWidth="0"
+                                        src={`https://www.openstreetmap.org/export/embed.html?bbox=${locationState.coords.lng - 0.1}%2C${locationState.coords.lat - 0.1}%2C${locationState.coords.lng + 0.1}%2C${locationState.coords.lat + 0.1}&layer=mapnik&marker=${locationState.coords.lat}%2C${locationState.coords.lng}`}
+                                    ></iframe>
+                                </div>
+                                <div className="map-footer">
+                                    <p>Showing placement opportunities within 10km of your current coordinates.</p>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Main Layout */}
                         <div className="jobs-layout">
 
                             {/* Filters */}
                             <aside className="jobs-filters glass-card">
                                 <h3>Filters</h3>
-
                                 <div className="filter-group">
                                     <label>Location</label>
+                                    <button
+                                        className={`location-detect-btn ${locationState.isDetecting ? 'loading' : ''} ${locationState.coords ? 'success' : ''}`}
+                                        onClick={handleFindNearMe}
+                                        disabled={locationState.isDetecting}
+                                    >
+                                        <span className="btn-icon">{locationState.isDetecting ? '⌛' : locationState.coords ? '📍' : '🎯'}</span>
+                                        {locationState.isDetecting ? 'Detecting...' : (locationState.coords ? 'Area Detected' : 'Find Job opportunities near me')}
+                                    </button>
+
+                                    {locationState.error && <p className="filter-error-msg">{locationState.error}</p>}
+
+                                    <div className="location-divider"><span>OR</span></div>
+
                                     <select value={filters.location} onChange={(e) => setFilters({ ...filters, location: e.target.value })}>
-                                        <option value="all">All Locations</option>
+                                        <option value="all">Select City</option>
                                         <option value="bangalore">Bangalore</option>
                                         <option value="hyderabad">Hyderabad</option>
                                         <option value="pune">Pune</option>
