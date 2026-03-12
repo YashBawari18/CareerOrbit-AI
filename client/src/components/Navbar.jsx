@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import logo from '../assets/logo.png';
 import './Navbar.css';
 
@@ -47,6 +48,7 @@ const NAV_ITEMS = [
 ];
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
@@ -128,7 +130,17 @@ const Navbar = () => {
         </div>
 
         <div className="nav-actions desktop-actions">
-          <Link to="/profile/create" className="btn btn-primary">Get Started</Link>
+          {user ? (
+            <>
+              <span className="user-welcome">Hello, <strong>{user.username}</strong></span>
+              <button onClick={logout} className="btn btn-outline">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn btn-outline mr-2">Login</Link>
+              <Link to="/signup" className="btn btn-primary">Get Started</Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Hamburger */}

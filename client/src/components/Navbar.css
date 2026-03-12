@@ -129,6 +129,20 @@
     color: var(--primary-color);
 }
 
+.user-welcome {
+    margin-right: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.user-welcome strong {
+    color: var(--primary-color);
+}
+
+.mr-2 {
+    margin-right: 12px;
+}
+
 /* Mobile Hamburger */
 .hamburger-btn {
     display: none;
