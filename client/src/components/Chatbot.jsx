@@ -39,7 +39,79 @@ const Chatbot = () => {
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);
+    const [isListening, setIsListening] = useState(false);
+    const [voiceEnabled, setVoiceEnabled] = useState(false);
     const messagesEndRef = useRef(null);
+    const recognitionRef = useRef(null);
+
+    // Initialize Speech Recognition
+    useEffect(() => {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.continuous = false;
+            recognitionRef.current.interimResults = true;
+            recognitionRef.current.lang = 'en-US';
+
+            recognitionRef.current.onresult = (event) => {
+                let currentTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    currentTranscript += event.results[i][0].transcript;
+                }
+                setInputValue(currentTranscript);
+            };
+
+            recognitionRef.current.onerror = (event) => {
+                console.error('Speech recognition error', event.error);
+                setIsListening(false);
+            };
+
+            recognitionRef.current.onend = () => {
+                setIsListening(false);
+            };
+        }
+    }, []);
+
+    const toggleListening = () => {
+        if (isListening) {
+            recognitionRef.current?.stop();
+            setIsListening(false);
+        } else {
+            setInputValue(''); // Clear input before listening new voice
+            recognitionRef.current?.start();
+            setIsListening(true);
+        }
+    };
+
+    const speakText = (text) => {
+        if (!voiceEnabled || !('speechSynthesis' in window)) return;
+        
+        // Cancel any ongoing speech before starting a new one
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Try to find a good English voice (preferably female/assistant sounding)
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => v.lang.includes('en-') && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Siri')));
+        
+        if (preferredVoice) utterance.voice = preferredVoice;
+        
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        
+        window.speechSynthesis.speak(utterance);
+    };
+
+    // Ensure voices are loaded (Chrome sometimes needs a little time)
+    useEffect(() => {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                // Just triggers voices to load in the background
+                window.speechSynthesis.getVoices();
+            };
+        }
+    }, []);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,6 +144,12 @@ const Chatbot = () => {
     const handleSend = (text = inputValue) => {
         if (!text.trim()) return;
 
+        // Stop listening if user sends manual message
+        if (isListening) {
+            recognitionRef.current?.stop();
+            setIsListening(false);
+        }
+
         const userMsg = { id: Date.now(), text, type: 'user' };
         setMessages(prev => [...prev, userMsg]);
         setInputValue('');
@@ -83,6 +161,9 @@ const Chatbot = () => {
             const aiMsg = { id: Date.now() + 1, text: aiResponse, type: 'ai' };
             setMessages(prev => [...prev, aiMsg]);
             setIsTyping(false);
+
+            // Speak the response if voice is enabled
+            speakText(aiResponse);
 
             // Conditional pro-active navigation suggestion
             if (text.toLowerCase().includes('trend')) {
@@ -118,6 +199,28 @@ const Chatbot = () => {
                             <span className="typing-status">{isTyping ? 'Synthesizing knowledge...' : 'Listening...'}</span>
                         </div>
                     </div>
+                    <button 
+                        className={`voice-toggle-btn ${voiceEnabled ? 'active' : ''}`}
+                        onClick={() => {
+                            setVoiceEnabled(!voiceEnabled);
+                            if (voiceEnabled) window.speechSynthesis.cancel();
+                        }}
+                        title={voiceEnabled ? "Mute AI Voice" : "Enable AI Voice"}
+                    >
+                        {voiceEnabled ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                            </svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                        )}
+                    </button>
                 </div>
 
                 <div className="chat-messages">
@@ -143,6 +246,19 @@ const Chatbot = () => {
 
                 <div className="chat-footer">
                     <form className="chat-input-area" onSubmit={(e) => { e.preventDefault(); handleSend(); }}>
+                        <button 
+                            type="button" 
+                            className={`mic-btn ${isListening ? 'listening' : ''}`}
+                            onClick={toggleListening}
+                            title={isListening ? "Stop listening" : "Start speaking"}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                        </button>
                         <input
                             type="text"
                             placeholder="Discuss your professional evolution..."
