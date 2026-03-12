@@ -99,6 +99,9 @@ function App() {
             <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />
             <Route path="/dashboard/decay" element={<ProtectedRoute><SkillDecay /></ProtectedRoute>} />
             <Route path="/dashboard/fairness" element={<ProtectedRoute><FairnessMetrics /></ProtectedRoute>} />
+
+            {/* Catch-all route: Redirect unknown routes to home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
       )}
