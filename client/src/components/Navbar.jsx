@@ -41,6 +41,12 @@ const NAV_ITEMS = [
     ]
   },
   {
+    label: 'Placement',
+    dropdown: [
+      { label: 'Job Recommendations', path: '/placement/jobs' }
+    ]
+  },
+  {
     label: 'Dashboard',
     dropdown: [
       { label: 'Skill Demand Trends', path: '/dashboard/trends' },

@@ -35,6 +35,9 @@ import SkillDemandTrends from './pages/SkillDemandTrends';
 import SkillDecay from './pages/SkillDecay';
 import FairnessMetrics from './pages/FairnessMetrics';
 
+// Placement Pages
+import JobRecommendations from './pages/JobRecommendations';
+
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { token, loading } = useAuth();
@@ -88,6 +91,9 @@ function App() {
             <Route path="/learning/gap-analysis" element={<ProtectedRoute><SkillGapAnalysis /></ProtectedRoute>} />
             <Route path="/learning/courses" element={<ProtectedRoute><RecommendedCourses /></ProtectedRoute>} />
             <Route path="/learning/duration" element={<ProtectedRoute><LearningDuration /></ProtectedRoute>} />
+
+            {/* Placement Routes */}
+            <Route path="/placement/jobs" element={<ProtectedRoute><JobRecommendations /></ProtectedRoute>} />
 
             {/* Dashboard Routes */}
             <Route path="/dashboard/trends" element={<ProtectedRoute><SkillDemandTrends /></ProtectedRoute>} />
