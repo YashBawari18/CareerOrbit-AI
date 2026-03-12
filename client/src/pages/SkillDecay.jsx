@@ -1,28 +1,11 @@
-<<<<<<< HEAD
-import React, { useMemo } from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar, LineChart, Line } from 'recharts';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ProgressBar from '../components/ProgressBar';
 import PageHeader from '../components/PageHeader';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-    ResponsiveContainer,
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    RadarChart,
-    PolarGrid,
-    PolarAngleAxis,
-    Radar,
-} from 'recharts';
 import './SkillDecay.css';
 
 const SkillDecay = () => {
@@ -80,7 +63,6 @@ const SkillDecay = () => {
         }
     ];
 
-<<<<<<< HEAD
     const proficiencyTrendData = [
         { month: 'Jul', score: 92 },
         { month: 'Aug', score: 88 },
@@ -90,21 +72,12 @@ const SkillDecay = () => {
         { month: 'Dec', score: 75 },
     ];
 
-    const radarData = useMemo(() => {
-        return skills.map(s => ({
-            subject: s.skill,
-            A: 100 - s.decayRate,
-            fullMark: 100,
-        }));
-    }, [skills]);
-=======
     const getStatus = (rate) => {
         if (rate <= 10) return 'healthy';
         if (rate <= 25) return 'warning';
         if (rate <= 40) return 'at-risk';
         return 'critical';
     };
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 
     const getStatusColor = (status) => {
         if (status === 'healthy') return '#10b981';
@@ -120,14 +93,6 @@ const SkillDecay = () => {
         return 'danger';
     };
 
-<<<<<<< HEAD
-    const fadeIn = {
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true },
-        transition: { duration: 0.6 }
-    };
-=======
     // Process skills based on selected context
     const skills = skillsData.map(item => {
         const contextData = item.contexts[context];
@@ -149,7 +114,21 @@ const SkillDecay = () => {
             trend
         };
     });
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+
+    const radarData = useMemo(() => {
+        return skills.map(s => ({
+            subject: s.skill,
+            A: Math.round(s.trend[s.trend.length - 1].value),
+            fullMark: 100,
+        }));
+    }, [skills]);
+
+    const fadeIn = {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.6 }
+    };
 
     return (
         <div className="page-wrapper">
@@ -166,7 +145,6 @@ const SkillDecay = () => {
                 <section className="decay-content section-padding">
                     <div className="container">
 
-<<<<<<< HEAD
                         {/* Analytics Section */}
                         <div className="analytics-dashboard grid-2 mb-12">
                             <motion.div className="chart-card-premium glass-card" {...fadeIn}>
@@ -200,7 +178,7 @@ const SkillDecay = () => {
                             <motion.div className="chart-card-premium glass-card" {...fadeIn} transition={{ delay: 0.2 }}>
                                 <div className="chart-header">
                                     <h3>Knowledge Integrity Matrix</h3>
-                                    <p>Relative health across your core competencies</p>
+                                    <p>Relative health across your core competencies (Current Context)</p>
                                 </div>
                                 <div className="chart-container-ui" style={{ height: '300px' }}>
                                     <ResponsiveContainer width="100%" height="100%">
@@ -223,88 +201,7 @@ const SkillDecay = () => {
                             </motion.div>
                         </div>
 
-                        <motion.div className="decay-insight-card glass-card p-8 mb-12" {...fadeIn}>
-                            <h2 className="mb-4">Calculated Half-Life</h2>
-                            <p className="mb-0">
-                                Skills degrade exponentially without active application. Our engine monitors your usage patterns
-                                to predict when your proficiency will drop below market standards.
-                                <strong> Prevention is more efficient than relearning.</strong>
-                            </p>
-                        </motion.div>
-
-                        <div className="grid-3 mb-16">
-                            <AnimatePresence>
-                                {skills.map((item, idx) => (
-                                    <motion.div
-                                        key={item.skill}
-                                        className={`decay-card-ui glass-card ${item.status}`}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
-                                    >
-                                        <div className="dc-header mb-6">
-                                            <h3>{item.skill}</h3>
-                                            <div className={`status-pill ${item.status}`}>
-                                                {item.status === 'healthy' && 'Stable'}
-                                                {item.status === 'warning' && 'Wear detected'}
-                                                {item.status === 'at-risk' && 'High Decay'}
-                                                {item.status === 'critical' && 'Obsolescent'}
-                                            </div>
-                                        </div>
-
-                                        <div className="dc-metrics grid-2 mb-6">
-                                            <div className="dc-metric">
-                                                <span>Last Verified</span>
-                                                <strong>{item.lastUsed}</strong>
-                                            </div>
-                                            <div className="dc-metric">
-                                                <span>Est. Half-Life</span>
-                                                <strong>{item.halfLife}</strong>
-                                            </div>
-                                        </div>
-
-                                        <div className="dc-meter mb-6">
-                                            <div className="meter-info mb-2">
-                                                <span>Integrity level</span>
-                                                <strong>{100 - item.decayRate}%</strong>
-                                            </div>
-                                            <ProgressBar
-                                                percentage={100 - item.decayRate}
-                                                color={getStatusColor(item.status)}
-                                                showLabel={false}
-                                                height="medium"
-                                            />
-                                        </div>
-
-                                        <div className="dc-recommendation p-4 rounded mb-6">
-                                            <p className="mb-0 small">💡 {item.recommendation}</p>
-                                        </div>
-
-                                        <div className="mt-auto">
-                                            {item.status !== 'healthy' ? (
-                                                <Link to="/learning/courses" className="btn btn-primary full-width">Refresh Skill Path →</Link>
-                                            ) : (
-                                                <Link to="/profile/edit-skills" className="btn btn-outline full-width">Update Skill Usage</Link>
-                                            )}
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </div>
-
-                        <motion.div className="maintenance-section text-center p-12 glass-card" {...fadeIn}>
-                            <h2 className="mb-4">Maintain Peak Proficiency</h2>
-                            <p className="mb-8">Set up intelligent reminders to revisit core concepts before they fade.</p>
-                            <button
-                                className="btn btn-primary btn-lg"
-                                onClick={() => alert('Maintenance Mode Activated! You will receive periodic reminders for your at-risk skills.')}
-                            >
-                                Activate Maintenance Mode
-                            </button>
-                        </motion.div>
-=======
-                        <div className="decay-insight-card p-8 mb-8 animate-in">
+                        <div className="decay-insight-card p-8 mb-8 glass-card animate-in">
                             <h2 className="mb-4">Why Half-Life Matters</h2>
                             <p className="mb-6 text-secondary">
                                 Skill decay is not global — it’s <strong>contextual</strong>. A skill may be alive in one sector but obsolete in another.
@@ -315,33 +212,28 @@ const SkillDecay = () => {
                             <div className="context-selector-box pt-6 border-top">
                                 <h4 className="mb-3">Select Your Environment</h4>
                                 <div className="context-chips">
-                                    <button
-                                        className={`context-chip ${context === 'modern-analytics' ? 'active' : ''}`}
-                                        onClick={() => setContext('modern-analytics')}
-                                    >
-                                        🚀 Modern Analytics
-                                    </button>
-                                    <button
-                                        className={`context-chip ${context === 'legacy-systems' ? 'active' : ''}`}
-                                        onClick={() => setContext('legacy-systems')}
-                                    >
-                                        🏛️ Legacy Infrastructure
-                                    </button>
-                                    <button
-                                        className={`context-chip ${context === 'fintech-core' ? 'active' : ''}`}
-                                        onClick={() => setContext('fintech-core')}
-                                    >
-                                        🏦 FinTech Core
-                                    </button>
+                                    {['modern-analytics', 'legacy-systems', 'fintech-core'].map(c => (
+                                        <button
+                                            key={c}
+                                            className={`context-chip ${context === c ? 'active' : ''}`}
+                                            onClick={() => setContext(c)}
+                                        >
+                                            {c === 'modern-analytics' && '🚀 Modern Analytics'}
+                                            {c === 'legacy-systems' && '🏛️ Legacy Infrastructure'}
+                                            {c === 'fintech-core' && '🏦 FinTech Core'}
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         </div>
 
                         <div className="skills-decay-grid">
                             {skills.map((item, index) => (
-                                <div
+                                <motion.div
                                     key={item.skill}
-                                    className={`decay-card-ui glass-card p-6 animate-in delay-${(index + 1) * 100}`}
+                                    className={`decay-card-ui glass-card p-6 animate-in`}
+                                    {...fadeIn}
+                                    transition={{ delay: index * 0.1 }}
                                 >
                                     <div className="dc-header">
                                         <div>
@@ -371,7 +263,7 @@ const SkillDecay = () => {
                                         </div>
                                     </div>
 
-                                    <div className="chart-container">
+                                    <div className="chart-container" style={{ height: '150px', marginBottom: '20px' }}>
                                         <ResponsiveContainer width="100%" height="100%">
                                             <AreaChart data={item.trend}>
                                                 <defs>
@@ -421,11 +313,11 @@ const SkillDecay = () => {
                                     >
                                         {item.status === 'healthy' ? 'Shield Skill' : 'Emergency Refresh'}
                                     </Link>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
 
-                        <div className="maintenance-section text-center mt-10 p-12 glass-card animate-in delay-500">
+                        <motion.div className="maintenance-section text-center mt-10 p-12 glass-card" {...fadeIn}>
                             <h2 className="mb-4">Maintain Peak Proficiency</h2>
                             <p className="mb-6 opacity-80">
                                 Contextual modeling reveals that your skills may be at higher risk than standard benchmarks suggest.
@@ -437,8 +329,7 @@ const SkillDecay = () => {
                             >
                                 Activate Contextual Guard →
                             </button>
-                        </div>
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+                        </motion.div>
 
                     </div>
                 </section>
@@ -450,4 +341,3 @@ const SkillDecay = () => {
 };
 
 export default SkillDecay;
-

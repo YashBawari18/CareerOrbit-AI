@@ -121,29 +121,40 @@ const FairnessMetrics = () => {
                 <section className="fairness-content section-padding pb-12">
                     <div className="container">
 
-<<<<<<< HEAD
-                        <div className="fairness-summary grid-3 mb-12">
+                        <div className="fairness-summary grid-3 mb-10">
                             <motion.div className="fs-main-card glass-card col-span-2 p-10" {...fadeIn}>
                                 <div className="fsm-content">
                                     <div className="fsm-text">
-                                        <h2 className="mb-4">Systemic Fairness Score</h2>
-                                        <p className="mb-6">Our algorithms are continuously audited for demographic bias. We maintain a composite score that measures equitable distribution of career recommendations.</p>
+                                        <div className="fsm-badge-live">
+                                            <span className="live-dot"></span>
+                                            LIVE AUDIT DATA
+                                        </div>
+                                        <h2 className="mb-4 mt-4">Systemic Fairness Score</h2>
+                                        <p className="mb-6 opacity-80">Our proprietary <strong>Neuro-Equity™</strong> algorithms are continuously audited for demographic bias. We maintain a composite score that measures equitable distribution of career recommendations across all socio-economic vectors.</p>
                                         <button className="btn btn-primary" onClick={handleAuditRequest}>Request Personal Audit →</button>
                                     </div>
-                                    <div className="fsm-score-ui">
-                                        <div className="fsm-value-ring">
+                                    <div className="fsm-score-circle">
+                                        <svg viewBox="0 0 100 100">
+                                            <circle className="fsm-circle-bg" cx="50" cy="50" r="45" />
+                                            <circle
+                                                className="fsm-circle-progress"
+                                                cx="50" cy="50" r="45"
+                                                style={{ strokeDashoffset: 283 - (283 * overallScore) / 100 }}
+                                            />
+                                        </svg>
+                                        <div className="fsm-score-text">
                                             <span className="fsm-value">{overallScore}</span>
-                                            <span className="fsm-unit">/100</span>
+                                            <span className="fsm-label">Points</span>
                                         </div>
-                                        <div className="fsm-label-premium">Equity Rating</div>
                                     </div>
                                 </div>
                             </motion.div>
                             <motion.div className="fs-stat-card glass-card p-10 text-center flex-center" {...fadeIn} transition={{ delay: 0.2 }}>
-                                <div className="fss-icon-large">⚖️</div>
-                                <h3 className="mb-2">Industry Rank</h3>
-                                <div className="fss-value-premium">Top 5%</div>
-                                <p className="small text-light">Global Benchmark</p>
+                                <div className="fss-rank-badge">
+                                    <span className="rank-label">INDUSTRY RANK</span>
+                                    <div className="rank-value">Top 5%</div>
+                                    <p className="rank-desc mt-4">Outperforming 95% of recruitment platforms in bias mitigation protocols.</p>
+                                </div>
                             </motion.div>
                         </div>
 
@@ -196,67 +207,11 @@ const FairnessMetrics = () => {
                             </motion.div>
                         </div>
 
-                        <div className="stats-overview grid-4 mb-12">
+                        <div className="stats-overview grid-4 mb-10">
                             <StatCard icon="👥" title="Audited Paths" value="125K" subtitle="Global trajectories" color="blue" />
                             <StatCard icon="🌍" title="Served Nations" value="45" subtitle="Diverse clusters" color="success" />
                             <StatCard icon="📊" title="Equity Delta" value="+12" subtitle="vs last quarter" trend={{ direction: 'up', value: '5 pts' }} color="primary" />
                             <StatCard icon="🛡️" title="Bias Control" value="Active" subtitle="Continuous monitoring" color="success" />
-                        </div>
-
-                        <div className="grid-2 gap-10 mb-12">
-                            {metrics.map((metric, idx) => (
-                                <motion.div
-                                    key={metric.category}
-                                    className="metric-ui-card glass-card p-8"
-                                    {...fadeIn}
-                                    transition={{ delay: idx * 0.1 }}
-                                >
-                                    <div className="mu-header mb-6">
-                                        <h3>{metric.category}</h3>
-                                        <div className={`mu-score-pill ${getScoreColor(metric.score)}`}>
-                                            {metric.score}/100
-=======
-                        <div className="fairness-summary grid-3 mb-10">
-                            <div className="fs-main-card glass-card col-span-2 p-10 animate-in">
-                                <div className="fsm-content">
-                                    <div className="fsm-text">
-                                        <div className="fsm-badge-live">
-                                            <span className="live-dot"></span>
-                                            LIVE AUDIT DATA
-                                        </div>
-                                        <h2 className="mb-4 mt-4">Systemic Fairness Score</h2>
-                                        <p className="mb-0 opacity-80">Our proprietary <strong>Neuro-Equity™</strong> algorithms are continuously audited for demographic bias. We maintain a composite score that measures equitable distribution of career recommendations across all socio-economic vectors.</p>
-                                    </div>
-                                    <div className="fsm-score-circle">
-                                        <svg viewBox="0 0 100 100">
-                                            <circle className="fsm-circle-bg" cx="50" cy="50" r="45" />
-                                            <circle
-                                                className="fsm-circle-progress"
-                                                cx="50" cy="50" r="45"
-                                                style={{ strokeDashoffset: 283 - (283 * overallScore) / 100 }}
-                                            />
-                                        </svg>
-                                        <div className="fsm-score-text">
-                                            <span className="fsm-value">{overallScore}</span>
-                                            <span className="fsm-label">Points</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="fs-stat-card glass-card p-10 text-center animate-in delay-200">
-                                <div className="fss-rank-badge">
-                                    <span className="rank-label">INDUSTRY RANK</span>
-                                    <div className="rank-value">Top 5%</div>
-                                    <p className="rank-desc mt-4">Outperforming 95% of recruitment platforms in bias mitigation protocols.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="stats-overview grid-4 mb-10">
-                            <StatCard icon="👥" title="Audited Paths" value="125K" subtitle="Global trajectories" color="blue" className="animate-in delay-100" />
-                            <StatCard icon="🌍" title="Served Nations" value="45" subtitle="Diverse clusters" color="success" className="animate-in delay-200" />
-                            <StatCard icon="📊" title="Equity Delta" value="+12" subtitle="vs last quarter" color="primary" className="animate-in delay-300" />
-                            <StatCard icon="🛡️" title="Bias Control" value="Active" subtitle="Continuous monitoring" color="success" className="animate-in delay-400" />
                         </div>
 
                         <div className="section-header-block mb-8">
@@ -266,7 +221,12 @@ const FairnessMetrics = () => {
 
                         <div className="metrics-grid mb-12">
                             {metrics.map((metric, index) => (
-                                <div key={metric.category} className={`metric-ui-card glass-card p-8 animate-in delay-${(index + 1) * 100}`}>
+                                <motion.div
+                                    key={metric.category}
+                                    className="metric-ui-card glass-card p-8"
+                                    {...fadeIn}
+                                    transition={{ delay: index * 0.1 }}
+                                >
                                     <div className="mu-header mb-6">
                                         <div className="mu-title-with-icon">
                                             <span className="mu-icon-bg">{metric.icon}</span>
@@ -274,25 +234,17 @@ const FairnessMetrics = () => {
                                         </div>
                                         <div className={`mu-score ${getScoreColor(metric.score)}`}>
                                             {metric.score}%
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
                                         </div>
                                     </div>
                                     <p className="mu-desc mb-6">{metric.description}</p>
                                     <div className="mb-6">
                                         <ProgressBar percentage={metric.score} color={getScoreColor(metric.score)} showLabel={false} height="medium" />
                                     </div>
-<<<<<<< HEAD
-                                    <div className="mu-insights-grid">
-                                        {metric.insights.map((insight, index) => (
-                                            <div key={index} className="mui-item-premium">
-                                                <span className="mui-check">✓</span>
-=======
                                     <div className="mu-insights">
                                         <h5 className="mb-3 uppercase text-light extra-small letter-spacing-1">Key Insights</h5>
                                         {metric.insights.map((insight, idx) => (
                                             <div key={idx} className="mui-item">
                                                 <span className="mui-dot"></span>
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
                                                 <span>{insight}</span>
                                             </div>
                                         ))}
@@ -301,19 +253,6 @@ const FairnessMetrics = () => {
                             ))}
                         </div>
 
-<<<<<<< HEAD
-                        <div className="recommendations-ui section-padding-top">
-                            <motion.h2 className="mb-8 text-center" {...fadeIn}>Integrity Roadmap</motion.h2>
-                            <div className="grid-3">
-                                {recommendations.map((rec, index) => (
-                                    <motion.div
-                                        key={index}
-                                        className="rec-ui-card glass-card p-8 hover-lift"
-                                        {...fadeIn}
-                                        transition={{ delay: index * 0.1 }}
-                                    >
-                                        <div className="ru-header mb-4">
-=======
                         <div className="recommendations-ui mb-12">
                             <div className="recommendations-header mb-8 bg-dark p-8 rounded-lg flex justify-between items-center text-white">
                                 <div>
@@ -324,22 +263,20 @@ const FairnessMetrics = () => {
                             </div>
                             <div className="grid-3">
                                 {recommendations.map((rec, index) => (
-                                    <div key={index} className={`rec-ui-card glass-card p-8 animate-in delay-${(index + 1) * 150}`}>
+                                    <motion.div
+                                        key={index}
+                                        className="rec-ui-card glass-card p-8 hover-lift"
+                                        {...fadeIn}
+                                        transition={{ delay: index * 0.1 }}
+                                    >
                                         <div className="ru-header mb-6">
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
                                             <h3>{rec.title}</h3>
                                             <div className={`ru-priority-tag ${rec.priority.toLowerCase()}`}>{rec.priority}</div>
                                         </div>
                                         <p className="ru-desc mb-8">{rec.description}</p>
-<<<<<<< HEAD
-                                        <div className="ru-impact-premium">
-                                            <span className="ru-impact-label">Expected Impact</span>
-                                            <strong className="ru-impact-value">{rec.impact}</strong>
-=======
                                         <div className="ru-impact-box">
                                             <span className="impact-label">PROJECTED IMPACT</span>
                                             <strong className="impact-value">{rec.impact}</strong>
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
                                         </div>
                                     </motion.div>
                                 ))}
@@ -356,4 +293,3 @@ const FairnessMetrics = () => {
 };
 
 export default FairnessMetrics;
-

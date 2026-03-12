@@ -37,15 +37,10 @@
 }
 
 .decay-insight-card {
-<<<<<<< HEAD
-    border-left: 6px solid var(--primary-color);
-    background: white;
-=======
     border: 1px solid var(--glass-border);
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
     box-shadow: var(--shadow-premium);
     position: relative;
-    /* Remove strict overflow:hidden to prevent text clipping */
     overflow: visible;
     display: block;
     height: auto;
@@ -66,7 +61,6 @@
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: var(--grid-gap);
     margin-top: var(--section-margin);
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .decay-card-ui {
@@ -74,17 +68,6 @@
     border: 1px solid var(--glass-border);
     display: flex;
     flex-direction: column;
-<<<<<<< HEAD
-    padding: 32px;
-    background: white;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.decay-card-ui:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-=======
     background: white;
     padding: var(--card-padding);
 }
@@ -92,7 +75,6 @@
 .decay-card-ui:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.15), 0 18px 36px -18px rgba(0, 0, 0, 0.2);
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     border-color: var(--primary-color);
 }
 
@@ -103,14 +85,9 @@
 }
 
 .dc-header h3 {
-<<<<<<< HEAD
-    font-size: 1.3rem;
-    color: var(--text-main);
-=======
     font-size: 1.5rem;
     color: var(--secondary-color);
     margin-bottom: 0.5rem;
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .status-pill {
@@ -119,36 +96,6 @@
     font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
-<<<<<<< HEAD
-    letter-spacing: 0.05em;
-}
-
-.status-pill.healthy {
-    background: rgba(30, 142, 62, 0.1);
-    color: #1E8E3E;
-}
-
-.status-pill.warning {
-    background: rgba(242, 153, 0, 0.1);
-    color: #F29900;
-}
-
-.status-pill.at-risk {
-    background: rgba(25, 103, 210, 0.1);
-    color: #1967D2;
-}
-
-.status-pill.critical {
-    background: rgba(217, 48, 37, 0.1);
-    color: #D93025;
-}
-
-.dc-metrics {
-    padding: 20px;
-    background: var(--bg-light);
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.03);
-=======
     letter-spacing: 0.5px;
 }
 
@@ -185,7 +132,6 @@
 .dc-metric {
     display: flex;
     flex-direction: column;
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .dc-metric span {
@@ -193,24 +139,12 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--text-light);
-<<<<<<< HEAD
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
-=======
     margin-bottom: 0.25rem;
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .dc-metric strong {
     font-size: 1.1rem;
-<<<<<<< HEAD
-    color: var(--text-main);
-    font-weight: 800;
-=======
     color: var(--secondary-color);
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
 }
 
 .chart-container {
@@ -238,25 +172,15 @@
 
 .dc-recommendation {
     background: rgba(255, 110, 20, 0.03);
-<<<<<<< HEAD
-    border: 1px solid rgba(255, 110, 20, 0.1);
-=======
     border: 1px dashed var(--primary-color);
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
     color: var(--text-secondary);
     font-style: italic;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
 .maintenance-section {
-<<<<<<< HEAD
-    background: white;
-}
-
-@media (max-width: 968px) {
-    .analytics-dashboard {
-        grid-template-columns: 1fr;
-    }
-=======
     background: var(--grad-dark);
     color: white;
     border: none;
@@ -279,11 +203,16 @@
     opacity: 0.2;
     top: -100px;
     right: -100px;
->>>>>>> 6731e26 (Redesign: Premium UI, Mobile Responsiveness, Contextual Skill Decay, and Fairness Metrics)
+}
+
+@media (max-width: 968px) {
+    .analytics-dashboard {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-    .grid-3 {
+    .skills-decay-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -308,6 +237,7 @@
     font-size: 0.9rem;
     color: var(--text-secondary);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .context-chip:hover {
