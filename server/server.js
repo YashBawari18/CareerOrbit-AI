@@ -1,137 +1,133 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
 
-// Load environment variables FIRST
-const result = dotenv.config();
-if (result.error) {
-    console.error("❌ Failed to load .env file:", result.error);
-}
+// Load environment variables
+dotenv.config();
 
+const appConfig = require("./config/app.config");
 const sequelize = require("./config/database");
+const { middleware: requestLogger } = require("./middleware/requestLogger");
+const { notFoundHandler, globalErrorHandler } = require("./middleware/errorHandler");
+const { sanitizeInput } = require("./middleware/validateRequest");
+
 const app = express();
 
 /* -------------------- MIDDLEWARE -------------------- */
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(sanitizeInput);
 
 // CORS Configuration
 app.use(
     cors({
-        origin: function (origin, callback) {
-            // Always allow any origin for demo/hackathon environment
-            // to prevent silent login/registration CORS failures on new deployment URLs
-            callback(null, true);
-        },
+        origin: true, // Allow all origins in demo mode
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
         credentials: true
     })
 );
 
-// Request Logging Middleware
-app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next();
-});
+// Structured Request Logging
+app.use(requestLogger);
 
-/* -------------------- GLOBAL DB STATUS -------------------- */
+/* -------------------- GLOBAL SECURITY & DB -------------------- */
 let pgConnected = false;
 
-// Inject DB status into request
+// Inject DB status into request for controllers that might check it
 app.use((req, res, next) => {
     req.dbConnected = pgConnected;
     next();
 });
 
 /* -------------------- ROUTES -------------------- */
+
+// Root API Discovery Endpoint
 app.get("/", (req, res) => {
     res.status(200).json({
-        message: "CareerOrbit API is running",
-        endpoints: [
-            "/health",
-            "/api/status",
-            "/api/auth/register",
-            "/api/auth/login"
-        ]
+        success: true,
+        message: `🚀 ${appConfig.app.name} API is running`,
+        version: appConfig.app.version,
+        engine: "CareerOrbit Intelligence Platform™",
+        endpoints: {
+            auth: ["/api/auth/register", "/api/auth/login"],
+            profile: ["/api/profile/create", "/api/profile", "/api/profile/update-skills"],
+            skills: ["/api/skills/upload", "/api/skills/analysis", "/api/skills/trending", "/api/skills/gap-analysis"],
+            courses: ["/api/courses/recommendations"],
+            career: ["/api/career/recommendations", "/api/career/timeline", "/api/career/transitions", "/api/career/simulator"],
+            learning: ["/api/learning/duration"],
+            dashboard: ["/api/dashboard/trends", "/api/dashboard/decay", "/api/dashboard/fairness"],
+            jobs: ["/api/jobs/recommendations"],
+            resume: ["/api/resume/save", "/api/resume", "/api/resume/optimize", "/api/resume/parse"],
+            system: ["/health", "/api/status"],
+        },
+        timestamp: new Date().toISOString()
     });
 });
 
 // Health Check
 app.get("/health", (req, res) => {
     res.status(200).json({
-        status: "ok",
-        postgres: pgConnected
+        success: true,
+        status: "healthy",
+        database: pgConnected ? "connected" : "mock_mode",
+        uptime: process.uptime(),
+        environment: appConfig.app.environment
     });
 });
 
 // API Routes
-const authRoutes = require("./routes/auth");
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/profile", require("./routes/profile"));
+app.use("/api/skills", require("./routes/skills"));
+app.use("/api/courses", require("./routes/courses"));
+app.use("/api/career", require("./routes/career"));
+app.use("/api/learning", require("./routes/learning"));
+app.use("/api/dashboard", require("./routes/dashboard"));
+app.use("/api/jobs", require("./routes/jobs"));
+app.use("/api/resume", require("./routes/resume"));
 
 app.get("/api/status", (req, res) => {
     res.json({
+        success: true,
         status: "online",
-        database: pgConnected ? "postgresql" : "mock_mode"
+        database: pgConnected ? "postgresql" : "mock_mode",
+        platform: "CareerOrbit Intelligence v2.0",
+        engines: ["SkillAnalyzer", "CareerPredictor", "JobMatch", "EthicsGuard"]
     });
 });
 
 /* -------------------- ERROR HANDLING -------------------- */
-// 404 Handler
-app.use((req, res) => {
-    res.status(404).json({ 
-        error: "Not Found",
-        path: req.path,
-        method: req.method
-    });
-});
-
-// Error Handler
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({ 
-        error: "Internal Server Error",
-        message: err.message
-    });
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-    console.error("❌ Unhandled Rejection:", reason);
-});
-
-process.on("uncaughtException", (err) => {
-    console.error("❌ Uncaught Exception:", err);
-    process.exit(1);
-});
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 /* -------------------- START SERVER -------------------- */
 const startSystem = async () => {
     try {
-        console.log("📡 Attempting PostgreSQL connection...");
-        await sequelize.authenticate();
-        pgConnected = true;
-        await sequelize.sync({ alter: true });
-        console.log("✅ PostgreSQL Connected & Synced");
+        console.log("📡 Connecting to Platform Infrastructure...");
+        
+        const { initializePlatform } = require("./services/systemService");
+        await initializePlatform();
+
+        // Attempt DB link but proceed to mock mode if it fails
+        await sequelize.authenticate().then(() => {
+            pgConnected = true;
+            console.log("✅ Main Database Connected");
+        }).catch(() => {
+            pgConnected = false;
+            console.warn("⚠️ Main Database unavailable. Switching to Mock Data Intelligence.");
+        });
+
+        const PORT = appConfig.app.port;
+        app.listen(PORT, () => {
+            console.log(`🚀 ${appConfig.app.name} Server running on port ${PORT}`);
+            console.log(`🔗 API Base: http://localhost:${PORT}/api`);
+        });
     } catch (err) {
-        console.warn("⚠️ PostgreSQL connection failed. Running in MOCK MODE.");
-        console.error("Database Error:", err.message);
-        pgConnected = false;
-    }
-
-    const PORT = process.env.PORT || 5000;
-    console.log(`🔍 Environment PORT: ${PORT}`);
-    console.log(`🔗 Base URL: http://localhost:${PORT}`);
-
-    const server = app.listen(PORT, () => {
-        console.log(`🚀 Server running on port ${PORT}`);
-        if (!pgConnected) {
-            console.log("🛡️ MOCK MODE ACTIVE: Using in-memory storage");
-        }
-    });
-
-    server.on("error", (err) => {
-        console.error("❌ Server Error:", err);
+        console.error("❌ Critical System Failure:", err);
         process.exit(1);
-    });
+    }
 };
 
 startSystem();

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -6,6 +6,8 @@ import SkillTag from '../components/SkillTag';
 import PageHeader from '../components/PageHeader';
 import ResumeParser from '../components/ResumeParser';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
+import { useSkills } from '../context/SkillsContext';
 import {
     ResponsiveContainer,
     RadarChart,
@@ -25,12 +27,8 @@ const categoryConfig = {
 };
 
 const EditSkills = () => {
-    const [skills, setSkills] = useState({
-        technical: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
-        soft: ['Communication', 'Leadership', 'Problem Solving'],
-        tools: ['Git', 'Docker', 'VS Code'],
-        languages: ['English', 'Spanish']
-    });
+    const { user } = useAuth();
+    const { skills, handleAddSkill, handleRemoveSkill, handleBatchSkills } = useSkills();
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('technical');
@@ -42,39 +40,15 @@ const EditSkills = () => {
         languages: ['French', 'German', 'Mandarin', 'Japanese', 'Portuguese']
     };
 
-    const handleRemoveSkill = (category, skill) => {
-        setSkills(prev => ({
-            ...prev,
-            [category]: prev[category].filter(s => s !== skill)
-        }));
-    };
-
-    const handleAddSkill = (category, skill) => {
-        if (!skills[category].includes(skill)) {
-            setSkills(prev => ({
-                ...prev,
-                [category]: [...prev[category], skill]
-            }));
-        }
-    };
-
     const handleAddCustomSkill = () => {
-        if (searchTerm.trim() && !skills[selectedCategory].includes(searchTerm.trim())) {
+        if (searchTerm.trim()) {
             handleAddSkill(selectedCategory, searchTerm.trim());
             setSearchTerm('');
         }
     };
 
     const handleResumeSkills = (groupedSkills) => {
-        setSkills(prev => {
-            const updated = { ...prev };
-            Object.entries(groupedSkills).forEach(([category, newSkills]) => {
-                if (updated[category]) {
-                    updated[category] = [...new Set([...updated[category], ...newSkills])];
-                }
-            });
-            return updated;
-        });
+        handleBatchSkills(groupedSkills);
     };
 
 
@@ -202,7 +176,7 @@ const EditSkills = () => {
                                 <div className="skills-list">
                                     <AnimatePresence>
                                         {suggestedSkills[selectedCategory]
-                                            .filter(skill => !skills[selectedCategory].includes(skill))
+                                            .filter(skill => !skills[selectedCategory].some(s => s.toLowerCase() === skill.toLowerCase()))
                                             .map((skill, idx) => (
                                                 <motion.button
                                                     key={skill}

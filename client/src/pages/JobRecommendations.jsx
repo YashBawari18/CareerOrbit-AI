@@ -5,9 +5,10 @@ import Footer from '../components/Footer';
 import PageHeader from '../components/PageHeader';
 import './JobRecommendations.css';
 
+import { useSkills } from '../context/SkillsContext';
+
 const JobRecommendations = () => {
-    // Simulated user skills (would come from profile in production)
-    const [userSkills] = useState(['JavaScript', 'React', 'Node.js', 'HTML', 'CSS', 'Git', 'MongoDB', 'Express.js', 'REST APIs', 'Python']);
+    const { allSkillsList: userSkills } = useSkills();
 
     const [filters, setFilters] = useState({
         location: 'all',

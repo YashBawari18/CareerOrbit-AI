@@ -43,9 +43,10 @@
   --shadow-premium: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
 
   /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-blur: blur(25px);
+  --dropdown-bg: rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] {
@@ -58,8 +59,9 @@
   --border-color: #333333;
   --secondary-color: #FFFFFF;
 
-  --glass-bg: rgba(18, 18, 18, 0.1);
+  --glass-bg: rgba(18, 18, 18, 0.4);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --dropdown-bg: rgba(30, 30, 30, 0.8);
   --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.3);
   --shadow-md: 0px 8px 16px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0px 16px 32px rgba(0, 0, 0, 0.6);

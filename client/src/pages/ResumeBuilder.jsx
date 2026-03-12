@@ -156,9 +156,14 @@ const ResumeBuilder = () => {
     const addSkill = (type, value, setter) => {
         const trimmed = value.trim();
         if (!trimmed) return;
-        if (!formData[type].includes(trimmed)) {
-            setFormData(prev => ({ ...prev, [type]: [...prev[type], trimmed] }));
-        }
+        
+        setFormData(prev => {
+            const currentSkills = prev[type] || [];
+            if (!currentSkills.some(s => s.toLowerCase() === trimmed.toLowerCase())) {
+                return { ...prev, [type]: [...currentSkills, trimmed] };
+            }
+            return prev;
+        });
         setter('');
     };
 
@@ -263,8 +268,9 @@ const ResumeBuilder = () => {
 
     // Toggle suggested skill
     const toggleSuggestedSkill = (type, skill) => {
-        if (formData[type].includes(skill)) {
-            removeSkill(type, skill);
+        const index = formData[type].findIndex(s => s.toLowerCase() === skill.toLowerCase());
+        if (index !== -1) {
+            removeSkill(type, formData[type][index]);
         } else {
             setFormData(prev => ({ ...prev, [type]: [...prev[type], skill] }));
         }
