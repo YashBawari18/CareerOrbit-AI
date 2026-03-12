@@ -19,7 +19,7 @@
     height: 100%;
 }
 
-@media (min-width: 969px) {
+@media (min-width: 1025px) {
 
     .brand-logo,
     .desktop-menu,
@@ -213,6 +213,7 @@
     top: 0;
     right: -100%;
     width: 300px;
+    max-width: 85vw; /* Ensure it doesn't take the full screen on very small devices */
     height: 100vh;
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
@@ -221,6 +222,7 @@
     z-index: 1001;
     padding-top: var(--header-height);
     overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll within menu */
 }
 
 .mobile-menu.open {
@@ -232,6 +234,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    overflow-x: hidden;
 }
 
 .mobile-nav-group {
@@ -302,7 +305,7 @@
     width: 100%;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1024px) {
 
     .desktop-menu,
     .desktop-actions {

@@ -20,11 +20,11 @@ const Hero = () => {
                     </div>
                     <div className="hero-stats">
                         <div className="stat-item">
-                            <span className="stat-value">85%</span>
+                            <span className="stat-value"><span className="notranslate">85</span>%</span>
                             <span className="stat-label">Jobs Transformed by 2030</span>
                         </div>
                         <div className="stat-item">
-                            <span className="stat-value">5yr</span>
+                            <span className="stat-value"><span className="notranslate">5</span>yr</span>
                             <span className="stat-label">Average Skill Half-life</span>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ const Hero = () => {
                         <div className="fc-icon">🎯</div>
                         <div className="fc-content">
                             <span className="fc-label">Role Fit</span>
-                            <span className="fc-value">92% Match</span>
+                            <span className="fc-value"><span className="notranslate">92</span>% Match</span>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@ const Hero = () => {
                         <div className="fc-icon">📈</div>
                         <div className="fc-content">
                             <span className="fc-label">Skill Growth</span>
-                            <span className="fc-value">+24% / yr</span>
+                            <span className="fc-value">+<span className="notranslate">24</span>% / yr</span>
                         </div>
                     </div>
 

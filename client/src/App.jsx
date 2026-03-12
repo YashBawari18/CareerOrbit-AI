@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 import Home from './pages/Home';
 import Preloader from './components/Preloader';
 import ScrollToTop from './components/ScrollToTop';
@@ -54,6 +55,7 @@ function App() {
   }, []);
 
   return (
+    <LanguageProvider>
     <AuthProvider>
       {loading ? (
         <Preloader />
@@ -93,6 +95,7 @@ function App() {
         </Router>
       )}
     </AuthProvider>
+    </LanguageProvider>
   );
 }
 

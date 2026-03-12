@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import AnimatedLogo from './AnimatedLogo';
+import LanguageSelector from './LanguageSelector';
 import './Navbar.css';
 
 const NAV_ITEMS = [
@@ -77,13 +78,13 @@ const Navbar = () => {
   };
 
   const handleMouseEnter = (label) => {
-    if (window.innerWidth > 968) {
+    if (window.innerWidth > 1024) {
       setActiveDropdown(label);
     }
   };
 
   const handleMouseLeave = () => {
-    if (window.innerWidth > 968) {
+    if (window.innerWidth > 1024) {
       setActiveDropdown(null);
     }
   };
@@ -132,6 +133,7 @@ const Navbar = () => {
         </div>
 
         <div className="nav-actions desktop-actions">
+          <LanguageSelector />
           {user ? (
             <>
               <span className="user-welcome">Hello, <strong>{user.username}</strong></span>
@@ -183,6 +185,9 @@ const Navbar = () => {
               </div>
             ))}
             <div className="mobile-actions">
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'flex-start' }}>
+                <LanguageSelector />
+              </div>
               <Link to="/profile/create" className="btn btn-primary full-width">Get Started</Link>
             </div>
           </div>

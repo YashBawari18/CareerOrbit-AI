@@ -112,7 +112,7 @@ const SectorTransitions = () => {
                                             <span className="sector-icon">{transition.icon}</span>
                                             <span className="sector-name">{transition.sector}</span>
                                         </div>
-                                        <div className="match-score-badge">{transition.matchScore}% Match</div>
+                                        <div className="match-score-badge"><span className="notranslate">{transition.matchScore}</span>% Match</div>
                                     </div>
 
                                     <p className="transition-description mb-6">{transition.description}</p>
