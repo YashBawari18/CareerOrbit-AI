@@ -18,27 +18,9 @@ app.use(express.json());
 app.use(
     cors({
         origin: function (origin, callback) {
-            if (!origin) return callback(null, true);
-            
-            const allowedOrigins = [
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "https://career-orbit-ai.vercel.app",
-                "https://careerorbit-ai-3.onrender.com",
-                process.env.FRONTEND_URL
-            ].filter(Boolean);
-            
-            if (
-                origin.startsWith("http://localhost:") ||
-                allowedOrigins.some(allowed => origin === allowed) || 
-                origin.endsWith(".vercel.app") || 
-                origin.endsWith(".onrender.com")
-            ) {
-                callback(null, true);
-            } else {
-                console.log("Blocked by CORS:", origin);
-                callback(new Error('Not allowed by CORS'));
-            }
+            // Always allow any origin for demo/hackathon environment
+            // to prevent silent login/registration CORS failures on new deployment URLs
+            callback(null, true);
         },
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
