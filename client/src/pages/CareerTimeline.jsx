@@ -104,7 +104,7 @@ const CareerTimeline = () => {
                     <div className="container">
 
                         <div className="timeline-wrapper" ref={timelineRef}>
-                            <div className="timeline-line"></div>
+                            <div className="timeline-line-background"></div>
                             <div
                                 className="timeline-progress"
                                 style={{ height: `${lineHeight}%` }}
@@ -112,40 +112,52 @@ const CareerTimeline = () => {
                                 <div className="timeline-traveler">🚀</div>
                             </div>
 
-                            {milestones.map((milestone) => (
-                                <div key={milestone.id} className={`timeline-item ${milestone.status}`}>
-                                    <div className="timeline-marker">
-                                        <div className="marker-dot"></div>
-                                        <div className="marker-pulse"></div>
-                                    </div>
+                            {milestones.map((milestone, index) => {
+                                // Progress thresholds for each milestone
+                                // With 5 items, they are roughly at 0%, 25%, 50%, 75%, 100%
+                                const threshold = (index / (milestones.length - 1)) * 100;
+                                const isPassed = lineHeight >= threshold;
+                                const isActive = lineHeight >= threshold - 5 && lineHeight <= threshold + 5;
 
-                                    <div className="timeline-card glass-card">
-                                        <div className="timeline-header mb-4">
-                                            <div>
-                                                <span className="timeline-timeframe">{milestone.timeframe}</span>
-                                                <h3 className="timeline-title">{milestone.title}</h3>
-                                                <p className="timeline-role">{milestone.role}</p>
+                                return (
+                                    <div 
+                                        key={milestone.id} 
+                                        className={`timeline-item ${milestone.status} ${isPassed ? 'passed' : ''} ${isActive ? 'active' : ''}`}
+                                    >
+                                        <div className="timeline-marker">
+                                            <div className="marker-dot">
+                                                {milestone.status === 'target' ? '⭐' : (index + 1)}
                                             </div>
-                                            <div className={`status-badge ${milestone.status}`}>
-                                                {milestone.status === 'current' && '📍 Current'}
-                                                {milestone.status === 'upcoming' && '🎯 Upcoming'}
-                                                {milestone.status === 'target' && '⭐ Target'}
-                                            </div>
+                                            <div className="marker-pulse"></div>
                                         </div>
 
-                                        <p className="timeline-description mb-6">{milestone.description}</p>
+                                        <div className="timeline-card glass-card">
+                                            <div className="timeline-header mb-4">
+                                                <div>
+                                                    <span className="timeline-timeframe">{milestone.timeframe}</span>
+                                                    <h3 className="timeline-title">{milestone.title}</h3>
+                                                    <p className="timeline-role">{milestone.role}</p>
+                                                </div>
+                                                <div className={`status-badge ${milestone.status}`}>
+                                                    {milestone.status === 'current' ? '📍 Current' : 
+                                                     milestone.status === 'upcoming' ? '🎯 Upcoming' : '🏆 Target'}
+                                                </div>
+                                            </div>
 
-                                        <div className="timeline-skills">
-                                            <h4 className="mb-2">Strategic Skills</h4>
-                                            <div className="skills-list">
-                                                {milestone.skills.map(skill => (
-                                                    <span key={skill} className="skill-badge">{skill}</span>
-                                                ))}
+                                            <p className="timeline-description mb-6">{milestone.description}</p>
+
+                                            <div className="timeline-skills">
+                                                <h4 className="mb-2">Strategic Skills</h4>
+                                                <div className="skills-list">
+                                                    {milestone.skills.map(skill => (
+                                                        <span key={skill} className="skill-badge">{skill}</span>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
 
                         <div className="timeline-actions text-center mt-8 pt-6">
