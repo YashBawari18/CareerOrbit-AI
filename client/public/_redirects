@@ -1,4 +1,1 @@
-/*  Redirect all requests to index.html so React Router can handle them.
-    This fixes the 404 error on page refresh in SPAs on Netlify.
-*/
 /*    /index.html   200
