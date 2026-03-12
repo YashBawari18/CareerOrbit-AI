@@ -17,13 +17,28 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin: [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://career-orbit-ai.vercel.app",
-            process.env.FRONTEND_URL // Allow dynamic frontend URL from env
-        ].filter(Boolean), // Remove undefined/null values
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        origin: function (origin, callback) {
+            // Allow requests with no origin (like mobile apps or curl requests)
+            if (!origin) return callback(null, true);
+            
+            const allowedOrigins = [
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "https://career-orbit-ai.vercel.app",
+                process.env.FRONTEND_URL
+            ];
+            
+            // Check if the origin matches any of the allowed origins
+            // Also allow any subdomain of vercel.app for preview deployments
+            if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+                callback(null, true);
+            } else {
+                console.log("Blocked by CORS:", origin); // Debug log
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "x-auth-token"],
         credentials: true
     })
 );
