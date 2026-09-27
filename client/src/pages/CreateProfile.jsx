@@ -4,11 +4,15 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import PageHeader from '../components/PageHeader';
 import ResumeParser from '../components/ResumeParser';
+import { useSkills } from '../context/SkillsContext';
 import './CreateProfile.css';
 
 const CreateProfile = () => {
     const navigate = useNavigate();
+    const { setSkills } = useSkills();
     const [currentStep, setCurrentStep] = useState(1);
+    const [activeSkillTab, setActiveSkillTab] = useState('technical');
+    const [customInput, setCustomInput] = useState('');
     const [formData, setFormData] = useState({
         // Step 1: Basic Info
         fullName: '',
@@ -17,8 +21,9 @@ const CreateProfile = () => {
         location: '',
         yearsExperience: '',
 
-        // Step 2: Skills
+        // Step 2: Skills & Languages
         selectedSkills: [],
+        selectedLanguages: [],
 
         // Step 3: Experience & Education
         education: '',
@@ -41,16 +46,51 @@ const CreateProfile = () => {
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                setFormData(prev => ({ ...prev, ...parsed }));
+                setFormData(prev => ({ 
+                    ...prev, 
+                    ...parsed,
+                    selectedLanguages: parsed.selectedLanguages || []
+                }));
             } catch (e) {
                 console.error('Failed to load saved profile:', e);
             }
         }
     }, []);
 
-    // Save profile data to localStorage
+    // Keyword classifications for syncing with SkillsContext
+    const TOOL_KEYWORDS = ['git', 'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'ci/cd', 'jira', 'figma', 'postman', 'linux', 'vscode', 'jenkins'];
+    const SOFT_KEYWORDS = ['leadership', 'communication', 'problem solving', 'teamwork', 'collaboration', 'mentoring', 'time management', 'critical thinking', 'creativity'];
+    const LANGUAGE_KEYWORDS = ['english', 'spanish', 'french', 'german', 'mandarin', 'hindi', 'arabic', 'japanese', 'korean', 'portuguese', 'russian', 'italian'];
+
+    const syncSkillsToContext = (data) => {
+        const allSelected = Array.from(new Set([...(data.selectedSkills || []), ...(data.selectedLanguages || [])]));
+        const technical = [];
+        const tools = [];
+        const soft = [];
+        const languages = [];
+
+        allSelected.forEach(item => {
+            const lower = item.toLowerCase().trim();
+            if (data.selectedLanguages?.includes(item) || LANGUAGE_KEYWORDS.includes(lower)) {
+                languages.push(item);
+            } else if (TOOL_KEYWORDS.some(t => lower.includes(t))) {
+                tools.push(item);
+            } else if (SOFT_KEYWORDS.some(s => lower.includes(s))) {
+                soft.push(item);
+            } else {
+                technical.push(item);
+            }
+        });
+
+        if (setSkills) {
+            setSkills({ technical, soft, tools, languages });
+        }
+    };
+
+    // Save profile data to localStorage and sync context
     const saveProfileToStorage = (data) => {
         localStorage.setItem('careerOrbitProfile', JSON.stringify(data));
+        syncSkillsToContext(data);
     };
     const totalSteps = 4;
 
@@ -90,12 +130,13 @@ const CreateProfile = () => {
     };
 
     const handleSkillToggle = (skill) => {
-        setFormData(prev => ({
-            ...prev,
-            selectedSkills: prev.selectedSkills.includes(skill)
+        setFormData(prev => {
+            const isSelected = prev.selectedSkills.includes(skill);
+            const nextSkills = isSelected
                 ? prev.selectedSkills.filter(s => s !== skill)
-                : [...prev.selectedSkills, skill]
-        }));
+                : [...prev.selectedSkills, skill];
+            return { ...prev, selectedSkills: nextSkills };
+        });
         if (errors.selectedSkills) {
             setErrors(prev => {
                 const newErrors = { ...prev };
@@ -103,6 +144,73 @@ const CreateProfile = () => {
                 return newErrors;
             });
         }
+    };
+
+    const handleLanguageToggle = (lang) => {
+        setFormData(prev => {
+            const isSelected = prev.selectedLanguages.includes(lang);
+            const nextLanguages = isSelected
+                ? prev.selectedLanguages.filter(l => l !== lang)
+                : [...prev.selectedLanguages, lang];
+            
+            const nextSkills = isSelected
+                ? prev.selectedSkills.filter(s => s !== lang)
+                : [...prev.selectedSkills, lang];
+
+            return {
+                ...prev,
+                selectedLanguages: nextLanguages,
+                selectedSkills: nextSkills
+            };
+        });
+        if (errors.selectedSkills) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.selectedSkills;
+                return newErrors;
+            });
+        }
+    };
+
+    const handleAddCustomItem = (e) => {
+        if (e) e.preventDefault();
+        const trimmed = customInput.trim();
+        if (!trimmed) return;
+
+        const isLanguage = activeSkillTab === 'languages' || LANGUAGE_KEYWORDS.includes(trimmed.toLowerCase());
+        
+        setFormData(prev => {
+            const nextSkills = prev.selectedSkills.includes(trimmed)
+                ? prev.selectedSkills
+                : [...prev.selectedSkills, trimmed];
+            
+            const nextLanguages = isLanguage && !prev.selectedLanguages.includes(trimmed)
+                ? [...prev.selectedLanguages, trimmed]
+                : prev.selectedLanguages;
+
+            return {
+                ...prev,
+                selectedSkills: nextSkills,
+                selectedLanguages: nextLanguages
+            };
+        });
+
+        setCustomInput('');
+        if (errors.selectedSkills) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors.selectedSkills;
+                return newErrors;
+            });
+        }
+    };
+
+    const handleRemoveSelectedItem = (item) => {
+        setFormData(prev => ({
+            ...prev,
+            selectedSkills: prev.selectedSkills.filter(s => s !== item),
+            selectedLanguages: prev.selectedLanguages.filter(l => l !== item)
+        }));
     };
 
     const validateStep = (step) => {
@@ -120,8 +228,8 @@ const CreateProfile = () => {
         }
 
         if (step === 2) {
-            if (formData.selectedSkills.length === 0) {
-                newErrors.selectedSkills = 'Please select at least one skill or upload a resume';
+            if (formData.selectedSkills.length === 0 && formData.selectedLanguages.length === 0) {
+                newErrors.selectedSkills = 'Please select at least one skill or language, or upload a resume';
             }
         }
 
@@ -157,16 +265,18 @@ const CreateProfile = () => {
     const handleResumeSkills = (groupedSkills) => {
         // groupedSkills: { technical: [...], tools: [...], soft: [...], languages: [...] }
         const allSkills = Object.values(groupedSkills).flat();
+        const extractedLanguages = groupedSkills.languages || [];
         setFormData(prev => ({
             ...prev,
-            selectedSkills: [...new Set([...prev.selectedSkills, ...allSkills])]
+            selectedSkills: [...new Set([...prev.selectedSkills, ...allSkills])],
+            selectedLanguages: [...new Set([...prev.selectedLanguages, ...extractedLanguages])]
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateStep(4)) {
-            // Save complete profile to localStorage
+            // Save complete profile to localStorage and sync context
             saveProfileToStorage(formData);
             console.log('Profile created & saved:', formData);
             // Navigate to edit skills page
@@ -183,6 +293,15 @@ const CreateProfile = () => {
         'Registered Nurse': ['Patient Monitoring', 'Wound Care', 'Medication Administration', 'Vital Signs', 'Nursing Ethics', 'Patient Advocacy'],
         'Other': ['Communication', 'Problem Solving', 'Leadership', 'Project Management', 'Data Analysis', 'Time Management', 'Teamwork']
     };
+
+    const COMMON_LANGUAGES = [
+        'English', 'Spanish', 'French', 'German', 'Mandarin', 'Hindi',
+        'Arabic', 'Japanese', 'Korean', 'Portuguese', 'Russian', 'Italian'
+    ];
+
+    const COMMON_TOOLS_SOFT = [
+        'Git', 'Docker', 'AWS', 'CI/CD', 'Leadership', 'Communication', 'Problem Solving', 'System Design'
+    ];
 
     const suggestedSkills = SKILLS_BY_ROLE[formData.currentRole] || SKILLS_BY_ROLE['Other'];
 
@@ -298,11 +417,11 @@ const CreateProfile = () => {
                                     </div>
                                 )}
 
-                                {/* Step 2: Skills Selection */}
+                                {/* Step 2: Skills & Languages Selection */}
                                 {currentStep === 2 && (
                                     <div className="form-step">
-                                        <h2 className="step-title">What are your skills?</h2>
-                                        <p className="step-description">Upload your resume to auto-detect skills, or select manually below.</p>
+                                        <h2 className="step-title">What are your skills & languages?</h2>
+                                        <p className="step-description">Upload your resume to auto-detect, or pick skills and languages below. Only skills you select will count as acquired in your Gap Analytics!</p>
 
                                         <ResumeParser onSkillsDetected={handleResumeSkills} />
 
@@ -310,29 +429,172 @@ const CreateProfile = () => {
                                             <span>or select manually</span>
                                         </div>
 
-                                        <div className="skills-selection">
-                                            <div className="skills-grid">
-                                                {suggestedSkills.map((skill) => (
-                                                    <button
-                                                        key={skill}
-                                                        type="button"
-                                                        className={`skill-pill ${formData.selectedSkills.includes(skill) ? 'selected' : ''}`}
-                                                        onClick={() => handleSkillToggle(skill)}
-                                                    >
-                                                        {skill}
-                                                        {formData.selectedSkills.includes(skill) && <span className="check-icon">✓</span>}
-                                                    </button>
-                                                ))}
-                                            </div>
+                                        {/* Category Tabs */}
+                                        <div className="skill-category-tabs mb-4" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                                            <button
+                                                type="button"
+                                                className={`btn btn-sm ${activeSkillTab === 'technical' ? 'btn-primary' : 'btn-outline'}`}
+                                                onClick={() => setActiveSkillTab('technical')}
+                                            >
+                                                💻 Role Skills ({suggestedSkills.length})
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className={`btn btn-sm ${activeSkillTab === 'languages' ? 'btn-primary' : 'btn-outline'}`}
+                                                onClick={() => setActiveSkillTab('languages')}
+                                            >
+                                                🌍 Languages ({COMMON_LANGUAGES.length})
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className={`btn btn-sm ${activeSkillTab === 'tools' ? 'btn-primary' : 'btn-outline'}`}
+                                                onClick={() => setActiveSkillTab('tools')}
+                                            >
+                                                🛠️ Tools & Soft Skills
+                                            </button>
+                                        </div>
 
-                                             <div className="selected-count">
-                                                 {formData.selectedSkills.length} skills selected
-                                             </div>
-                                             {errors.selectedSkills && (
-                                                 <div className="error-message" style={{ justifyContent: 'center', marginTop: '1rem' }}>
-                                                     ⚠️ {errors.selectedSkills}
-                                                 </div>
-                                             )}
+                                        {/* Custom input bar */}
+                                        <div className="custom-skill-input-row mb-6" style={{ display: 'flex', gap: '8px', maxWidth: '500px', margin: '0 auto 1.5rem' }}>
+                                            <input
+                                                type="text"
+                                                placeholder={`Add custom ${activeSkillTab === 'languages' ? 'language (e.g. French)' : 'skill (e.g. React, Docker)'}...`}
+                                                value={customInput}
+                                                onChange={(e) => setCustomInput(e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        handleAddCustomItem();
+                                                    }
+                                                }}
+                                                style={{ flex: 1, padding: '0.6rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary btn-sm"
+                                                onClick={handleAddCustomItem}
+                                                disabled={!customInput.trim()}
+                                            >
+                                                + Add
+                                            </button>
+                                        </div>
+
+                                        {/* Skill/Language Grid by Tab */}
+                                        <div className="skills-selection">
+                                            {activeSkillTab === 'technical' && (
+                                                <div className="skills-grid">
+                                                    {suggestedSkills.map((skill) => (
+                                                        <button
+                                                            key={skill}
+                                                            type="button"
+                                                            className={`skill-pill ${formData.selectedSkills.includes(skill) ? 'selected' : ''}`}
+                                                            onClick={() => handleSkillToggle(skill)}
+                                                        >
+                                                            {skill}
+                                                            {formData.selectedSkills.includes(skill) && <span className="check-icon">✓</span>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {activeSkillTab === 'languages' && (
+                                                <div className="skills-grid">
+                                                    {COMMON_LANGUAGES.map((lang) => (
+                                                        <button
+                                                            key={lang}
+                                                            type="button"
+                                                            className={`skill-pill ${(formData.selectedLanguages?.includes(lang) || formData.selectedSkills.includes(lang)) ? 'selected' : ''}`}
+                                                            onClick={() => handleLanguageToggle(lang)}
+                                                        >
+                                                            {lang}
+                                                            {(formData.selectedLanguages?.includes(lang) || formData.selectedSkills.includes(lang)) && <span className="check-icon">✓</span>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {activeSkillTab === 'tools' && (
+                                                <div className="skills-grid">
+                                                    {COMMON_TOOLS_SOFT.map((tool) => (
+                                                        <button
+                                                            key={tool}
+                                                            type="button"
+                                                            className={`skill-pill ${formData.selectedSkills.includes(tool) ? 'selected' : ''}`}
+                                                            onClick={() => handleSkillToggle(tool)}
+                                                        >
+                                                            {tool}
+                                                            {formData.selectedSkills.includes(tool) && <span className="check-icon">✓</span>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {/* Currently Selected Summary */}
+                                            {formData.selectedSkills.length > 0 && (
+                                                <div className="selected-skills-chips mt-6" style={{ background: 'var(--bg-light)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                                                        <strong style={{ fontSize: '0.9rem', color: 'var(--text-main)' }}>
+                                                            Selected Skills & Languages ({formData.selectedSkills.length}):
+                                                        </strong>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setFormData(prev => ({ ...prev, selectedSkills: [], selectedLanguages: [] }))}
+                                                            style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}
+                                                        >
+                                                            Clear All
+                                                        </button>
+                                                    </div>
+                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                                        {formData.selectedSkills.map((item) => (
+                                                            <span
+                                                                key={item}
+                                                                style={{
+                                                                    display: 'inline-flex',
+                                                                    alignItems: 'center',
+                                                                    gap: '4px',
+                                                                    background: 'white',
+                                                                    padding: '4px 10px',
+                                                                    borderRadius: '20px',
+                                                                    fontSize: '0.85rem',
+                                                                    border: '1px solid var(--primary-color)',
+                                                                    color: 'var(--text-main)'
+                                                                }}
+                                                            >
+                                                                {item}
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => handleRemoveSelectedItem(item)}
+                                                                    style={{
+                                                                        background: 'none',
+                                                                        border: 'none',
+                                                                        color: '#888',
+                                                                        cursor: 'pointer',
+                                                                        padding: 0,
+                                                                        fontSize: '1rem',
+                                                                        lineHeight: 1,
+                                                                        display: 'flex',
+                                                                        alignItems: 'center'
+                                                                    }}
+                                                                >
+                                                                    ×
+                                                                </button>
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {formData.selectedSkills.length === 0 && (
+                                                <div className="selected-count" style={{ marginTop: '1rem' }}>
+                                                    0 skills/languages selected. Please select at least one.
+                                                </div>
+                                            )}
+
+                                            {errors.selectedSkills && (
+                                                <div className="error-message" style={{ justifyContent: 'center', marginTop: '1rem' }}>
+                                                    ⚠️ {errors.selectedSkills}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}

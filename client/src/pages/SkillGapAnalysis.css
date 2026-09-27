@@ -44,6 +44,12 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-comparison-card.unacquired {
+    border-left: 3px solid #ff4d4d;
+    background: rgba(255, 77, 77, 0.02);
 }
 
 .skill-header {
